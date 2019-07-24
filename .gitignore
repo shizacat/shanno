@@ -1,0 +1,3 @@
+*.pyc
+venv/
+source/server/db.sqlite3
