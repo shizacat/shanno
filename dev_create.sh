@@ -31,7 +31,7 @@ npm install semantic-ui --save --no-bin-link
 # ---
 echo "Install Python module"
 
-sudo apt install python3-pip python3-venv
+sudo apt install -y python3-pip python3-venv
 
 python3 -m venv ${VBASE}
 . ${VBASE}/bin/activate
