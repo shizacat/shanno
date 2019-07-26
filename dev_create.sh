@@ -38,4 +38,8 @@ python3 -m venv ${VBASE}
 
 pip3 install -r requirements.txt
 
+# Setup Django
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@myproject.com', 'admin')" | python3 manage.py shell
+echo "Default user/password: admin/admin"
+
 deactivate
