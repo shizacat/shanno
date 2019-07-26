@@ -4,11 +4,15 @@
   {% block title %}<title> Tittle </title>{% endblock %}
 
   <meta charset="utf-8">
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+  <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no"
+  />
 
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
   <link rel="stylesheet" type="text/css" href="{% static 'st/semantic.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -16,8 +20,9 @@
   <script src="{% static 'st/semantic.min.js' %}"></script>
 </head>
 
-<body>
+<body id="root">
   {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
   {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+  <script src="{% static 'js/custom_js.js' %}"></script>
 </body>
 </html>
