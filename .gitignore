@@ -2,5 +2,6 @@
 venv/
 source/server/db.sqlite3
 source/server/static/st/*
+contribute/vagrant/.vagrant
 node_modules/*
 semantic/*
