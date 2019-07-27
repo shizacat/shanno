@@ -2,7 +2,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: grayscale;
 }
-@media only screen and (min-width: 370px) {
+/*@media only screen and (min-width: 370px) {
 
   nav.ui.container .ui.header {
     float: left;
@@ -89,4 +89,4 @@ nav.ui.container .ui.inverted.compact.menu .active.item {
 .quote.stripe.segment .grid .column {
   padding-top: 5em;
   padding-bottom: 5em;
-}
+}*/
