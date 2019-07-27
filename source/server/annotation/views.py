@@ -6,14 +6,6 @@ from annotation.models import Projects
 from annotation.serializers import ProjectsSerializer
 
 
-def index(request):
-    return render(request, 'index.html')
-
-
-def projects(request):
-    return render(request, 'projects.html')
-
-
 def project_page(request, project):
     print("Project Number:", project, type(project))
     return render(request, 'project_page.html')
