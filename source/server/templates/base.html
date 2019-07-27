@@ -26,11 +26,19 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
   {% endif %} -->
 </head>
-
 <body id="root">
-  {% include "menu.html" %}
-  {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
+  <div class="ui inverted borderless menu">
+    <nav class="ui container">
+      <a href="/" class="header item">Shanno</a>
+      <a  href="/projects/" 
+          class="item {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+        Projects
+      </a>
+    </nav>
+  </div>
+
   {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+
   <script src="{% static 'js/custom_js.js' %}"></script>
 </body>
 </html>
