@@ -28,6 +28,7 @@
 </head>
 
 <body id="root">
+  {% include "menu.html" %}
   {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
   {% block content %}<!-- default content text (typically empty) -->{% endblock %}
   <script src="{% static 'js/custom_js.js' %}"></script>

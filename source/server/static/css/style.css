@@ -2,33 +2,59 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: grayscale;
 }
+@media only screen and (min-width: 370px) {
 
-.hidden.menu {
-  display: none;
+  nav.ui.container .ui.header {
+    float: left;
+    margin-top: 8px;
+  }
+
+  nav.ui.container .ui.inverted.compact.menu {
+    float: right;
+  }
+
 }
 
-.masthead.segment {
-  padding: 1em 0em;
+@media (max-width: 370px) {
+
+  .ui.inverted.vertical.center.aligned.segment {
+    padding-bottom: 100px;
+  }
+
 }
 
-.masthead .logo.item img {
-  margin-right: 1em;
+.ui.inverted.vertical.center.aligned.segment {
+  padding-top: 28px;
 }
 
-.masthead .ui.menu .ui.button {
-  margin-left: 0.5em;
+nav.ui.container .ui.inverted.compact.menu {
+  background-color: rgb(51, 51, 51);
 }
 
-.masthead h1.ui.header {
-  margin-top: 2em;
-  margin-bottom: 0em;
-  font-size: 4em;
-  font-weight: normal;
+nav.ui.container .ui.inverted.compact.menu .item {
+  padding-bottom: 0;
 }
 
-.masthead h2 {
-  font-size: 1.7em;
-  font-weight: normal;
+nav.ui.container .ui.inverted.compact.menu .item {
+  font-size: 16px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 14px;
+  margin-left: 16px;
+  margin-right: 16px;
+  border-radius: 0;
+}
+
+nav.ui.container .ui.inverted.compact.menu .active.item {
+  background-color: inherit;
+  border-bottom-color: white;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+.ui.inverted.vertical.segment {
+  height: 100px;
+  background-color: rgb(51, 51, 51);
 }
 
 .ui.vertical.stripe {
@@ -63,42 +89,4 @@ body {
 .quote.stripe.segment .grid .column {
   padding-top: 5em;
   padding-bottom: 5em;
-}
-
-.footer.segment {
-  padding: 5em 0em;
-}
-
-.secondary.pointing.menu .toc.item {
-  display: none;
-}
-
-@media only screen and (max-width: 700px) {
-
-  .ui.fixed.menu {
-    display: none !important;
-  }
-
-  .secondary.pointing.menu .item,
-  .secondary.pointing.menu .menu {
-    display: none;
-  }
-
-  .secondary.pointing.menu .toc.item {
-    display: block;
-  }
-
-  .masthead.segment {
-    min-height: 350px;
-  }
-
-  .masthead h1.ui.header {
-    font-size: 2em;
-    margin-top: 1.5em;
-  }
-
-  .masthead h2 {
-    margin-top: 0.5em;
-    font-size: 1.5em;
-  }
 }
