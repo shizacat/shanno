@@ -1,35 +1,30 @@
 $(document).ready(function() {
-$('.ui.form')
-  .form({
-    on: 'blur',
-    fields: {
-      empty: {
-        identifier  : 'project-name',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please enter a name'
-          }
-        ]
-      },
-      dropdown: {
-        identifier  : 'project-description',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please enter a description'
-          }
-        ]
-      },
-      checkbox: {
-        identifier  : 'file-input',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please upload a file'
-          }
-        ]
-      }
-    }
-  });
+	// dropdown initialization
+	$('.ui.dropdown')
+  .dropdown();
+
+  // project form validation rules
+	$('.ui.form')
+	  .form({
+	    on: 'blur',
+	    fields: {
+	      name: {
+	        identifier  : 'project-name',
+	        rules: [
+	          {
+	            type   : 'empty',
+	            prompt : 'Поле "Название проекта" не должно быть пустым'
+	          }
+	        ]
+	      },
+	      type: {
+	      	identifier: 'project-type',
+	      	rules: [
+	      	{
+	      		type: 'empty',
+	      		prompt : 'Поле "Тип проекта" не должно быть пустым'
+	      	}]
+	      }
+	    }
+	  });
 });
