@@ -31,7 +31,7 @@
     <div class="ui stackable inverted secondary pointing menu">
       <div class="ui container">
         <a href="/" 
-           class="header item {% if request.resolver_match.url_name != 'projects' %}active{% endif %}">
+           class="header item">
            Shanno
         </a>
         <a  href="/projects/" 
@@ -42,8 +42,9 @@
     </div>
   </div>
 
-  {% block content %}<!-- default content text (typically empty) -->{% endblock %}
-
+  <div class="ui container">
+    {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+  </div>
 
   <script src="{% static 'js/custom_js.js' %}"></script>
 </body>
