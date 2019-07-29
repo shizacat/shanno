@@ -27,19 +27,23 @@
   {% endif %} -->
 </head>
 <body id="root">
-  <div class="ui inverted borderless menu">
-    <nav class="ui container">
-      <a href="/" class="header item">Shanno</a>
-      <a  href="/projects/" 
-          class="item {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
-        Projects
-      </a>
-    </nav>
+  <div class="ui inverted segment">
+    <div class="ui stackable inverted secondary pointing menu">
+      <div class="ui container">
+        <a href="/" 
+           class="header item {% if request.resolver_match.url_name != 'projects' %}active{% endif %}">
+           Shanno
+        </a>
+        <a  href="/projects/" 
+            class="item {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+          Projects
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="ui container">
   {% block content %}<!-- default content text (typically empty) -->{% endblock %}
-  </div>
+
 
   <script src="{% static 'js/custom_js.js' %}"></script>
 </body>

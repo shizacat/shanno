@@ -50,15 +50,11 @@ nav.ui.container .ui.inverted.compact.menu .active.item {
   border-bottom-color: white;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-}
+}*
 
 .ui.inverted.vertical.segment {
   height: 100px;
   background-color: rgb(51, 51, 51);
-}
-
-.ui.vertical.stripe {
-  padding: 8em 0em;
 }
 
 .ui.vertical.stripe h3 {
@@ -90,3 +86,7 @@ nav.ui.container .ui.inverted.compact.menu .active.item {
   padding-top: 5em;
   padding-bottom: 5em;
 }*/
+
+.ui.vertical.stripe {
+  padding: 8em 0em;
+}
