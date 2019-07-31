@@ -30,16 +30,27 @@ $(document).ready(function() {
 
 	var apiUrl = location.protocol + "//" + location.host + "/" + 'api/project/'
 
+	$.getJSON(apiUrl, function(data){
+  	var project_data = '';
+  	var project_json = data.reverse()
+  	$.each(project_json, function(key, value) {
+  		project_data += '<div class="item">';
+  		project_data += '<div class="right floated content">';
+  		project_data += '<button class="mini circular ui icon submit button">';
+  		project_data += '<i class="red icon close"></i>'
+  		project_data += '</button></div>'
+  		project_data += '<i class="large chevron circle right middle aligned icon"></i>';
+  		project_data += '<div class="content">';
+  		project_data += '<div class="header">'+value.name+'</div>';
+  		project_data += '<div class="description">'+value.description+'</div></div></div>'
+  	});
+  	$('.ui.relaxed.divided.project.list').append(project_data);
+	});
+
 	$('.ui.form .submit.button')
 		.api({
     	url: apiUrl,
     	method : 'POST',
-    	serializeForm: true,
-    	beforeSend: function(settings) {
-
-    	},
-    	onSuccess: function(data) {
-
-    	}
+    	serializeForm: true
   	});
 });
