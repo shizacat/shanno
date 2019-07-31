@@ -38,16 +38,16 @@
         <form class="ui form">
           <div class="field">
             <label>Название проекта</label>
-            <input type="text" name="project-name" placeholder="Project Name">
+            <input type="text" name="name">
           </div>
           <div class="field">
             <label>Описание проекта</label>
-            <textarea rows="2" name="project-description"></textarea>
+            <textarea rows="2" name="description"></textarea>
           </div>
           <div class="field">
             <label>Тип проекта</label>
             <div class="ui dropdown selection">
-              <input type="hidden" name="project-type">
+              <input type="hidden" name="type">
               <div class="default text">Выберите тип проекта</div>
               <i class="dropdown icon"></i>
               <div class="menu">
@@ -58,6 +58,11 @@
           <div class="ui primary submit button">Создать</div>
           <div class="ui clear button" onclick="$('.ui.form').form('clear')">Очистить форму</div>
           <div class="ui error message"></div>
+          <div class="ui success message">
+            <div class="header">
+              Проект успешно создан
+            </div>
+          </div>
         </form>
       </div>
     </div>

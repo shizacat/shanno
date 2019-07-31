@@ -9,7 +9,7 @@ $(document).ready(function() {
 	    on: 'blur',
 	    fields: {
 	      name: {
-	        identifier  : 'project-name',
+	        identifier  : 'name',
 	        rules: [
 	          {
 	            type   : 'empty',
@@ -18,7 +18,7 @@ $(document).ready(function() {
 	        ]
 	      },
 	      type: {
-	      	identifier: 'project-type',
+	      	identifier: 'type',
 	      	rules: [
 	      	{
 	      		type: 'empty',
@@ -27,4 +27,19 @@ $(document).ready(function() {
 	      }
 	    }
 	  });
+
+	var apiUrl = location.protocol + "//" + location.host + "/" + 'api/project/'
+
+	$('.ui.form .submit.button')
+		.api({
+    	url: apiUrl,
+    	method : 'POST',
+    	serializeForm: true,
+    	beforeSend: function(settings) {
+
+    	},
+    	onSuccess: function(data) {
+
+    	}
+  	});
 });
