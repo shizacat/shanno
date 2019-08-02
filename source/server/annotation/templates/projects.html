@@ -16,27 +16,31 @@
           <i class="file alternate icon"></i>
           <div class="content">Создание проекта</div>
         </h2>
-        <form class="ui form">
+        <form @submit.prevent="false" id="app" class="ui form">
           <div class="field">
             <label>Название проекта</label>
-            <input type="text" name="name">
+            <input type="text" name="name" v-model="name">
           </div>
           <div class="field">
             <label>Описание проекта</label>
-            <textarea rows="2" name="description"></textarea>
+            <textarea rows="2" name="description" v-model="description"></textarea>
           </div>
           <div class="field">
             <label>Тип проекта</label>
-            <div class="ui dropdown selection">
-              <input type="hidden" name="type">
+<!--             <div class="ui dropdown selection">
+              <input type="hidden" name="type" v-model="type">
               <div class="default text">Выберите тип проекта</div>
               <i class="dropdown icon"></i>
               <div class="menu">
                 <div class="item" data-value="text_label">Text labeling</div>
               </div>
-            </div>
+            </div> -->
+            <select class="ui dropdown" name="type" v-model="type">
+              <option disabled value="">type</option>
+              <option value="text_label">Text labeling</option>
+            </select>
           </div>
-          <div class="ui primary submit button">Создать</div>
+          <button class="ui primary submit button" v-on:click.prevent="createUser()">Создать</button>
           <div class="ui clear button" onclick="$('.ui.form').form('clear')">Очистить форму</div>
           <div class="ui error message"></div>
           <div class="ui success message">

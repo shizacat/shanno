@@ -1,32 +1,32 @@
 $(document).ready(function() {
 	// dropdown initialization
-	$('.ui.dropdown')
-  .dropdown();
+	// $('.ui.dropdown')
+ //  .dropdown();
 
-  // project form validation rules
-	$('.ui.form')
-	  .form({
-	    on: 'blur',
-	    fields: {
-	      name: {
-	        identifier  : 'name',
-	        rules: [
-	          {
-	            type   : 'empty',
-	            prompt : 'Поле "Название проекта" не должно быть пустым'
-	          }
-	        ]
-	      },
-	      type: {
-	      	identifier: 'type',
-	      	rules: [
-	      	{
-	      		type: 'empty',
-	      		prompt : 'Поле "Тип проекта" не должно быть пустым'
-	      	}]
-	      }
-	    }
-	  });
+ //  // project form validation rules
+	// $('.ui.form')
+	//   .form({
+	//     on: 'blur',
+	//     fields: {
+	//       name: {
+	//         identifier  : 'name',
+	//         rules: [
+	//           {
+	//             type   : 'empty',
+	//             prompt : 'Поле "Название проекта" не должно быть пустым'
+	//           }
+	//         ]
+	//       },
+	//       type: {
+	//       	identifier: 'type',
+	//       	rules: [
+	//       	{
+	//       		type: 'empty',
+	//       		prompt : 'Поле "Тип проекта" не должно быть пустым'
+	//       	}]
+	//       }
+	//     }
+	//   });
 
 	var apiUrl = location.protocol + "//" + location.host + "/" + 'api/project/'
 
@@ -47,10 +47,37 @@ $(document).ready(function() {
   	$('.ui.relaxed.divided.project.list').append(project_data);
 	});
 
-	$('.ui.form .submit.button')
-		.api({
-    	url: apiUrl,
-    	method : 'POST',
-    	serializeForm: true
-  	});
+	// $('.ui.form .submit.button')
+	// 	.api({
+ //    	url: apiUrl,
+ //    	method : 'POST',
+ //    	serializeForm: true
+ //  	});
 });
+
+new Vue({
+  el: "#app",
+  data: function(){
+  	return {
+  	name: "",
+    description: "",
+    type: ""
+  	}
+  },
+  methods: {
+    createUser() {
+      axios.post('/api/project/?format=json', {
+        name: this.name,
+        description: this.description,
+        type: this.type
+      })
+      .then(function (response) {
+          console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    }
+  }
+});
+
