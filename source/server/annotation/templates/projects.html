@@ -1,75 +1,64 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
-  <div class="ui vertical stripe segment">
-    <div class="ui stackable grid container">
+{% verbatim %}
 
-      <div class="five wide column">
-        <div class="ui relaxed divided list">
-          <div class="item">
-            <i class="large chevron circle right middle aligned icon"></i>
-            <div class="content">
-              <a class="header">Проект_1</a>
-              <div class="description">Далеко-далеко за словесными горами в стране.</div>
-            </div>
-          </div>
-          <div class="item">
-            <i class="large chevron circle right middle aligned icon"></i>
-            <div class="content">
-              <a class="header">Проект_2</a>
-              <div class="description">Далеко-далеко за словесными горами в стране.</div>
-            </div>
-          </div>
-          <div class="item">
-            <i class="large chevron circle right middle aligned icon"></i>
-            <div class="content">
-              <a class="header">Проект_2</a>
-              <div class="description">Далеко-далеко за словесными горами в стране.</div>
-            </div>
-          </div>
-        </div>
+<div id="app-projects">
+
+  <b-list-group>
+    
+    <b-list-group-item 
+      class="flex-column align-items-start"
+      :href="'/project/' + project.id"
+      v-bind:key="project.id"
+      v-for="project in projects">
+
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{project.name}} [{{project.type}}]</h5>
       </div>
 
-      <div class="eleven wide column">
-        <h2 class="ui header">
-          <i class="file alternate icon"></i>
-          <div class="content">Создание проекта</div>
-        </h2>
-        <form class="ui form" id="app-form" v-on:submit.prevent="onSubmit">
-          <div class="field">
-            <label>Название проекта</label>
-            <input type="text" name="name" v-model="name">
-          </div>
+      <p class="mb-1">
+        {{project.description}}
+      </p>
+    </b-list-group-item>
 
-          <div class="field">
-            <label>Описание проекта</label>
-            <textarea rows="2" name="description" v-model="description"></textarea>
-          </div>
+  </b-list-group>
 
-          <div class="field">
-            <label>Тип проекта</label>
-            <div class="ui dropdown selection">
-              <input type="hidden" name="type" v-model="type">
-              <div class="default text">Выберите тип проекта</div>
-              <i class="dropdown icon"></i>
-              <div class="menu">
-                <div class="item" data-value="text_label">Text labeling</div>
-              </div>
-            </div>
-          </div>
+  <div>
+    <h2>Создание проекта</h2>
 
-          <button class="ui primary submit button" v-on:submit.prevent="submit();">Создать</button>
-
-          <!-- <div class="ui clear button" onclick="$('.ui.form').form('clear')">Очистить форму</div> -->
-          <div class="ui error message"></div>
-          <div class="ui success message">
-            <div class="header">
-              Проект успешно создан
-            </div>
-          </div>
-        </form>
+    <form v-on:submit.prevent="onSubmit">
+      <div class="form-group">
+        <label for="name">Название</label>
+        <input type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Название" v-model="name">
+        <small id="nameHelp" class="form-text text-muted">Необходимо ввести название проекта.</small>
       </div>
 
-    </div>
+      <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" id="description" rows="3" aria-describedby="descriptionHelp" v-model="description"></textarea>
+        <small id="descriptionHelp" class="form-text text-muted">Необходимо описать кратно назначение проекта.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Тип проекта</label>
+        <select id="type" class="form-control" v-model="type">
+          <option selected value="text_label">Text labeling</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Создать</button>
+
+    </form>
   </div>
+
+</div>
+
+{% endverbatim %}
+{% endblock %}
+
+{% block js-script %}
+  <script src="{% static 'js/projects.js' %}"></script>
 {% endblock %}

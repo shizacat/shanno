@@ -1,4 +1,6 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: grayscale;
+
+   padding-top: 80px;
 }
