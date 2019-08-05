@@ -1,6 +1,71 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: grayscale;
+}
 
-   padding-top: 80px;
+#app-projects {
+	padding-top: 80px;
+}
+
+.sidebar-container {
+  position: fixed;
+  margin-top: 55px;
+  width: 230px;
+  height: 100%;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #343a40;
+  color: #fff;
+}
+
+.sidebar-project-name {
+  padding: 10px 15px 10px 30px;
+  font-size: 16px;
+  background-color: #151515;
+}
+
+.sidebar-nav {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  position: relative;
+}
+
+.sidebar-nav li {
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 20px;
+}
+
+.sidebar-nav li a {
+  padding: 10px 15px 10px 30px;
+  display: block;
+  color: #fff;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:hover,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.sidebar-nav li::before {
+  background-color: #151515;
+  position: absolute;
+  content: '';
+  height: 100%;
+  left: 0;
+  top: 0;
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 3px;
+  z-index: -1;
+}
+
+.sidebar-nav li:hover::before {
+  width: 100%;
 }
