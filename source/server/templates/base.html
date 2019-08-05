@@ -54,7 +54,7 @@
         <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+        <li class="nav-item {% if request.resolver_match.url_name|slice:':8' == 'projects' %}active{% endif %}">
           <a class="nav-link" href="/projects/">Projects <span class="sr-only">(current)</span></a>
         </li>
         <!-- <li class="nav-item">
