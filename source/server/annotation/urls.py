@@ -14,6 +14,9 @@ urlpatterns = [
         TemplateView.as_view(template_name='projects.html'),
         name='projects'),
     path('projects/<int:project>', views.project_page, name='projects_page'),
+    path(
+        'projects/<int:project>/<action>',
+        views.project_action, name='projects_import'),
     path('api/', include(router.urls)),
     # path(
     #     'api-auth/',

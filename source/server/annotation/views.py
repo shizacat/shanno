@@ -11,9 +11,20 @@ def project_page(request, project):
     return render(request, 'project_page.html')
 
 
+def project_action(request, project, action):
+    print("Project Number:", project, type(project))
+    print("Project Action:", action, type(action))
+    actions_list = ["import"]
+    if action not in actions_list:
+        # return 404
+        pass
+    render_template = "project_{}.html".format(action)
+
+    return render(request, render_template)
+
+
 # API
 # ====
-
 class ProjectViewSet(viewsets.ModelViewSet):
     """API endpoint"""
     queryset = Projects.objects.all()
