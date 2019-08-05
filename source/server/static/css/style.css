@@ -3,13 +3,12 @@ body {
   -moz-font-smoothing: grayscale;
 }
 
-#app-projects {
-	padding-top: 80px;
-}
+/*
+  Project_page
+*/
 
 .sidebar-container {
   position: fixed;
-  margin-top: 55px;
   width: 230px;
   height: 100%;
   left: 0;
