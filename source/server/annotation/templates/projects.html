@@ -6,9 +6,9 @@
   <div class="ui vertical stripe segment">
   	<div class="ui stackable grid container">
       <div class="five wide column">
-  	    <div class="ui relaxed divided project list">
+  	    <div id="prj_list" class="ui relaxed divided project list">
           <div class='ui header'>Список проектов</div>
-
+          <list-component v-for="project in projects" v-bind:project="project" v-bind:key="project.id"/>
         </div>
       </div>
       <div class="eleven wide column">
@@ -16,7 +16,7 @@
           <i class="file alternate icon"></i>
           <div class="content">Создание проекта</div>
         </h2>
-        <form @submit.prevent="false" id="app" class="ui form">
+        <form @submit.prevent="false" id="prj_form" class="ui form">
           <div class="field">
             <label>Название проекта</label>
             <input type="text" name="name" v-model="name">
