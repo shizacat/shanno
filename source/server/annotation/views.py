@@ -5,22 +5,25 @@ from rest_framework.response import Response
 from annotation.models import Projects
 from annotation.serializers import ProjectsSerializer
 
-
-def project_page(request, project):
-    print("Project Number:", project, type(project))
-    return render(request, 'project_page.html')
+from annotation.models import Projects, PROJECT_TYPE
 
 
-def project_action(request, project, action):
-    print("Project Number:", project, type(project))
-    print("Project Action:", action, type(action))
-    actions_list = ["import"]
+def project_action(request, project, action=None):
+    actions_list = ["page", "import", "export", "settings"]
+
+    if action is None:
+        action = "page"
+
     if action not in actions_list:
-        # return 404
+        # return 404 !!!
         pass
     render_template = "project_{}.html".format(action)
 
-    return render(request, render_template)
+    context = {
+        "project": Projects.objects.get(pk=project),
+    }
+
+    return render(request, render_template, context)
 
 
 # API

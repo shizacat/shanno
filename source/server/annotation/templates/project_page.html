@@ -4,17 +4,17 @@
 
 <div class="sidebar-container">
   <div class="sidebar-project-name">
-    Test Project 1
+    {{ project.name }}
   </div>
   <ul class="sidebar-nav">
     <li>
       <a href="#">DataSet</a>
     </li>
     <li>
-      <a class="active" href="#">Импорт</a>
+      <a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a>
     </li>
     <li>
-      <a href="#">Экспорт</a>
+      <a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}active{% endif %}">Экспорт</a>
     </li>
     <hr>
     <li>
@@ -22,13 +22,17 @@
     </li>
     <hr>
     <li>
-      <a href="#">Настройки</a>
+      <a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}active{% endif %}">Настройки</a>
     </li>
   </ul>
 </div>
 
 <div id="project-content">
-  {% block project-content %}{% endblock %}
+  {% block project-content %}
+
+    Блок под свойства объектов
+
+  {% endblock %}
 </div>
 
 {% endblock %}
