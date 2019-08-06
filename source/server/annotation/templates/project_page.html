@@ -2,6 +2,33 @@
 
 {% block content %}
 
-<h1>Project Page of Number</h1>
+<div class="sidebar-container">
+  <div class="sidebar-project-name">
+    Test Project 1
+  </div>
+  <ul class="sidebar-nav">
+    <li>
+      <a href="#">DataSet</a>
+    </li>
+    <li>
+      <a class="active" href="#">Импорт</a>
+    </li>
+    <li>
+      <a href="#">Экспорт</a>
+    </li>
+    <hr>
+    <li>
+      <a href="#">Label</a>
+    </li>
+    <hr>
+    <li>
+      <a href="#">Настройки</a>
+    </li>
+  </ul>
+</div>
+
+<div id="project-content">
+  {% block project-content %}{% endblock %}
+</div>
 
 {% endblock %}
