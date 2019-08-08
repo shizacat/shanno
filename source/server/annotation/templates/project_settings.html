@@ -1,15 +1,21 @@
 {% extends "project_page.html" %}
 
+{% load static %}
+
 {% block project-content %}
 
 <div class="card">
   <div class="card-body">
+  	<div id="project-delete">
     <h5 class="card-title">Удаление проекта</h5>
     <p>Удалить проет <strong>{{ project.name }}</strong>?</p>
-    <input type="hidden" id="project-id" value="{{project.id}}" />
-    <button type="button" class="btn btn-danger">Удалить</button>
+    <button type="button" class="btn btn-danger" @click="deleteProject({{project.id}})">Удалить</button>
+    </div>
   </div>
 </div>
 
+{% endblock %}
 
+{% block js-script %}
+  <script src="{% static 'js/prj_del.js' %}"></script>
 {% endblock %}
