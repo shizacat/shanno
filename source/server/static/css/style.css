@@ -1,28 +1,46 @@
+html {
+  height: 100%;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: grayscale;
+
+  height: 100%;
+}
+
+/*
+Base Content
+*/
+.base-content {
+  padding: 0 0 0 0;
+  height: calc(100% - 56px);
+}
+
+.navbar {
+  height: 56px;
 }
 
 /*
   Project_page
 */
 
-hr {
-	width: 80%;
-	height: 2px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #666666;
-	border: 0 none;
-	margin-top: 5px;
-	margin-bottom: 5px;
+.projects-base {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box; 
 }
 
-
-.sidebar-container {
-  position: fixed;
+.projects-base .sidebar {
   width: 230px;
   height: 100%;
+  top: 0;
   left: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -30,7 +48,7 @@ hr {
   color: #fff;
 }
 
-.sidebar-project-name {
+.projects-base .sidebar-header {
   padding: 10px 15px 10px 30px;
   font-size: 16px;
   font-weight: bold;
@@ -65,4 +83,19 @@ hr {
   border-left: 4px solid #3dd19b;
   background-color: #4f5b69;
   
+}
+
+.projects-base .sidebar hr {
+  width: 80%;
+  height: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #666666;
+  border: 0 none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#project-content {
+  padding: 10px 10px 10px 10px;
 }

@@ -2,37 +2,39 @@
 
 {% block content %}
 
-<div class="sidebar-container">
-  <div class="sidebar-project-name">
-    {{ project.name }}
+<div class="projects-base">
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      {{ project.name }}
+    </div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="#">DataSet</a>
+      </li>
+      <li>
+        <a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a>
+      </li>
+      <li>
+        <a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}active{% endif %}">Экспорт</a>
+      </li>
+      <hr>
+      <li>
+        <a href="#">Label</a>
+      </li>
+      <hr>
+      <li>
+        <a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}active{% endif %}">Настройки</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="project-content">
+    {% block project-content %}
+
+      Блок под свойства объектов
+
+    {% endblock %}
   </div>
-  <ul class="sidebar-nav">
-    <li>
-      <a href="#">DataSet</a>
-    </li>
-    <li>
-      <a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a>
-    </li>
-    <li>
-      <a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}active{% endif %}">Экспорт</a>
-    </li>
-    <hr>
-    <li>
-      <a href="#">Label</a>
-    </li>
-    <hr>
-    <li>
-      <a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}active{% endif %}">Настройки</a>
-    </li>
-  </ul>
-</div>
-
-<div id="project-content">
-  {% block project-content %}
-
-    Блок под свойства объектов
-
-  {% endblock %}
 </div>
 
 {% endblock %}
