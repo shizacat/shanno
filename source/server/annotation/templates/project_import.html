@@ -2,6 +2,53 @@
 
 {% block project-content %}
 
-<h1>Что то про импорт </h1>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Выберите тип файла для загрузки</h5>
+    <div class="tabset">
+    
+    <input type="radio" name="tabset" id="tab1" aria-controls="conllu" checked>
+    <label for="tab1">conllu</label>
+    
+    <input type="radio" name="tabset" id="tab2" aria-controls="some">
+    <label for="tab2">Что-то ещё</label>
+
+    <div class="tab-panels">
+      <section id="conllu" class="tab-panel">
+        <h2>CoNLL-U Plus</h2>
+        <p>Является расширением формата CoNLL-U. Может иметь любое количество столбцов. <a href="https://universaldependencies.org/ext-format.html">Формат.</a></p>
+        <p>Пример:</p>
+        <pre class=table-dark>
+# global.columns = FORM NE
+
+This	_
+is	VERB
+only	_
+example	_ 
+        </pre>
+  </section>
+    
+    <section id="some" class="tab-panel">
+      <h2>Другой формат</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nihil deleniti labore eos ratione, omnis nam fuga dignissimos architecto eum temporibus voluptate molestiae iusto ipsam, quisquam rem hic mollitia earum.</p>
+    </section>
+
+  </div>
+</div>
+    <form>
+      <div class="form-group">
+        <div class="input-group input-file" name="file">
+          <input type="text" class="form-control" placeholder='файл...' />      
+            <span class="input-group-btn">
+              <button class="btn btn-default btn-choose" type="button">Выбрать</button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary pull-right">Загрузить</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 {% endblock %}
