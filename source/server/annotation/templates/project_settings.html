@@ -4,18 +4,16 @@
 
 {% block project-content %}
 
-<div class="card">
+<div class="card" id="project-settings">
   <div class="card-body">
-  	<div id="project-delete">
     <h5 class="card-title">Удаление проекта</h5>
     <p>Удалить проет <strong>{{ project.name }}</strong>?</p>
     <button type="button" class="btn btn-danger" @click="deleteProject({{project.id}})">Удалить</button>
-    </div>
   </div>
 </div>
 
 {% endblock %}
 
 {% block js-script %}
-  <script src="{% static 'js/prj_del.js' %}"></script>
+  <script src="{% static 'js/project_settings.js' %}"></script>
 {% endblock %}
