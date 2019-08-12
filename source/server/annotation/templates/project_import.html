@@ -1,16 +1,18 @@
 {% extends "project_page.html" %}
 
+{% load static %}
+
 {% block project-content %}
 
-<div class="card">
+<div id="project-import" class="card">
   <div class="card-body">
     <h5 class="card-title">Выберите тип файла для загрузки</h5>
     <div class="tabset">
     
-    <input type="radio" name="tabset" id="tab1" aria-controls="conllu" checked>
+    <input type="radio" name="tabset" v-model="format" id="tab1" aria-controls="conllu" value="conllup">
     <label for="tab1">conllu</label>
     
-    <input type="radio" name="tabset" id="tab2" aria-controls="some">
+    <input type="radio" name="tabset" v-model="format" id="tab2" aria-controls="some" value="some">
     <label for="tab2">Что-то ещё</label>
 
     <div class="tab-panels">
@@ -38,17 +40,18 @@ example	_
     <form>
       <div class="form-group">
         <div class="input-group input-file" name="file">
-          <input type="text" class="form-control" placeholder='файл...' />      
-            <span class="input-group-btn">
-              <button class="btn btn-default btn-choose" type="button">Выбрать</button>
-          </span>
+          <input type="file" id="files" ref="files" v-on:change="handleFileUpload()"/>
         </div>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary pull-right">Загрузить</button>
+        <button type="button" class="btn btn-primary pull-right" @click="uploadFiles({{project.id}})">Загрузить</button>
       </div>
     </form>
   </div>
 </div>
 
+{% endblock %}
+
+{% block js-script %}
+  <script src="{% static 'js/project_import.js' %}"></script>
 {% endblock %}
