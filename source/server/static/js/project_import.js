@@ -1,11 +1,9 @@
 new Vue({
   el: "#project-import",
-  data(){
-  return {
+  data: {
     files: '',
     format: 'conllup'
-  }
-},
+  },
   methods: {
     uploadFiles: function(project_id) {
       let fileData = new FormData;
