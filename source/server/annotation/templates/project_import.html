@@ -21,12 +21,12 @@
           <p>Является расширением формата CoNLL-U. Может иметь любое количество столбцов. <a href="https://universaldependencies.org/ext-format.html">Формат.</a></p>
           <p>Пример:</p>
           <pre class=table-dark>
-  # global.columns = FORM NE
+# global.columns = FORM NE
 
-  This	_
-  is	VERB
-  only	_
-  example	_ 
+This	_
+is	VERB
+only	_
+example	_ 
           </pre>
         </section>
       
@@ -40,14 +40,31 @@
     </div>
 
     <form>
+      {% verbatim %}
+      <div>
+        <b-alert dismissible v-bind:variant="st_variant" :show="st_show">{{st_value}}</b-alert>
+      </div>
+      
+
       <div class="form-group">
         <div class="input-group input-file" name="file">
-          <input type="file" id="files" ref="files" v-on:change="handleFileUpload()"/>
+          <b-form-file v-model="files" plain></b-form-file>
         </div>
       </div>
+
+      {% endverbatim %}
+
       <div class="form-group">
-        <button type="button" class="btn btn-primary pull-right" @click="uploadFiles({{project.id}})">Загрузить</button>
+        <button
+          type="button"
+          class="btn btn-primary pull-right"
+          @click="uploadFiles({{project.id}})"
+          :disabled="files === null"
+          >
+            Загрузить
+          </button>
       </div>
+
     </form>
   </div>
 </div>
