@@ -9,7 +9,7 @@
     </div>
     <ul class="sidebar-nav">
       <li>
-        <a href="#">DataSet</a>
+        <a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}active{% endif %}">Инфо</a>
       </li>
       <li>
         <a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a>
