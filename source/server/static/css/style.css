@@ -98,6 +98,7 @@ Base Content
 
 #project-content {
   padding: 10px 10px 10px 10px;
+  width: calc(100% - 230px);
 }
 
 /*Pure CSS tab panel*/
