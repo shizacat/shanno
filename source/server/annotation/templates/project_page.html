@@ -32,10 +32,10 @@
 
   <div id="project-content">
     {% block project-content %}
-
-    <div class="container-fluid" id="project-page">
+      <div class="container-fluid" id="project-page">
         <p class="lead">
-          <b-badge pill variant="info">{{ project.type }}</b-badge> {{ project.description }} 
+          <b-badge pill variant="info">{{ project.type }}</b-badge></br>
+          Описание: {{ project.description }} 
         </p>
         <p class="h5">Количество обработанных документов</p>
         <b-progress class="w-50" :max="rows" height="2rem">
@@ -43,35 +43,36 @@
             Обработано: <strong>${ processed_docs } / ${ total_docs }</strong>
           </b-progress-bar>
         </b-progress>
-      <div class="overflow-auto">
-        <p class="h5">Список документов</p>
-        <b-list-group class="doc-list">
-          <b-list-group-item
-          href="#" 
-          class="flex-column align-items-start"
-          id="docs-table"
-          :item="doc"
-          :key="doc.id"
-          v-for="doc in docs">
-            <h5 class="mb-1">${doc.name}</h5>
-            <div class="d-flex justify-content-between">
-              <p class="mb-1">
-                ${doc.description | truncate(50)}
-              </p>
-              <b-button :id="`doc-${doc.id}`" variant="danger">Удалить</b-button>
-            </div>
-          </b-list-group-item>
-        </b-list-group>
-        <b-pagination
-        v-model="current_page"
-        :total-rows="rows"
-        :per-page="per_page"
-        aria-controls="docs-table">
-        </b-pagination>
+
+        <div class="overflow-auto">
+          <p class="h5">Список документов</p>
+          <b-list-group class="doc-list">
+            <b-list-group-item
+            href="#" 
+            class="flex-column align-items-start"
+            id="docs-table"
+            :item="doc"
+            :key="doc.id"
+            v-for="doc in docs">
+              <h5 class="mb-1">${doc.name}</h5>
+              <div class="d-flex justify-content-between">
+                <p class="mb-1">
+                  ${doc.description | truncate(50)}
+                </p>
+                <b-button :id="`doc-${doc.id}`" variant="danger">Удалить</b-button>
+              </div>
+            </b-list-group-item>
+          </b-list-group>
+          <b-pagination
+          v-model="current_page"
+          :total-rows="rows"
+          :per-page="per_page"
+          aria-controls="docs-table">
+          </b-pagination>
+        </div>
       </div>
-    </div>
-  </div>
     {% endblock %}
+  </div>
 </div>
 
 {% endblock %}

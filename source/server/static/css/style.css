@@ -97,6 +97,7 @@ Base Content
 #project-content {
   padding: 10px 10px 10px 10px;
   width: calc(100% - 230px);
+  overflow-y: auto;
 }
 
 .doc-list {
