@@ -3,8 +3,6 @@ html {
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: grayscale;
 
   height: 100%;
 }
@@ -99,6 +97,20 @@ Base Content
 #project-content {
   padding: 10px 10px 10px 10px;
   width: calc(100% - 230px);
+  overflow-y: auto;
+}
+
+.doc-list {
+	width: 50%;
+	margin: 20px 0px 20px;
+}
+
+#project-page .progress {
+	margin: 20px 0px 20px;
+}
+
+#project-page .progress .progress-bar {
+	background: #3dd19b;
 }
 
 /*Pure CSS tab panel*/
