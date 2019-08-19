@@ -6,6 +6,7 @@ new Vue({
     processed_docs: 8,
     per_page: 5,
     current_page: 1,
+    popoverShow: false,
     docs_arr: [
 
       { id: 1, name: 'test1', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus quae, voluptatem repudiandae quaerat amet reiciendis rerum. Doloremque ab, mollitia quia commodi optio iusto unde laborum dolore reiciendis magnam dolor voluptatibus.' },

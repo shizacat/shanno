@@ -53,12 +53,13 @@
           :item="doc"
           :key="doc.id"
           v-for="doc in docs">
+            <h5 class="mb-1">${doc.name}</h5>
             <div class="d-flex justify-content-between">
-              <h5 class="mb-1">${doc.name}</h5>
+              <p class="mb-1">
+                ${doc.description | truncate(50)}
+              </p>
+              <b-button :id="`doc-${doc.id}`" variant="danger">Удалить</b-button>
             </div>
-            <p class="mb-1">
-              ${doc.description | truncate(50)}
-            </p>
           </b-list-group-item>
         </b-list-group>
         <b-pagination
