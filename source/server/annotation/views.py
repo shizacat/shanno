@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from annotation import models
 from annotation.exceptions import FileParseException
 from annotation.models import Projects, PROJECT_TYPE
-from annotation.serializers import ProjectsSerializer
+from annotation.serializers import ProjectsSerializer, DocumentsSerializer
 
 import conllu
 
@@ -41,6 +41,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
         PUT multipart:
         * files - файля для импорта
         * format - строка с нужным форматом (conllup)
+
+        documents_list - список документов в проекте
+        GET json
+        Возвращает стриницами по 10ть (?page)
     """
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
@@ -55,13 +59,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put'])
     def ds_import(self, request, pk=None):
-        print("DS import")
-
         file_obj = request.FILES.get("files", None)
         file_format = request.data.get("format", None)
-
-        print(file_format)
-        print(file_obj)
 
         if file_obj is None:
             return Response("File not found", status=status.HTTP_400_BAD_REQUEST)
@@ -75,6 +74,18 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['get'])
+    def documents_list(self, request, pk=None):
+        docs = models.Documents.objects.filter(project=self.get_object()).order_by("id")
+        docs_page = self.paginate_queryset(docs)
+
+        if docs_page is not None:
+            serializer = DocumentsSerializer(docs_page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = DocumentsSerializer(docs, many=True)
+        return Response(serializer.data)
 
     def _import_conllup(self, file):
         """Импортирует файл формата CoNLLU Plus"""
@@ -139,3 +150,4 @@ class ProjectViewSet(viewsets.ModelViewSet):
                     offset_start=char_left,
                     offset_stop=char_right
                 )
+
