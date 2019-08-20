@@ -1,3 +1,4 @@
+from django.forms.models import model_to_dict
 from rest_framework import serializers
 
 from annotation import models
@@ -28,3 +29,29 @@ class DocumentsSerializer(serializers.ModelSerializer):
         if seq:
             text = seq[0].text[:50]
         return text
+
+
+class DocumentSeqSerializer(serializers.ModelSerializer):
+    """Полный документ для аннотации"""
+    sequences = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Documents
+        exclude = ["project"]
+
+    def get_sequences(self, obj):
+        result = []
+        seqs = models.Sequence.objects.filter(document=obj).order_by("order")
+        if not seqs:
+            return result
+
+        for seq in seqs:
+            label_obj = models.TlSeqLabel.objects.filter(sequence=seq)
+            d = model_to_dict(seq, fields=["id", "text", "meta", "order"])
+            d.update({
+                "labels": label_obj.values(
+                    "id", "label_id", "offset_start", "offset_stop")
+            })
+            result.append(d)
+
+        return result

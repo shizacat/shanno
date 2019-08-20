@@ -8,6 +8,7 @@ from rest_framework.decorators import action
 from annotation import models
 from annotation.exceptions import FileParseException
 from annotation.models import Projects, PROJECT_TYPE
+import annotation.serializers as annotation_serializer
 from annotation.serializers import ProjectsSerializer, DocumentsSerializer
 
 import conllu
@@ -48,9 +49,16 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
+    # pagination_class = None
 
     # Поддерживаемые форматы
     file_format_list = ["conllup"]
+
+    def list(self, request, *args, **kwargs):
+        queryset = models.Projects.objects.all()
+
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -151,3 +159,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
                     offset_stop=char_right
                 )
 
+
+class DocumentSeqViewSet(viewsets.ModelViewSet):
+    queryset = models.Documents.objects.all()
+    serializer_class = annotation_serializer.DocumentSeqSerializer
+
+    def list(self, request):
+        return Response(status=status.HTTP_204_NO_CONTENT)

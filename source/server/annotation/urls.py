@@ -6,6 +6,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'project', views.ProjectViewSet)
+router.register(r'document', views.DocumentSeqViewSet)
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
