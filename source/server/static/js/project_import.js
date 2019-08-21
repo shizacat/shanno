@@ -29,7 +29,7 @@ new Vue({
       })
       .catch(function(error) {
         self.st_variant = "danger";
-        self.st_value = "Получена ошибка: " + error;
+        self.st_value = "Получена ошибка: " + error.response.data;
         self.st_show = true;
       })
     },

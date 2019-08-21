@@ -88,7 +88,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             if file_format == "conllup":
                 self._import_conllup(file_obj)
         except FileParseException as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -120,6 +120,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
         except conllu.parser.ParseException as e:
             raise FileParseException(str(e))
+        except UnicodeDecodeError:
+            raise FileParseException("Файл не в кодировке UTF-8")
 
         doc = models.Documents.objects.create(
             project=self.get_object(),
