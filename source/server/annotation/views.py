@@ -16,24 +16,29 @@ import conllu
 
 
 def project_action(request, project, action=None):
-    actions_list = ["page", "import", "export", "settings"]
+    actions_list = ["page", "import", "export", "settings", "annotation"]
 
     if action is None:
         action = "page"
 
     if action not in actions_list:
-        raise Http404("")
-    render_template = "project_{}.html".format(action)
+        raise Http404("Project action not found")
+
+    project_obj = Projects.objects.get(pk=project)
+
+    if action == "annotation":
+        if project_obj.type == "text_label":
+            render_template = "project_annotation_tl.html"
+        else:
+            raise Http404("Annotation type not found")
+    else:
+        render_template = "project_{}.html".format(action)
 
     context = {
-        "project": Projects.objects.get(pk=project),
+        "project": project_obj,
     }
 
     return render(request, render_template, context)
-
-
-# def project_annotation(request, project, doc):
-#     pass
 
 
 # API

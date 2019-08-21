@@ -22,7 +22,7 @@ urlpatterns = [
     path(
         'projects/<int:project>/<action>',
         views.project_action,
-        name='projects_import'
+        name='projects_action'
     ),
     path('api/', include(router.urls)),
     # path(

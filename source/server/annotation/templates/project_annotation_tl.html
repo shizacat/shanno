@@ -1,0 +1,17 @@
+{% extends "project_page.html" %}
+
+{% load static %}
+
+{% block project-content %}
+
+<div id="project-annotaion">
+	Аннотация
+
+	<button type="button" class="btn" @click="onNext()">Next</button>
+</div>
+
+{% endblock %}
+
+{% block js-script %}
+  <script src="{% static 'js/project_annotation_tl.js' %}"></script>
+{% endblock %}
