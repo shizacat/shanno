@@ -5,7 +5,6 @@ new Vue({
     total_docs: 20,
     processed_docs: 8,
     current_page: 1,
-    popoverShow: false,
     docs: [],
     docs_by_page: 10,  // Документов на странице
   },
@@ -30,6 +29,11 @@ new Vue({
       .catch(function(error) {
         console.log(error)
       });
+    },
+    deleteDoc: function(doc_id) {
+      axios.delete("/api/document/" + doc_id + "/")
+        .then(() => this.getAllDocumentPage(this.current_page))
+        .catch(error => console.log(error));
     }
   },
   filters: { 
