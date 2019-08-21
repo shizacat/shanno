@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
+from django.http import Http404
 from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -21,8 +22,7 @@ def project_action(request, project, action=None):
         action = "page"
 
     if action not in actions_list:
-        # return 404 !!!
-        pass
+        raise Http404("")
     render_template = "project_{}.html".format(action)
 
     context = {
@@ -30,6 +30,10 @@ def project_action(request, project, action=None):
     }
 
     return render(request, render_template, context)
+
+
+# def project_annotation(request, project, doc):
+#     pass
 
 
 # API
