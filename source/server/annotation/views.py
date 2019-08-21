@@ -1,6 +1,11 @@
+import io
+import os
+from zipfile import ZipFile
+
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from django.http import Http404
+from django.db import transaction
 from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -85,8 +90,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response("Format not exists", status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            if file_format == "conllup":
-                self._import_conllup(file_obj)
+            with transaction.atomic():
+                if file_format == "conllup":
+                    if self._is_zip(file_obj):
+                        print("Zip")
+                        self._import_zip_file(file_obj, self._import_conllup)
+                    else:
+                        self._import_conllup(file_obj, file_obj._name)
         except FileParseException as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
@@ -104,10 +114,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = DocumentsSerializer(docs, many=True)
         return Response(serializer.data)
 
-    def _import_conllup(self, file):
+    def _import_conllup(self, file, file_name):
         """Импортирует файл формата CoNLLU Plus"""
-        file_name = file._name
-
         field_parsers = {
             "ne": lambda line, i: conllu.parser.parse_nullable_value(line[i]),
         }
@@ -169,6 +177,26 @@ class ProjectViewSet(viewsets.ModelViewSet):
                     offset_start=char_left,
                     offset_stop=char_right
                 )
+
+    def _is_zip(self, file) -> bool:
+        """Проверяет является ли файла zip"""
+        name, ext = os.path.splitext(file._name)
+        if ext == ".zip":
+            return True
+        return False
+
+    def _import_zip_file(self, file, im_file):
+        """Импортирует zip файл"""
+        with ZipFile(file) as zip:
+            for item in zip.infolist():
+                if item.is_dir():
+                    continue
+                # Fix, service folder MAC OS X
+                if item.filename.startswith("__MACOSX/"):
+                    continue
+                filename = os.path.split(item.filename)[1]
+                content = io.BytesIO(zip.read(item.filename))
+                im_file(content, filename)
 
 
 class DocumentSeqViewSet(viewsets.ModelViewSet):
