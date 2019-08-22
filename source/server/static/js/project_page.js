@@ -31,9 +31,11 @@ new Vue({
       });
     },
     deleteDoc: function(doc_id) {
+      self = this;
+
       axios.delete("/api/document/" + doc_id + "/")
         .then(function(response){
-          this.getAllDocumentPage(this.current_page)
+          self.getAllDocumentPage(self.current_page)
         })
         .catch(function(error) {
           console.log(error)
