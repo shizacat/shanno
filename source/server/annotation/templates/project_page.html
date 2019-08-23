@@ -49,7 +49,7 @@
           <p class="h5">Список документов</p>
           <b-list-group class="doc-list">
             <b-list-group-item
-            href="#" 
+            :href="`annotation?doc=${doc.id}`" 
             class="flex-column align-items-start"
             id="docs-table"
             :item="doc"
