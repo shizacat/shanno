@@ -14,7 +14,7 @@ from rest_framework.decorators import action
 from annotation import models
 from annotation.exceptions import FileParseException
 from annotation.models import Projects, PROJECT_TYPE
-import annotation.serializers as annotation_serializer
+import annotation.serializers as anno_serializer
 from annotation.serializers import ProjectsSerializer, DocumentsSerializer
 
 import conllu
@@ -104,7 +104,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def documents_list(self, request, pk=None):
-        docs = models.Documents.objects.filter(project=self.get_object()).order_by("id")
+        docs = models.Documents.objects.filter(
+            project=self.get_object()
+        ).order_by("id")
         docs_page = self.paginate_queryset(docs)
 
         if docs_page is not None:
@@ -112,6 +114,15 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = DocumentsSerializer(docs, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def tl_labels_list(self, request, pk=None):
+        labels = models.TlLabels.objects.filter(
+            project=self.get_object()
+        ).order_by("id")
+
+        serializer = anno_serializer.TLLabelsSerializer(labels, many=True)
         return Response(serializer.data)
 
     def _import_conllup(self, file, file_name):
@@ -201,7 +212,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class DocumentSeqViewSet(viewsets.ModelViewSet):
     queryset = models.Documents.objects.all()
-    serializer_class = annotation_serializer.DocumentSeqSerializer
+    serializer_class = anno_serializer.DocumentSeqSerializer
 
     def list(self, request):
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -55,3 +55,14 @@ class DocumentSeqSerializer(serializers.ModelSerializer):
             result.append(d)
 
         return result
+
+
+class TLLabelsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.TlLabels
+        exclude = []
+        extra_kwargs = {
+            "id": {'read_only': True},
+            "created_at": {'read_only': True},
+            "updated_at": {'read_only': True},
+        }
