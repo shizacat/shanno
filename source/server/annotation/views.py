@@ -1,5 +1,6 @@
 import io
 import os
+from copy import deepcopy
 from zipfile import ZipFile
 
 from django.shortcuts import render
@@ -20,24 +21,31 @@ from annotation.serializers import ProjectsSerializer, DocumentsSerializer
 import conllu
 
 
-def project_action(request, project, action=None):
-    actions_list = ["page", "import", "export", "settings", "annotation"]
+def project_action(request, project, action="page"):
+    # dict: name_action -> name_suffix_template
+    actions_list_map = {
+        "page": "page",
+        "import": "import",
+        "export": "export",
+        "settings": "settings",
+    }
 
-    if action is None:
-        action = "page"
+    actions_list_map_tl = {
+        "annotation": "tl_annotation",
+        "tl-labels": "tl_labels",
+    }
 
-    if action not in actions_list:
-        raise Http404("Project action not found")
-
+    # main
+    actions_map = deepcopy(actions_list_map)
     project_obj = Projects.objects.get(pk=project)
 
-    if action == "annotation":
-        if project_obj.type == "text_label":
-            render_template = "project_annotation_tl.html"
-        else:
-            raise Http404("Annotation type not found")
-    else:
-        render_template = "project_{}.html".format(action)
+    if project_obj.type == "text_label":
+        actions_map.update(actions_list_map_tl)
+
+    if action not in actions_map.keys():
+        raise Http404("Project action not found")
+
+    render_template = "project_{}.html".format(actions_map.get(action))
 
     context = {
         "project": project_obj,
