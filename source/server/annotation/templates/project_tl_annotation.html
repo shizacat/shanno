@@ -12,7 +12,7 @@
 		<span class="badge badge-pill badge-danger">Label2</span>
 	</div>
 	<div class="card-body">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur eaque, nobis, molestiae perferendis incidunt error a explicabo cumque autem illum itaque. Impedit accusamus fugiat sunt dolor ipsam distinctio! Dignissimos, fugiat.</p>
+		<p v-for="seq in doc_data">${seq.text}</p>
 		<div class="d-flex justify-content-between">
 			<b-button variant="primary">Next</b-button>
 			<b-button variant="primary">Prev</b-button>
