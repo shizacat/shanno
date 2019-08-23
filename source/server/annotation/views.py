@@ -216,3 +216,11 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TLLabelsViewSet(viewsets.ModelViewSet):
+    queryset = models.TlLabels.objects.all()
+    serializer_class = anno_serializer.TLLabelsSerializer
+
+    def list(self, request):
+        return Response(status=status.HTTP_204_NO_CONTENT)
