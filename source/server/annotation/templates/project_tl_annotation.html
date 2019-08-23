@@ -4,10 +4,22 @@
 
 {% block project-content %}
 
-<div id="project-annotaion">
-	Аннотация
 
-	<button type="button" class="btn" @click="onNext()">Next</button>
+<h4 class="mb-4 mt-2">Аннотации</h4>
+<div id="project-annotaion" class="card w-75">
+	<div class="card-header">
+		<span class="badge badge-pill badge-info">Label1</span>
+		<span class="badge badge-pill badge-danger">Label2</span>
+	</div>
+	<div class="card-body">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur eaque, nobis, molestiae perferendis incidunt error a explicabo cumque autem illum itaque. Impedit accusamus fugiat sunt dolor ipsam distinctio! Dignissimos, fugiat.</p>
+		<div class="d-flex justify-content-between">
+			<b-button variant="primary">Next</b-button>
+			<b-button variant="primary">Prev</b-button>
+		</div>
+	</div>
+
+	<!-- <button type="button" class="btn" @click="onNext()">Next</button> -->
 </div>
 
 {% endblock %}
