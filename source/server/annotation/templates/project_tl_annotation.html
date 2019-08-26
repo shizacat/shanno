@@ -14,8 +14,8 @@
 	<div class="card-body">
 		<p v-for="seq in doc_data">${seq.text}</p>
 		<div class="d-flex justify-content-between">
-			<b-button variant="primary">Next</b-button>
-			<b-button variant="primary">Prev</b-button>
+			<b-button variant="primary" @click="onPrev()">Предыдущий</b-button>
+			<b-button variant="primary" @click="onNext()">Следующий</b-button>
 		</div>
 	</div>
 

@@ -21,11 +21,9 @@ new Vue({
   methods: {
     onNext: function () {
       console.log("next");
-      // this.$router.replace("55")
-      console.log("this.$route");
-      console.log(window.location.href);
-      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?doc=' + 10;
-      window.history.pushState(null, null, newurl);
+    },
+    onPrev: function() {
+      console.log("prev");
     },
     getDocSequence: function(doc_id) {
       self = this;
@@ -55,6 +53,15 @@ new Vue({
       .catch(function(error) {
         console.log(error)
       });
+    },
+    setupUrlDocByIndex: function(doc_index){
+      var newurl = "".concat(
+        window.location.protocol, "//",
+        window.location.host, 
+        window.location.pathname,
+        "?doc=", this.docs[doc_index].id
+      );
+      window.history.pushState(null, null, newurl);
     }
   }
 });
