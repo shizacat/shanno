@@ -68,6 +68,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
         documents_list - список документов в проекте
         GET json
         Возвращает стриницами по 10ть (?page)
+
+        documents_list_simple - список документов в проекте
+            только идентификаторы
     """
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
@@ -122,6 +125,15 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = DocumentsSerializer(docs, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def documents_list_simple(self, request, pk=None):
+        docs = models.Documents.objects.filter(
+            project=self.get_object()
+        ).order_by("id")
+
+        serializer = anno_serializer.DocumentsSerializerSimple(docs, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=['get'])

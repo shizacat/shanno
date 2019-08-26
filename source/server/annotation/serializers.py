@@ -31,6 +31,12 @@ class DocumentsSerializer(serializers.ModelSerializer):
         return text
 
 
+class DocumentsSerializerSimple(serializers.ModelSerializer):
+    class Meta:
+        model = models.Documents
+        exclude = ["project"]
+
+
 class DocumentSeqSerializer(serializers.ModelSerializer):
     """Полный документ для аннотации"""
     sequences = serializers.SerializerMethodField()
