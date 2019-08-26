@@ -4,7 +4,9 @@ new Vue({
   data: {
     docs: [],  // Список объектов документ в проекте
     docs_cindex: 0, // Индекс текущего документа
-    doc_data: []
+    doc_data: [],
+    bt_prev_enable: false,
+    bt_next_enable: false
   },
   computed: {
     doc_id: function(){
@@ -15,15 +17,21 @@ new Vue({
     }
   },
     created() {
-      this.getDocsListbyProject();
+      this.getDocsListbyProject()
       this.getDocSequence(this.doc_id);
   },
   methods: {
     onNext: function () {
-      console.log("next");
+      this.docs_cindex++;
+      this.getDocSequence(this.docs[this.docs_cindex].id);
+      this.setupButton();
+      this.setupUrlDocByIndex(this.docs_cindex);
     },
     onPrev: function() {
-      console.log("prev");
+      this.docs_cindex--;
+      this.getDocSequence(this.docs[this.docs_cindex].id);
+      this.setupButton();
+      this.setupUrlDocByIndex(this.docs_cindex);
     },
     getDocSequence: function(doc_id) {
       self = this;
@@ -45,14 +53,20 @@ new Vue({
         // Текущая позиция в массиве документов
         for (var i=0 in self.docs){
           if (self.docs[i].id == self.doc_id){
-            self.docs_cindex = i;
+            self.docs_cindex = parseInt(i);
             break;
           }
         }
+        // Setup Button
+        self.setupButton()
       })
       .catch(function(error) {
         console.log(error)
       });
+    },
+    setupButton: function(){
+      this.bt_prev_enable = (this.docs_cindex != 0);
+      this.bt_next_enable = (this.docs_cindex != (this.docs.length - 1));
     },
     setupUrlDocByIndex: function(doc_index){
       var newurl = "".concat(
