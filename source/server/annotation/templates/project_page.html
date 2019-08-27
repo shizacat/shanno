@@ -49,7 +49,6 @@
           <p class="h5">Список документов</p>
           <b-list-group class="doc-list">
             <b-list-group-item
-            :href="`annotation?doc=${doc.id}`" 
             class="flex-column align-items-start"
             id="docs-table"
             :item="doc"
@@ -57,6 +56,7 @@
             v-for="doc in docs">
               <div class="d-flex justify-content-between">
               <h5 class="mb-1">${doc.file_name}</h5> 
+              <b-button @click="gotoUrl('annotation?doc=' + doc.id)" size="sm" variant="info">Аннотация</b-button>
               <b-button v-b-toggle="`doc-${doc.id}`" size="sm" variant="danger">Удалить</b-button>
               </div>
               <div class="d-flex">

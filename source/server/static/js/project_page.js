@@ -40,6 +40,9 @@ new Vue({
         .catch(function(error) {
           console.log(error)
         });
+    },
+    gotoUrl: function(url) {
+      window.location.href = url;
     }
   },
   filters: { 
