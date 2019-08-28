@@ -12,7 +12,7 @@
 		<span class="badge badge-pill badge-danger">Label2</span>
 	</div>
 	<div class="card-body">
-		<p v-for="seq in doc_data">${seq.text}</p>
+		<p v-for="data in data_render" v-html="data"></p>
 		<div class="d-flex justify-content-between">
 			<b-button variant="primary" @click="onPrev()" :disabled="!bt_prev_enable">Предыдущий</b-button>
 			<b-button variant="primary" @click="onNext()" :disabled="!bt_next_enable">Следующий</b-button>
