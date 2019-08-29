@@ -169,3 +169,22 @@ Base Content
   padding: 20px 0;
   border-top: 1px solid #ccc;
 }
+
+
+/*
+  Annotation page
+*/
+
+.lbl {
+	position: relative;
+	font-size: 14pt; 
+	height: 1.5em; 
+	padding-left: .5em; 
+	padding-right: 2em; 
+	border-radius: 10px;
+}
+
+.lbl .close {
+  position: absolute;
+  padding-left: 0.3em;
+}

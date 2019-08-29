@@ -77,8 +77,8 @@ new Vue({
       var labels;
       var lastOffset;
       var delimeter = " ";
-      var tagStart = "<span style='color: red;'>";
-      var tagStop = "</span>";
+      var tagStart = "<span class='lbl' style='color: #ffffff; background-color: #ff0000;' v-b-tooltip.hover title='Label_n'>";
+      var tagStop = "<button type='button' class='close'>&times;</button></span>";
 
       this.data_render = [];
 
@@ -88,8 +88,7 @@ new Vue({
         lastOffset = 0;
         rStr = "";
         for (var j = 0; j < labels.length; j++){
-          rStr = rStr
-            + tStr.substring(lastOffset, labels[j].offset_start)
+          rStr += tStr.substring(lastOffset, labels[j].offset_start)
             + tagStart
             + tStr.substring(labels[j].offset_start, labels[j].offset_stop)
             + tagStop;
