@@ -5,6 +5,7 @@ new Vue({
     docs: [],  // Список объектов документ в проекте
     docs_cindex: 0, // Индекс текущего документа
     doc_data: [],
+    data_render: [],  // Массив обработанных seq
     bt_prev_enable: false,
     bt_next_enable: false
   },
@@ -37,8 +38,8 @@ new Vue({
       self = this;
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
-        self.doc_data = response.data.sequences
-        // console.log(response)
+        self.doc_data = response.data.sequences;
+        self.renderData();
       })
       .catch(function(error) {
         console.log(error)
@@ -67,6 +68,41 @@ new Vue({
     setupButton: function(){
       this.bt_prev_enable = (this.docs_cindex != 0);
       this.bt_next_enable = (this.docs_cindex != (this.docs.length - 1));
+    },
+    renderData: function(){
+      // Рендерит данные для отображения
+      // console.log("Docs: ", this.doc_data);
+      var tStr;
+      var rStr;
+      var labels;
+      var lastOffset;
+      var delimeter = " ";
+      var tagStart = "<span style='color: red;'>";
+      var tagStop = "</span>";
+
+      this.data_render = [];
+
+      for (var i = 0; i < this.doc_data.length; i++){
+        tStr = this.doc_data[i].text;
+        labels = this.doc_data[i].labels;
+        lastOffset = 0;
+        rStr = "";
+        for (var j = 0; j < labels.length; j++){
+          rStr = rStr
+            + tStr.substring(lastOffset, labels[j].offset_start)
+            + tagStart
+            + tStr.substring(labels[j].offset_start, labels[j].offset_stop)
+            + tagStop;
+          lastOffset = labels[j].offset_stop
+          // labels[j].label_id
+        }
+        if (lastOffset == 0){
+          rStr = tStr;
+        }else{
+          rStr = rStr + tStr.substring(lastOffset);
+        }
+        this.data_render.push(rStr);
+      };
     },
     setupUrlDocByIndex: function(doc_index){
       var newurl = "".concat(
