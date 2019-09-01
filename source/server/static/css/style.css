@@ -175,6 +175,11 @@ Base Content
   Annotation page
 */
 
+.tl_anno_row {
+  text-indent: 30px;
+  line-height: 220%;
+}
+
 .lbl {
 	position: relative;
 	font-size: 14pt; 
@@ -187,4 +192,12 @@ Base Content
 .lbl .close {
   position: absolute;
   padding-left: 0.3em;
+}
+
+.label_tag {
+  display: inline;
+  /*justify-content: flex-start;*/
+  float: left;
+  margin: 0.2em;
+  font-weight: 700;
 }

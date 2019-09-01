@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'project', views.ProjectViewSet)
 router.register(r'document', views.DocumentSeqViewSet)
 router.register(r'tl_label', views.TLLabelsViewSet)
+router.register(r'tl_seq_label', views.TLSeqLabelViewSet)
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),

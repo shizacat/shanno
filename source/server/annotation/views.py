@@ -71,6 +71,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         documents_list_simple - список документов в проекте
             только идентификаторы
+
+        tl_labels_list - TL, список меток для проекта
     """
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
@@ -241,6 +243,14 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
 class TLLabelsViewSet(viewsets.ModelViewSet):
     queryset = models.TlLabels.objects.all()
     serializer_class = anno_serializer.TLLabelsSerializer
+
+    def list(self, request):
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TLSeqLabelViewSet(viewsets.ModelViewSet):
+    queryset = models.TlSeqLabel.objects.all()
+    serializer_class = anno_serializer.TLSeqLabelSerializer
 
     def list(self, request):
         return Response(status=status.HTTP_204_NO_CONTENT)

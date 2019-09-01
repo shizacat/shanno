@@ -1,11 +1,23 @@
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
+
 new Vue({
   el: "#project-annotaion",
   delimiters: ['${', '}'],
   data: {
-    docs: [],  // Список объектов документ в проекте
-    docs_cindex: 0, // Индекс текущего документа
-    doc_data: [],
+    docs: [],         // Список объектов документ в проекте
+    docs_cindex: 0,   // Индекс текущего документа
+    doc_data: [],     // Массив seq документа
     data_render: [],  // Массив обработанных seq
+    doc_render: {},
+    labels: [],       // Массив меток
+    labels_hash: {},  // Словарь по индексу доступа к объекту меток
     bt_prev_enable: false,
     bt_next_enable: false
   },
@@ -17,9 +29,22 @@ new Vue({
       return window.location.href.split("/")[4];
     }
   },
-    created() {
-      this.getDocsListbyProject()
-      this.getDocSequence(this.doc_id);
+  created() {
+    self = this;
+    this.getDocsListbyProject()
+
+    // GetLabels
+    axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
+    .then(function(response){
+      for (var i = 0; i < response.data.length; i++){
+        self.labels_hash[response.data[i].id] = response.data[i]
+      }
+      self.labels = response.data;
+      self.getDocSequence(self.doc_id);
+    })
+    .catch(function(error){
+      console.log(error);
+    })
   },
   methods: {
     onNext: function () {
@@ -34,15 +59,38 @@ new Vue({
       this.setupButton();
       this.setupUrlDocByIndex(this.docs_cindex);
     },
+    onDeleteLabel: function(label_seq_id, seq_id, i_chunk){
+      var labels = this.doc_render[seq_id].obj.labels;
+      for(var j = 0; j < labels.length; j++){
+        if (labels[j].id == label_seq_id){
+          this.doc_render[seq_id].obj.labels.splice(j, 1);
+          break;
+        }
+      }
+      
+      this.doc_render[seq_id].chunks = this.renderCreateChunks(
+        this.doc_render[seq_id].obj
+      );
+      
+
+      axios.delete("/api/tl_seq_label/" + label_seq_id + "/")
+      .then(function(response){
+        console.log("Complite");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    },
     getDocSequence: function(doc_id) {
       self = this;
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
         self.doc_data = response.data.sequences;
-        self.renderData();
+        // self.renderData();
+        self.render();
       })
       .catch(function(error) {
-        console.log(error)
+        console.log(error);
       });
     },
     getDocsListbyProject: function(){
@@ -69,39 +117,58 @@ new Vue({
       this.bt_prev_enable = (this.docs_cindex != 0);
       this.bt_next_enable = (this.docs_cindex != (this.docs.length - 1));
     },
-    renderData: function(){
-      // Рендерит данные для отображения
-      // console.log("Docs: ", this.doc_data);
-      var tStr;
-      var rStr;
-      var labels;
-      var lastOffset;
-      var delimeter = " ";
-      var tagStart = "<span class='lbl' style='color: #ffffff; background-color: #ff0000;' v-b-tooltip.hover title='Label_n'>";
-      var tagStop = "<button type='button' class='close'>&times;</button></span>";
-
-      this.data_render = [];
-
-      for (var i = 0; i < this.doc_data.length; i++){
-        tStr = this.doc_data[i].text;
-        labels = this.doc_data[i].labels;
-        lastOffset = 0;
-        rStr = "";
-        for (var j = 0; j < labels.length; j++){
-          rStr += tStr.substring(lastOffset, labels[j].offset_start)
-            + tagStart
-            + tStr.substring(labels[j].offset_start, labels[j].offset_stop)
-            + tagStop;
-          lastOffset = labels[j].offset_stop
-          // labels[j].label_id
-        }
-        if (lastOffset == 0){
-          rStr = tStr;
-        }else{
-          rStr = rStr + tStr.substring(lastOffset);
-        }
-        this.data_render.push(rStr);
+    render: function(){
+      for(var i = 0; i < this.doc_data.length; i++){
+        // Sequence from document
+        Vue.set(
+          this.doc_render,
+          this.doc_data[i].id,
+          {
+            obj: this.doc_data[i],
+            chunks: this.renderCreateChunks(this.doc_data[i])
+          }
+        );
       };
+      console.log("doc_data", this.doc_data);
+      console.log("doc_render", this.doc_render);
+    },
+    renderCreateChunks: function(sequence){
+      // Создает массив с кусками из Sequence
+      // sequence - это одноименный объект
+      var chunks = new Array;
+      var labels = sequence.labels;
+      var lastOffset = 0;
+      var tStr = sequence.text;
+
+      for (var j = 0; j < labels.length; j++){
+        var offset = labels[j].offset_start;
+        var end = labels[j].offset_stop;
+
+        if (offset != 0){
+          chunks.push({
+            type: "text",
+            text: tStr.substring(lastOffset, offset)
+          });
+        };
+
+        chunks.push({
+          type: "label",
+          text: tStr.substring(offset, end),
+          obj: labels[j]
+        });
+        lastOffset = end;
+      };
+      if (lastOffset != tStr.length){
+        chunks.push({
+          type: "text",
+          text: tStr.substring(lastOffset, tStr.length)
+        });
+      }
+
+      return chunks
+    },
+    textPart: function(text, label){
+
     },
     setupUrlDocByIndex: function(doc_index){
       var newurl = "".concat(
@@ -111,6 +178,19 @@ new Vue({
         "?doc=", this.docs[doc_index].id
       );
       window.history.pushState(null, null, newurl);
+    }
+  },
+  components: {
+    'tl-label': {
+      data: function () {
+        return {
+          clr_b: 0,
+          clr_t: "black",
+          text: "hh"
+        }
+      },
+      template: '<p class="tl_anno_row"></p>'
+      // "<span class='tag is-normal' :style=\"{'background-color': clr_b, color: clr_t}\">{{text}} - oo</span>"
     }
   }
 });
