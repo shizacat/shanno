@@ -1,12 +1,3 @@
-String.prototype.format = function() {
-    var formatted = this;
-    for (var i = 0; i < arguments.length; i++) {
-        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
-        formatted = formatted.replace(regexp, arguments[i]);
-    }
-    return formatted;
-};
-
 new Vue({
   el: "#project-annotaion",
   delimiters: ['${', '}'],
@@ -89,7 +80,6 @@ new Vue({
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
         self.doc_data = response.data.sequences;
-        // self.renderData();
         self.render();
       })
       .catch(function(error) {
@@ -121,6 +111,7 @@ new Vue({
       this.bt_next_enable = (this.docs_cindex != (this.docs.length - 1));
     },
     render: function(){
+      this.doc_render = {};
       for(var i = 0; i < this.doc_data.length; i++){
         // Sequence from document
         Vue.set(
@@ -132,8 +123,6 @@ new Vue({
           }
         );
       };
-      console.log("doc_data", this.doc_data);
-      console.log("doc_render", this.doc_render);
     },
     renderCreateChunks: function(sequence){
       // Создает массив с кусками из Sequence
