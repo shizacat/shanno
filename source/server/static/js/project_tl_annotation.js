@@ -18,6 +18,9 @@ new Vue({
     doc_render: {},
     labels: [],       // Массив меток
     labels_hash: {},  // Словарь по индексу доступа к объекту меток
+    sel_offset_start: -1, // Начало/конец выделенного участка
+    sel_offset_end: -1,
+    sel_seq_id: -1,
     bt_prev_enable: false,
     bt_next_enable: false
   },
@@ -167,8 +170,64 @@ new Vue({
 
       return chunks
     },
-    textPart: function(text, label){
+    createLabel: function(label_id){
+      if ((this.sel_offset_start < 0) || (this.sel_offset_end < 0))
+        return;
 
+      var self = this;
+
+      axios.post("/api/tl_seq_label/",
+        JSON.stringify({
+            offset_start: this.sel_offset_start,
+            offset_stop: this.sel_offset_end,
+            sequence: this.sel_seq_id,
+            label: label_id
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      .then(function(response){
+        console.log("complite");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    },
+    setSelectedRange: function(seq_id){
+      console.log("Seq id:", seq_id);
+    
+      var offsetStartDoc = 0;
+      var offsetEndDoc = 0;
+
+      var range = window.getSelection().getRangeAt(0);
+      var chunk_id = range.startContainer.parentElement.id;
+
+      if (range.collapsed){
+        // Reset sel
+        this.sel_offset_start = -1;
+        this.sel_offset_end = -1;
+        this.sel_seq_id = -1;
+        return;
+      }
+
+      if (chunk_id > 0){
+        offsetStartDoc = this.doc_render[seq_id].chunks[chunk_id-1].obj.offset_stop;
+      }
+      offsetEndDoc = offsetStartDoc + range.endOffset;
+      offsetStartDoc = offsetStartDoc + range.startOffset;
+
+      this.sel_offset_start = offsetStartDoc;
+      this.sel_offset_end = offsetEndDoc;
+      this.sel_seq_id = seq_id;
+
+      console.log(offsetStartDoc, offsetEndDoc);
+      console.log(range);
+      console.log(this.doc_render[seq_id].obj.text.substring(offsetStartDoc, offsetEndDoc));
+      console.log(this.doc_render[seq_id].obj.text);
+      // range.startOffset
     },
     setupUrlDocByIndex: function(doc_index){
       var newurl = "".concat(

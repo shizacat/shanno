@@ -13,10 +13,11 @@
 			v-for="label in labels">
 				<span
 					class="tag"
-					:style="{'background-color': label.color_background, color: label.color_text}">
+					:style="{'background-color': label.color_background, color: label.color_text}"
+					@click="createLabel(label.id)">
 						${label.name}
 				</span>
-		  		<span class="tag is-dark">_</span>
+		  	<span class="tag is-dark">_</span>
 		</div>
 	</div>
 
@@ -25,15 +26,15 @@
 		<!-- <p v-for="data in data_render" v-html="data" class="tl_anno_row"></p> -->
 		<!-- <tl-label v-for="seq in doc_data" class="tl_anno_row">${seq}</tl-label> -->
 
-		<div v-for="data in doc_render" class="tl_anno_row">
+		<div v-for="data in doc_render" class="tl_anno_row" @click="setSelectedRange(data.obj.id)">
 			<span v-for="(chunk, i_chunk) in data.chunks"
 				v-bind:class="{ tag: chunk.type == 'label', 'is-medium': chunk.type == 'label' }"
 				v-bind:style="[chunk.type == 'label' ? {
 						'background-color': labels_hash[chunk.obj.label_id].color_background,
 						'color': labels_hash[chunk.obj.label_id].color_text,
 						'text-indent': '0px'
-					} : {}]">
-				${chunk.text}
+					} : {}]"
+					:id="i_chunk">${chunk.text}
 				<button 
 					v-if="chunk.type == 'label'"
 					@click="onDeleteLabel(chunk.obj.id, data.obj.id, i_chunk)"
