@@ -179,7 +179,20 @@ new Vue({
         }
       )
       .then(function(response){
-        console.log("complite");
+        var labels = self.doc_render[self.sel_seq_id].obj.labels;
+        labels = labels.concat(response.data);
+        labels.sort(function(a, b){
+          var s1 = a.offset_start;
+          var s2 = b.offset_start;
+          if (s1 < s2) return -1;
+          if (s1 > s2) return 1;
+          return 0;
+        });
+        self.doc_render[self.sel_seq_id].obj.labels = labels;
+
+        self.doc_render[self.sel_seq_id].chunks = self.renderCreateChunks(
+          self.doc_render[self.sel_seq_id].obj
+        );
       })
       .catch(function(error) {
         console.log(error);

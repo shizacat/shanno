@@ -52,11 +52,13 @@ class DocumentSeqSerializer(serializers.ModelSerializer):
             return result
 
         for seq in seqs:
-            label_obj = models.TlSeqLabel.objects.filter(sequence=seq)
+            label_obj = models.TlSeqLabel.objects.filter(
+                sequence=seq
+            ).order_by("offset_start")
             d = model_to_dict(seq, fields=["id", "text", "meta", "order"])
             d.update({
                 "labels": label_obj.values(
-                    "id", "label_id", "offset_start", "offset_stop")
+                    "id", "label", "offset_start", "offset_stop")
             })
             result.append(d)
 

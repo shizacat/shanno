@@ -255,5 +255,33 @@ class TLSeqLabelViewSet(viewsets.ModelViewSet):
     queryset = models.TlSeqLabel.objects.all()
     serializer_class = anno_serializer.TLSeqLabelSerializer
 
+    def create(self, request):
+        """Создает объекты меток и возвращает их массив"""
+        result = []
+
+        offset_start = request.data["offset_start"]
+        offset_stop = request.data["offset_stop"]
+        seq_id = request.data["sequence"]
+        label_id = request.data["label"]
+
+        text = models.Sequence.objects.filter(pk=seq_id).values("text")
+        if len(text) != 1:
+            Response(status=404)
+        text = text[0].get("text", "")
+
+        offset_chunk = offset_start
+        for item in text[offset_start:offset_stop].split(" "):
+            r = models.TlSeqLabel.objects.create(
+                offset_start=offset_chunk,
+                offset_stop=offset_chunk + len(item),
+                sequence=models.Sequence.objects.get(pk=seq_id),
+                label=models.TlLabels.objects.get(pk=label_id)
+            )
+            offset_chunk = offset_chunk + len(item) + 1
+
+            serializer = anno_serializer.TLSeqLabelSerializer(r)
+            result.append(serializer.data)
+        return Response(result)
+
     def list(self, request):
         return Response(status=status.HTTP_204_NO_CONTENT)
