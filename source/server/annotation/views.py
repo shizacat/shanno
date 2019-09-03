@@ -194,7 +194,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
 
             # Labels
+            all_label_name = models.TlLabels.objects.all().values_list('name', flat=True)
             for label in list(labels_uniq):
+                if label in all_label_name:
+                    continue
                 try:
                     models.TlLabels.objects.create(
                         project=self.get_object(),

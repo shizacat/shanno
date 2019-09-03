@@ -77,7 +77,7 @@ class TLLabelsSerializer(serializers.ModelSerializer):
 class TLSeqLabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TlSeqLabel
-        exclude = ["project"]
+        exclude = []
         extra_kwargs = {
             "id": {'read_only': True},
             "created_at": {'read_only': True},
