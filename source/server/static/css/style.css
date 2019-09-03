@@ -200,4 +200,9 @@ Base Content
   float: left;
   margin: 0.2em;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.label_tag span:hover {
+  text-decoration: underline;
 }
