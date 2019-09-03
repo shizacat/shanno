@@ -1,18 +1,32 @@
 new Vue({
-	 el: "#project-labels",
-	 delimiters: ["${", "}"],
-	 data () {
-	   return {
-	     new_label: null
-	   };
-	 },
-	 computed: {
-		project_id: function(){
+	el: "#project-labels",
+  delimiters: ["${", "}"],
+  data () {
+    return {
+      new_label: null,
+      labels: Array,
+      active_edit: null
+    };
+  },
+  computed: {
+ 	project_id: function(){
       return window.location.href.split("/")[4];
     }
-	 },
-	 methods: {
-	 	 getNewColor() {
+  },
+  created() {
+    this.getLabels();
+  },
+  methods: {
+  	getLabels() {
+  		axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
+  			.then((response) => {
+  				this.labels = response.data
+  			})
+  			.catch((error) => {
+  				console.log(error)
+  			})
+  	},
+  	 getNewColor() {
       let gencolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
       let randomColor = "#" + ("000000" + gencolor).slice(-6);
       return randomColor;
@@ -29,11 +43,12 @@ new Vue({
       label.color_background = bg_color;
       label.color_text = text_color;
     },
-	 	createLabel() {
+  	createLabel() {
       this.new_label = {
         name: "Новая метка",
         color_background: "",
         color_text: "",
+        project: parseInt(this.project_id)
       };
       this.getColor(this.new_label);
     },
@@ -48,7 +63,32 @@ new Vue({
     },
     cancelCreate() {
       this.new_label = null;
+    },
+    editLabel(label) {
+      this.clone_label = Object.assign({}, label);
+      this.active_edit = label;
+    },
+    deleteLabel(label) {
+      axios.delete("/api/tl_label/" + label.id)
+      	.then(() => {
+        	let index = this.labels.indexOf(label);
+        	this.labels.splice(index, 1);
+      });
+    },
+    repealEdit(label) {
+      this.active_edit = null;
+      Object.assign(label, this.clone_label);
+    },
+    saveEditChanges(label) {
+    	this.active_edit = null;
+      axios.patch("/api/tl_label/" + label.id + "/", label)
+        .then(() => {
+					this.labels;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-	 }
+  }
 })
 
