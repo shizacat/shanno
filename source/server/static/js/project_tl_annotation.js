@@ -11,13 +11,13 @@ new Vue({
   el: "#project-annotaion",
   delimiters: ['${', '}'],
   data: {
-    docs: [],         // Список объектов документ в проекте
-    docs_cindex: 0,   // Индекс текущего документа
-    doc_data: [],     // Массив seq документа
-    data_render: [],  // Массив обработанных seq
+    docs: [],             // Список объектов документ в проекте
+    docs_cindex: 0,       // Индекс текущего документа
+    doc_data: [],         // Массив seq документа
+    data_render: [],      // Массив обработанных seq
     doc_render: {},
-    labels: [],       // Массив меток
-    labels_hash: {},  // Словарь по индексу доступа к объекту меток
+    labels: [],           // Массив меток
+    labels_hash: {},      // Словарь по индексу доступа к объекту меток
     sel_offset_start: -1, // Начало/конец выделенного участка
     sel_offset_end: -1,
     sel_seq_id: -1,
@@ -196,9 +196,17 @@ new Vue({
         console.log(error);
       });
     },
+    selResetRange: function(){
+      // Reset selection
+      this.sel_offset_start = -1;
+      this.sel_offset_end = -1;
+      this.sel_seq_id = -1;
+    },
     setSelectedRange: function(seq_id){
       console.log("Seq id:", seq_id);
     
+      var offsetChunk = 0;
+      var offsetChunkEnd = 0;
       var offsetStartDoc = 0;
       var offsetEndDoc = 0;
 
@@ -206,28 +214,67 @@ new Vue({
       var chunk_id = range.startContainer.parentElement.id;
 
       if (range.collapsed){
-        // Reset sel
-        this.sel_offset_start = -1;
-        this.sel_offset_end = -1;
-        this.sel_seq_id = -1;
+        this.selResetRange()
         return;
       }
 
-      if (chunk_id > 0){
-        offsetStartDoc = this.doc_render[seq_id].chunks[chunk_id-1].obj.offset_stop;
+      if (this.doc_render[seq_id].chunks[chunk_id].hasOwnProperty("obj")){
+        this.selResetRange();
+        return;
       }
-      offsetEndDoc = offsetStartDoc + range.endOffset;
-      offsetStartDoc = offsetStartDoc + range.startOffset;
+
+      if (range.startContainer != range.endContainer){
+        this.selResetRange();
+        return;
+      }
+        
+      if (chunk_id > 0){
+        offsetChunk = this.doc_render[seq_id].chunks[chunk_id-1].obj.offset_stop;
+      }
+      offsetChunkEnd = offsetChunk + this.doc_render[seq_id].chunks[chunk_id].text.length;
+      offsetEndDoc = offsetChunk + range.endOffset;
+      offsetStartDoc = offsetChunk + range.startOffset;
+
+      // Выравниваем по слово Начало
+      var text = this.doc_render[seq_id].obj.text
+      if (offsetStartDoc > 0){
+        if (text.substring(offsetStartDoc, offsetStartDoc + 1) == " "){
+          for (var i = offsetStartDoc + 1; i < offsetEndDoc; i++){
+            if (text.substring(i, i + 1) != " ")
+              break;
+          }
+          offsetStartDoc = i;
+        }else if (text.substring(offsetStartDoc - 1, offsetStartDoc) != " "){
+          for (var i = offsetStartDoc; i > offsetChunk; i--){
+            if (text.substring(i - 1, i) == " ")
+              break;
+          }
+          offsetStartDoc = i;
+        }
+      }
+      // Выравниваем по слово Конец
+      if (offsetEndDoc != offsetChunkEnd){
+        if (text.substring(offsetEndDoc - 1, offsetEndDoc) == " "){
+          for (var i = offsetEndDoc - 1; i > offsetStartDoc; i--){
+            if (text.substring(i, i - 1) != " ")
+              break;
+          }
+          offsetEndDoc = i;
+        }else if (text.substring(offsetEndDoc, offsetEndDoc + 1) != " "){
+          for (var i = offsetEndDoc; i < offsetChunkEnd; i++){
+            if (text.substring(i, i + 1) == " ")
+              break;
+          }
+          offsetEndDoc = i;
+        }
+      }
 
       this.sel_offset_start = offsetStartDoc;
       this.sel_offset_end = offsetEndDoc;
       this.sel_seq_id = seq_id;
 
       console.log(offsetStartDoc, offsetEndDoc);
-      console.log(range);
       console.log(this.doc_render[seq_id].obj.text.substring(offsetStartDoc, offsetEndDoc));
-      console.log(this.doc_render[seq_id].obj.text);
-      // range.startOffset
     },
     setupUrlDocByIndex: function(doc_index){
       var newurl = "".concat(
@@ -239,17 +286,4 @@ new Vue({
       window.history.pushState(null, null, newurl);
     }
   },
-  components: {
-    'tl-label': {
-      data: function () {
-        return {
-          clr_b: 0,
-          clr_t: "black",
-          text: "hh"
-        }
-      },
-      template: '<p class="tl_anno_row"></p>'
-      // "<span class='tag is-normal' :style=\"{'background-color': clr_b, color: clr_t}\">{{text}} - oo</span>"
-    }
-  }
 });
