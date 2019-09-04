@@ -7,7 +7,7 @@ new Vue({
       active_edit: null
   },
   computed: {
- 	  :project_id function(){
+ 	  project_id: function(){
       return window.location.href.split("/")[4];
     }
   },
