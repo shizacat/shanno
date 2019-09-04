@@ -1,15 +1,13 @@
 new Vue({
 	el: "#project-labels",
   delimiters: ["${", "}"],
-  data () {
-    return {
+  data: {
       new_label: null,
       labels: Array,
       active_edit: null
-    };
   },
   computed: {
- 	project_id: function(){
+ 	  :project_id function(){
       return window.location.href.split("/")[4];
     }
   },
@@ -26,7 +24,7 @@ new Vue({
   				console.log(error)
   			})
   	},
-  	 getNewColor() {
+  	getNewColor() {
       let gencolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
       let randomColor = "#" + ("000000" + gencolor).slice(-6);
       return randomColor;
