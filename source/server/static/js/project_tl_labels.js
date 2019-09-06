@@ -16,11 +16,12 @@ new Vue({
   },
   methods: {
   	getLabels() {
+      self = this;
   		axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
-  			.then((response) => {
-  				this.labels = response.data
+  			.then(function(response){
+  				self.labels = response.data
   			})
-  			.catch((error) => {
+  			.catch(function(error){
   				console.log(error)
   			})
   	},
@@ -52,10 +53,10 @@ new Vue({
     },
     postLabel() {
       axios.post("/api/tl_label/", this.new_label)
-        .then((response) => {
+        .then(function(response){
           console.log(response);
         })
-        .catch((error) => {
+        .catch(function(error){
           console.log(error);
         });
     },
@@ -67,23 +68,28 @@ new Vue({
       this.active_edit = label;
     },
     deleteLabel(label) {
+      self = this;
       axios.delete("/api/tl_label/" + label.id)
-      	.then(() => {
-        	let index = this.labels.indexOf(label);
-        	this.labels.splice(index, 1);
-      });
+      	.then(function(){
+        	let index = self.labels.indexOf(label);
+        	self.labels.splice(index, 1);
+        })
+        .catch(function(error){
+          console.log(error);
+        });
     },
     repealEdit(label) {
       this.active_edit = null;
       Object.assign(label, this.clone_label);
     },
     saveEditChanges(label) {
+      self = this;
     	this.active_edit = null;
       axios.patch("/api/tl_label/" + label.id + "/", label)
-        .then(() => {
-					this.labels;
+        .then(function(){
+					self.labels;
         })
-        .catch((error) => {
+        .catch(function(error){
           console.log(error);
         });
     }
