@@ -68,7 +68,7 @@ class DocumentSeqSerializer(serializers.ModelSerializer):
 class TLLabelsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TlLabels
-        exclude = ["project"]
+        exclude = []
         extra_kwargs = {
             "id": {'read_only': True},
             "created_at": {'read_only': True},
