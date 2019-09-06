@@ -4,16 +4,71 @@
 
 {% block project-content %}
 
-<div id="project-labels">
-	Метки
-
-<button class="button is-large">
-  Large button
-</button>
+<div class="container-fluid" id="project-labels">
+	<div class="d-inline-flex">
+		<button type="button" class="btn btn-primary" v-on:click="createLabel()">Новая метка</button>
+	</div>
+	<div class="d-flex flex-row pt-4" v-if="new_label">
+		  <b-card class="flex-fill" border-variant="dark">
+		  	<b-card-text>
+		  		<span class="tag has-addons is-medium" :style="{color: new_label.color_text, backgroundColor: new_label.color_background}">${ new_label.name }</span>
+		  	</b-card-text>
+		  	<div class="d-flex justify-content-start">
+		  		<b-form>
+		  			<label for="label_name">Название метки</label>
+		  			<b-input
+      				id="label_name"
+      				class="mb-2 mr-sm-2 mb-sm-0"
+      				placeholder="Введите название"
+      				v-model="new_label.name">	
+      			</b-input>
+		  		</b-form>
+		  		<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(new_label)">Случайный цвет</button>
+		  		<button type="button" class="btn btn-outline-success align-self-end ml-auto" @click="postLabel()">Добавить метку</button>
+					<button type="button" class="btn btn-outline-danger align-self-end ml-1" @click="cancelCreate()">Отменить</button>
+		  	</div>
+		  </b-card>
+	</div>
+	<div class="d-flex flex-row pt-4">
+		<b-card class="flex-fill" border-variant="success" header-bg-variant="transparent" :header="`${labels.length} метки в проекте`">
+			<b-list-group
+			v-for="label in labels"
+			:key="label.id">
+				<b-list-group-item class="border-0">
+					<div class="d-flex justify-content-start">
+						<span class="tag has-addons is-medium" :style="{color: label.color_text, backgroundColor: label.color_background}">${ label.name }</span>
+						<b-button variant="link" class="text-dark align-self-end ml-auto" @click="editLabel(label)">
+							<i class="fas fa-pen"></i>
+						Редактировать
+				  	</b-button>
+						<b-button variant="link" class="text-dark align-self-end ml-1" @click="deleteLabel(label)">
+							<i class="fas fa-trash-alt"></i>
+						Удалить
+				  	</b-button>
+					</div>
+				  <div v-show="label === active_edit">
+				  	<div class="d-flex flex-row justify-content-start pt-2">
+		  				<b-form >
+		  					<b-input
+      						id="label_name_edit"
+      						class="mb-2 mr-sm-2 mb-sm-0"
+      						placeholder="Введите название"
+      						v-model="label.name">	
+      					</b-input>
+		  				</b-form>
+		  				<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(label)">Случайный цвет</button>
+		  				<button type="button" class="btn btn-outline-danger align-self-end ml-auto" @click="repealEdit(label)">Отменить</button>
+		  				<button type="button" class="btn btn-outline-success align-self-end ml-1" @click="saveEditChanges(label)">Сохранить изменения</button>
+		  			</div>
+		  		</div>
+				</b-list-group-item>
+			</b-list-group>
+		</b-card>
+	</div>
 </div>
 
 {% endblock %}
 
 {% block js-script %}
-  <!-- <script src="{% static 'js/project_tl_labels.js' %}"></script> -->
+  <script src="{% static 'js/project_tl_labels.js' %}"></script>
 {% endblock %}
