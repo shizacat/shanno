@@ -6,5 +6,9 @@ Django application structure folder:
 - templates - базовые шаблоны проекта
 
 Набор используемых инструментов:
-- Для разработки: Gulp
-- Для продакшена: Django, Semantic UI
+- Для продакшена:
+  - Django
+  - Bootstrap-vue
+  - Vue
+  - Font Awesome
+  - Bulma (кусок)
