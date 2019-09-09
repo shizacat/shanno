@@ -5,7 +5,7 @@ from zipfile import ZipFile
 
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.db import transaction
 from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
@@ -114,6 +114,25 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['get'])
+    def ds_export(self, request, pk=None):
+        """
+        Query:
+            exformat - Формат экспортируемых файлов
+        """
+        exformat = request.query_params.get("exformat")
+        if exformat not in self.file_format_list:
+            return Response("The format of file not support", status=400)
+
+        response = HttpResponse(
+            self._export(exformat),
+            content_type='application/zip'
+        )
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(
+            "export.zip"
+        )
+        return response
 
     @action(detail=True, methods=['get'])
     def documents_list(self, request, pk=None):
@@ -233,6 +252,107 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 filename = os.path.split(item.filename)[1]
                 content = io.BytesIO(zip.read(item.filename))
                 im_file(content, filename)
+
+    def _export(self, export_format="conllup") -> bytes:
+        map_ext_format = {
+            "conllup": "conllup"
+        }
+        docs = models.Documents.objects.filter(
+            project=self.get_object()).order_by("file_name")
+        zip_file = io.BytesIO()
+        zip_obj = ZipFile(zip_file, mode="w")
+        for doc in docs:
+            if export_format == "conllup":
+                data = self._export_to_conllup(doc)
+            else:
+                raise ValueError("")
+            zip_obj.writestr(
+                "{}.{}".format(
+                    doc.file_name,
+                    map_ext_format.get(export_format)
+                ),
+                data
+            )
+
+        return zip_file.getvalue()
+
+    def _export_to_conllup(self, doc_obj) -> bytes:
+        """Получаем файл нужного формата"""
+        buf = io.StringIO()
+
+        # Header
+        buf.write("# global.columns = FORM NE\n")
+
+        for seq in self._export_one_doc(doc_obj):
+            buf.write("\n")
+            for word, label in seq:
+                if label is None:
+                    label = "_"
+                buf.write("{}\t{}\n".format(word, label))
+
+        buf.seek(0)
+        return buf.read().encode()
+
+    def _export_one_doc(self, doc_obj) -> list:
+        """Получает готовый документ в виде
+        массива массива кортежей (слово, тэг)
+        """
+        result = []
+        seqs = models.Sequence.objects.filter(
+            document=doc_obj).order_by("order")
+        for seq in seqs:
+            seq_res = self._eod_process_seq(
+                seq.text,
+                models.TlSeqLabel.objects.filter(
+                    sequence=seq).order_by("offset_start")
+            )
+            result.append(seq_res)
+
+        return result
+
+    def _eod_set_lb_index(self, labels, range_word):
+        for index, item in enumerate(labels):
+            if range_word[0] < item.offset_stop:
+                return index
+        return None
+
+    def _eod_ch_cross(self, rword: tuple, rbase: tuple) -> bool:
+        """Пересекает ли слово базовый диапазон"""
+        start = 0
+        end = 1
+        if rword[end] > rbase[start] and rword[end] < rbase[end]:
+            return True
+        if rword[start] >= rbase[start] and rword[end] < rbase[end]:
+            return True
+        if rword[start] >= rbase[start] and rword[start] < rbase[end]:
+            return True
+        return False
+
+    def _eod_process_seq(self, text, seq_labels) -> list:
+        """
+        Последний индекс не включается
+        """
+        result = []
+        lb_last_index = None  # Последний индекс обработанных меток
+        offsetStart = 0       # Смещение текущиего слова
+        for word in text.split(" "):
+            range_word = (offsetStart, offsetStart + len(word))
+            lb_last_index = self._eod_set_lb_index(seq_labels, range_word)
+            if lb_last_index is not None:
+                rbase = (
+                    seq_labels[lb_last_index].offset_start,
+                    seq_labels[lb_last_index].offset_stop
+                )
+                if self._eod_ch_cross(range_word, rbase):
+                    result.append((word, seq_labels[lb_last_index].label.name))
+                else:
+                    result.append((word, None))
+            else:
+                result.append((word, None))
+
+            offsetStart = range_word[1] + 1
+
+        return result
 
 
 class DocumentSeqViewSet(viewsets.ModelViewSet):

@@ -6,7 +6,7 @@ from annotation import models
 
 
 class test_tl_label(TestCase):
-    """end point: tl_label"""
+    """end point: /tl_label/"""
 
     def setUp(self):
         # Model
@@ -67,7 +67,57 @@ class test_tl_label(TestCase):
         self.assertTrue("color_text" in payload)
 
 
-        # print(r)
-        # print(r.status_code)
-        # print(r.content)
+class TestProject(TestCase):
+    """end point: /project/N/ds_export"""
+
+    def setUp(self):
+        # Models
+        self.project = models.Projects.objects.create(
+            name="lion", description="", type=models.PROJECT_TYPE[0]
+        )
+        self.document = models.Documents.objects.create(
+            project=self.project, file_name="0001"
+        )
+        self.seq1 = models.Sequence.objects.create(
+            document=self.document, text="Мама мыла раму где на балконе.",
+            order=1
+        )
+        self.seq2 = models.Sequence.objects.create(
+            document=self.document, text="Пожар в лесу горел все сильнее.",
+            order=1
+        )
+        self.label1 = models.TlLabels.objects.create(
+            project=self.project, name="BIG"
+        )
+        self.seq1_label = models.TlSeqLabel.objects.create(
+            sequence=self.seq1, label=self.label1,
+            offset_start=0, offset_stop=4
+        )
+        #
+        self.client = APIClient()
+
+    def test_export(self):
+
+        with self.subTest("error 1"):
+            r = self.client.get(
+                "/api/project/{}/ds_export/".format(self.project.id),
+                {
+                    "format": "json",
+                    "exformat": "test"
+                }
+            )
+            self.assertEqual(r.status_code, 400)
+
+        r = self.client.get(
+            "/api/project/{}/ds_export/".format(self.project.id),
+            {
+                "format": "json",
+                "exformat": "conllup"
+            }
+        )
+
+        print(r.request)
+        print(r)
+        print(r.status_code)
+        print(r.content)
         # print(r.json())
