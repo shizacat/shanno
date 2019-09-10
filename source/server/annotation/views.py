@@ -1,7 +1,7 @@
 import io
 import os
 from copy import deepcopy
-from zipfile import ZipFile
+from zipfile import ZipFile, ZIP_DEFLATED
 
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
@@ -260,7 +260,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         docs = models.Documents.objects.filter(
             project=self.get_object()).order_by("file_name")
         zip_file = io.BytesIO()
-        zip_obj = ZipFile(zip_file, mode="w")
+        zip_obj = ZipFile(zip_file, mode="w", compression=ZIP_DEFLATED)
         for doc in docs:
             if export_format == "conllup":
                 data = self._export_to_conllup(doc)
@@ -273,6 +273,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 ),
                 data
             )
+        zip_obj.close()
 
         return zip_file.getvalue()
 

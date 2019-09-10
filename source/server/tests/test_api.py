@@ -111,7 +111,7 @@ class TestProject(TestCase):
         r = self.client.get(
             "/api/project/{}/ds_export/".format(self.project.id),
             {
-                "format": "json",
+                # "format": "json",
                 "exformat": "conllup"
             }
         )
