@@ -1,7 +1,52 @@
 {% extends "project_page.html" %}
 
+{% load static %}
+
 {% block project-content %}
 
-<h1>Что то про экспорт</h1>
+<div class="card" id="project-export">
+  <div class="card-body">
+    <h5 class="card-title">Выберите тип файла для скачивания</h5>
+    <div class="tabset">
+    
+      <input type="radio" name="tabset" v-model="format" id="tab1" aria-controls="conllu" value="conllup">
+      <label for="tab1">conllu</label>
+      
+      <input type="radio" name="tabset" v-model="format" id="tab2" aria-controls="some" value="some">
+      <label for="tab2">Что-то ещё</label>
 
+      <div class="tab-panels">
+        <section id="conllu" class="tab-panel">
+          <h2>CoNLL-U Plus</h2>
+          <p>
+            Является расширением формата CoNLL-U. Может иметь любое количество столбцов.
+            <a href="https://universaldependencies.org/ext-format.html">Формат.</a>
+            Должен быть в кодировке UTF-8.
+          </p>
+        </section>
+        <section id="some" class="tab-panel">
+          <h2>Другой формат</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Harum nihil deleniti labore eos ratione, omnis nam fuga dignissimos
+            architecto eum temporibus voluptate molestiae iusto ipsam,
+            quisquam rem hic mollitia earum.
+          </p>
+        </section>
+      </div>
+    </div>
+    <form>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" @click="download({{project.id}})">
+          Скачать проект
+        </button>
+      </div>
+		</form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js-script %}
+  <script src="{% static 'js/project_export.js' %}"></script>
 {% endblock %}
