@@ -1,16 +1,18 @@
 {% extends "project_page.html" %}
 
+{% load static %}
+
 {% block project-content %}
 
-<div class="card">
+<div class="card" id="project-export">
   <div class="card-body">
     <h5 class="card-title">Выберите тип файла для скачивания</h5>
     <div class="tabset">
     
-      <input type="radio" name="tabset" id="tab1" aria-controls="conllu" value="conllup">
+      <input type="radio" name="tabset" v-model="format" id="tab1" aria-controls="conllu" value="conllup">
       <label for="tab1">conllu</label>
       
-      <input type="radio" name="tabset" id="tab2" aria-controls="some" value="some">
+      <input type="radio" name="tabset" v-model="format" id="tab2" aria-controls="some" value="some">
       <label for="tab2">Что-то ещё</label>
 
       <div class="tab-panels">
@@ -35,10 +37,16 @@
     </div>
     <form>
       <div class="form-group">
-        <button type="button" class="btn btn-primary">Скачать проект</button>
+        <button type="button" class="btn btn-primary" @click="download({{project.id}})">
+          Скачать проект
+        </button>
       </div>
 		</form>
   </div>
 </div>
 
+{% endblock %}
+
+{% block js-script %}
+  <script src="{% static 'js/project_export.js' %}"></script>
 {% endblock %}
