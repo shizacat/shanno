@@ -185,7 +185,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         doc = models.Documents.objects.create(
             project=self.get_object(),
-            file_name=file_name,
+            file_name=os.path.splitext(file_name)[0],
         )
 
         for index, sentence in enumerate(sentences):
