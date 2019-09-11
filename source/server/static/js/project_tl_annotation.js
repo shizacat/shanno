@@ -38,9 +38,26 @@ new Vue({
     })
     .catch(function(error){
       console.log(error);
-    })
+    });
+
+    // Keys
+    document.addEventListener('keyup', this.onKey);
   },
   methods: {
+    onKey: function(e){
+      switch(e.keyCode) {
+        case 37:
+          // Left
+          if (this.bt_prev_enable)
+            this.onPrev();
+          break;
+        case 39:
+          // Right
+          if (this.bt_next_enable)
+            this.onNext();
+          break;
+      }
+    },
     onNext: function () {
       this.docs_cindex++;
       this.getDocSequence(this.docs[this.docs_cindex].id);
