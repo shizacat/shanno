@@ -2,3 +2,7 @@ wheel
 Django>=2.2.3
 djangorestframework
 conllu>=1.3.2
+psycopg2
+environs
+dj-database-url
+gunicorn

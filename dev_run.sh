@@ -5,6 +5,8 @@
 VBASE=venv
 APPBASE=source/server
 
+export SH_DEBUG=True
+
 . ${VBASE}/bin/activate
 
 python3 ${APPBASE}/manage.py migrate
