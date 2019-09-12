@@ -138,7 +138,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def documents_list(self, request, pk=None):
         docs = models.Documents.objects.filter(
             project=self.get_object()
-        ).order_by("id")
+        ).order_by("file_name")
         docs_page = self.paginate_queryset(docs)
 
         if docs_page is not None:
@@ -152,7 +152,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def documents_list_simple(self, request, pk=None):
         docs = models.Documents.objects.filter(
             project=self.get_object()
-        ).order_by("id")
+        ).order_by("file_name")
 
         serializer = anno_serializer.DocumentsSerializerSimple(docs, many=True)
         return Response(serializer.data)
