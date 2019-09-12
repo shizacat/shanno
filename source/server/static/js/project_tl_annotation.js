@@ -5,6 +5,7 @@ new Vue({
     docs: [],             // Список объектов документ в проекте
     docs_cindex: 0,       // Индекс текущего документа
     doc_data: [],         // Массив seq документа
+    doc: {},              // Сам документ
     data_render: [],      // Массив обработанных seq
     doc_render: {},
     labels: [],           // Массив меток
@@ -97,6 +98,7 @@ new Vue({
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
         self.doc_data = response.data.sequences;
+        self.doc = response.data;
         self.render();
       })
       .catch(function(error) {

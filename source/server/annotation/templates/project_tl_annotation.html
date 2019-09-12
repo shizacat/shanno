@@ -6,51 +6,58 @@
 
 
 <h4 class="mb-4 mt-2">Аннотации</h4>
-<div id="project-annotaion" class="card w-75">
-	<div class="card-header">
-		<div
-			class="tags has-addons label_tag" 
-			v-for="label in labels">
-				<span
-					class="tag"
-					:style="{'background-color': label.color_background, color: label.color_text}"
-					@click="createLabel(label.id)">
-						${label.name}
+
+<div id="project-annotaion">
+	
+	<p>Имя файла: ${doc.file_name}</p>
+
+	<div class="card w-75">
+
+		<div class="card-header">
+			<div
+				class="tags has-addons label_tag" 
+				v-for="label in labels">
+					<span
+						class="tag"
+						:style="{'background-color': label.color_background, color: label.color_text}"
+						@click="createLabel(label.id)">
+							${label.name}
+					</span>
+			  	<span class="tag is-dark">_</span>
+			</div>
+		</div>
+
+		<div class="card-body">
+			
+			<!-- <p v-for="data in data_render" v-html="data" class="tl_anno_row"></p> -->
+			<!-- <tl-label v-for="seq in doc_data" class="tl_anno_row">${seq}</tl-label> -->
+
+			<div v-for="data in doc_render" class="tl_anno_row" @click="setSelectedRange(data.obj.id)">
+				<span v-for="(chunk, i_chunk) in data.chunks"
+					v-bind:class="{ tag: chunk.type == 'label', 'is-medium': chunk.type == 'label' }"
+					v-bind:style="[chunk.type == 'label' ? {
+							'background-color': labels_hash[chunk.obj.label].color_background,
+							'color': labels_hash[chunk.obj.label].color_text,
+							'text-indent': '0px'
+						} : {}]"
+						:id="i_chunk">${chunk.text}
+					<button 
+						v-if="chunk.type == 'label'"
+						@click="onDeleteLabel(chunk.obj.id, data.obj.id, i_chunk)"
+						type="button btn-sm"
+						class="delete is-small">
+					</button>
 				</span>
-		  	<span class="tag is-dark">_</span>
+			</div>
+
+			<div class="d-flex justify-content-between">
+				<b-button variant="primary" @click="onPrev()" :disabled="!bt_prev_enable">Предыдущий</b-button>
+				<b-button variant="primary" @click="onNext()" :disabled="!bt_next_enable">Следующий</b-button>
+			</div>
 		</div>
+
+		<!-- <button type="button" class="btn" @click="onNext()">Next</button> -->
 	</div>
-
-	<div class="card-body">
-		
-		<!-- <p v-for="data in data_render" v-html="data" class="tl_anno_row"></p> -->
-		<!-- <tl-label v-for="seq in doc_data" class="tl_anno_row">${seq}</tl-label> -->
-
-		<div v-for="data in doc_render" class="tl_anno_row" @click="setSelectedRange(data.obj.id)">
-			<span v-for="(chunk, i_chunk) in data.chunks"
-				v-bind:class="{ tag: chunk.type == 'label', 'is-medium': chunk.type == 'label' }"
-				v-bind:style="[chunk.type == 'label' ? {
-						'background-color': labels_hash[chunk.obj.label].color_background,
-						'color': labels_hash[chunk.obj.label].color_text,
-						'text-indent': '0px'
-					} : {}]"
-					:id="i_chunk">${chunk.text}
-				<button 
-					v-if="chunk.type == 'label'"
-					@click="onDeleteLabel(chunk.obj.id, data.obj.id, i_chunk)"
-					type="button btn-sm"
-					class="delete is-small">
-				</button>
-			</span>
-		</div>
-
-		<div class="d-flex justify-content-between">
-			<b-button variant="primary" @click="onPrev()" :disabled="!bt_prev_enable">Предыдущий</b-button>
-			<b-button variant="primary" @click="onNext()" :disabled="!bt_next_enable">Следующий</b-button>
-		</div>
-	</div>
-
-	<!-- <button type="button" class="btn" @click="onNext()">Next</button> -->
 </div>
 
 {% endblock %}
