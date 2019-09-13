@@ -7,6 +7,10 @@ body {
   height: 100%;
 }
 
+/**/
+.tooltip
+{ opacity: 0.8 !important; }
+
 /*
 Base Content
 */
