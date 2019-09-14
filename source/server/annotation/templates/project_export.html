@@ -37,9 +37,15 @@
     </div>
     <form>
       <div class="form-group">
-        <button type="button" class="btn btn-primary" @click="download({{project.id}})">
-          Скачать проект
+        <button 
+            type="button"
+            class="btn btn-primary"
+            @click="download({{project.id}})"
+            :disabled="is_process">
+          <span class="spinner-border spinner-border-sm" v-if="is_process"></span>
+          <span class="sr-only">Скачать проект</span>Скачать
         </button>
+
       </div>
 		</form>
   </div>
