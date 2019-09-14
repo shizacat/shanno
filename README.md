@@ -5,10 +5,11 @@ Django application structure folder:
 - server - настройки проекта
 - templates - базовые шаблоны проекта
 
-Набор используемых инструментов:
-- Для продакшена:
-  - Django
-  - Bootstrap-vue
-  - Vue
-  - Font Awesome
-  - Bulma (кусок)
+Набор используемых инструментов и библиотек:
+- Django
+- Bootstrap 4.3.1
+- Bootstrap-vue 2.0.1
+- Vue 2.6.10
+- axios 0.19.0
+- Font Awesome
+- Bulma (кусок)

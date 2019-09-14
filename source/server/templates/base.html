@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,31 +13,27 @@
   />
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-  {% load static %}
   <link
     type="text/css"
     rel="stylesheet"
-    href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+    href="{% static 'css/bootstrap.min.css' %}"
   />
   <link
     type="text/css"
     rel="stylesheet"
-    href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
+    href="{% static 'css/bootstrap-vue.min.css' %}"
   />
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-tag.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/awfont.min.css' %}">
 
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script> -->
-  <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
-  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  
-  <!-- {% if debug %}
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  {% if DEBUG %}
+    <script src="{% static 'js/vue.js' %}"></script>
   {% else %}
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
-  {% endif %} -->
+    <script src="{% static 'js/vue.min.js' %}"></script>
+  {% endif %}
+  <script src="{% static 'js/bootstrap-vue.min.js' %}"></script>
+  <script src="{% static 'js/axios.min.js' %}"></script>
 </head>
 <body id="root">
 
