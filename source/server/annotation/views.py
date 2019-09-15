@@ -21,6 +21,15 @@ from annotation.serializers import ProjectsSerializer, DocumentsSerializer
 import conllu
 
 
+def health(request):
+    response = HttpResponse(
+        "OK",
+        content_type="text/plain",
+        status=200
+    )
+    return response
+
+
 def project_action(request, project, action="page"):
     # dict: name_action -> name_suffix_template
     actions_list_map = {

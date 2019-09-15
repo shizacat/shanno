@@ -11,6 +11,7 @@ router.register(r'tl_label', views.TLLabelsViewSet)
 router.register(r'tl_seq_label', views.TLSeqLabelViewSet)
 
 urlpatterns = [
+    path('health', views.health),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path(
         'projects/',
