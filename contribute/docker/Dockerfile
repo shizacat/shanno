@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 MAINTAINER a.matveev
 
 ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
 
 COPY requirements.txt requirements.txt
 
@@ -16,6 +17,9 @@ RUN apt	update && \
 	apt remove -y python3-dev build-essential && \
 	apt -y autoremove && \
 	rm -rf /var/lib/apt/lists/*
+
+# Setup time zone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY ["./source/server/", "/opt/shanno/"]
 COPY ["./contribute/docker/run.sh", "/opt/shanno/"]

@@ -2,7 +2,7 @@
 
 ## Environments
 
-<!-- * TZ - setup timezone, default GMT -->
+* TZ - setup timezone, default Etc/UTC
 * SH_PORT - порт на котором будет работать
 * SH_WORKERS - количество воркеров gunicorn
 * SH_DEBUG - (True/False) режим запуска django
