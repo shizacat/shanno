@@ -11,6 +11,11 @@
 	
 	<p>Имя файла: ${doc.file_name}</p>
 
+	<b-form-checkbox v-model="is_approved" name="check-button" @input="onChangeApproved()" switch>
+		<span v-if="is_approved">Проверен</span>
+		<span v-if="!is_approved">Не проверен</span>
+	</b-form-checkbox>
+
 	<div class="card w-75">
 
 		<div class="card-header">

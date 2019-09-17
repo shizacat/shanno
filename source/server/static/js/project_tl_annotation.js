@@ -14,7 +14,8 @@ new Vue({
     sel_offset_end: -1,
     sel_seq_id: -1,
     bt_prev_enable: false,
-    bt_next_enable: false
+    bt_next_enable: false,
+    is_approved: false    // Зуб даю верный
   },
   computed: {
     doc_id: function(){
@@ -93,12 +94,30 @@ new Vue({
         console.log(error);
       });
     },
+    onChangeApproved: function(){
+      if (this.is_approved){
+        axios.post("/api/document/" + this.doc.id + "/approved/")
+        .then(function(response){
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      }else{
+        axios.post("/api/document/" + this.doc.id + "/unapproved/")
+        .then(function(response){
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      }
+    },
     getDocSequence: function(doc_id) {
       self = this;
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
         self.doc_data = response.data.sequences;
         self.doc = response.data;
+        self.is_approved = self.doc.approved;
         self.render();
       })
       .catch(function(error) {

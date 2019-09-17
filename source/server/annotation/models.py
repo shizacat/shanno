@@ -28,6 +28,8 @@ class Documents(models.Model):
     file_name = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # if True this document is complete
+    approved = models.BooleanField(default=False)
 
     # def __str__(self):
     #     return self.text[:50]

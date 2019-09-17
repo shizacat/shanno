@@ -372,6 +372,20 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
     def list(self, request):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=['post'])
+    def approved(self, request, pk=None):
+        doc = self.get_object()
+        doc.approved = True
+        doc.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['post'])
+    def unapproved(self, request, pk=None):
+        doc = self.get_object()
+        doc.approved = False
+        doc.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class TLLabelsViewSet(viewsets.ModelViewSet):
     queryset = models.TlLabels.objects.all()

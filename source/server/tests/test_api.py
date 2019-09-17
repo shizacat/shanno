@@ -116,8 +116,39 @@ class TestProject(TestCase):
             }
         )
 
-        print(r.request)
-        print(r)
-        print(r.status_code)
-        print(r.content)
+
+class TestDocuments(TestCase):
+
+    def setUp(self):
+        self.project = models.Projects.objects.create(
+            name="lion", description="", type=models.PROJECT_TYPE[0]
+        )
+        self.document = models.Documents.objects.create(
+            project=self.project, file_name="0001"
+        )
+
+    def test_approved(self):
+        r = self.client.post(
+            "/api/document/{}/approved/".format(self.document.id),
+        )
+        self.assertEqual(r.status_code, 204)
+        r = self.client.get(
+            "/api/document/{}/".format(self.document.id),
+        )
+        self.assertEqual(r.json()["approved"], True)
+
+        r = self.client.post(
+            "/api/document/{}/unapproved/".format(self.document.id),
+        )
+        self.assertEqual(r.status_code, 204)
+        r = self.client.get(
+            "/api/document/{}/".format(self.document.id),
+        )
+        self.assertEqual(r.json()["approved"], False)
+
+
+        # print(r.request)
+        # print(r)
+        # print(r.status_code)
+        # print(r.content)
         # print(r.json())
