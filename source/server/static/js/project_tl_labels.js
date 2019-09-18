@@ -1,4 +1,4 @@
-new Vue({
+  new Vue({
 	el: "#project-labels",
   delimiters: ["${", "}"],
   data: {
@@ -19,10 +19,11 @@ new Vue({
       self = this;
   		axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
   			.then(function(response){
-  				self.labels = response.data
+  				self.labels = response.data;
+          self.labels.reverse();
   			})
   			.catch(function(error){
-  				console.log(error)
+  				console.log(error);
   			})
   	},
   	getNewColor() {
@@ -52,8 +53,11 @@ new Vue({
       this.getColor(this.new_label);
     },
     postLabel() {
+      self = this;
       axios.post("/api/tl_label/", this.new_label)
         .then(function(response){
+          self.cancelCreate();
+          self.labels.unshift(response.data);
           console.log(response);
         })
         .catch(function(error){
