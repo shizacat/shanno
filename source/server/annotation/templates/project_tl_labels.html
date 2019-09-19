@@ -17,11 +17,11 @@
 		  		<b-form>
 		  			<label for="label_name">Название метки</label>
 		  			<b-input
-      				id="label_name"
-      				class="mb-2 mr-sm-2 mb-sm-0"
-      				placeholder="Введите название"
-      				v-model="new_label.name">	
-      			</b-input>
+	      				id="label_name"
+	      				class="mb-2 mr-sm-2 mb-sm-0"
+	      				placeholder="Название метки"
+	      				v-model="new_label.name">
+      				</b-input>
 		  		</b-form>
 		  		<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(new_label)">Случайный цвет</button>
 		  		<button type="button" class="btn btn-outline-success align-self-end ml-auto" @click="postLabel()">Добавить метку</button>

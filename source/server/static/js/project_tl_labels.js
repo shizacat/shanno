@@ -1,5 +1,5 @@
 new Vue({
-	el: "#project-labels",
+  el: "#project-labels",
   delimiters: ["${", "}"],
   data: {
       new_label: null,
@@ -7,7 +7,7 @@ new Vue({
       active_edit: null
   },
   computed: {
- 	  project_id: function(){
+     project_id: function(){
       return window.location.href.split("/")[4];
     }
   },
@@ -15,17 +15,18 @@ new Vue({
     this.getLabels();
   },
   methods: {
-  	getLabels() {
+    getLabels() {
       self = this;
-  		axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
-  			.then(function(response){
-  				self.labels = response.data
-  			})
-  			.catch(function(error){
-  				console.log(error)
-  			})
-  	},
-  	getNewColor() {
+      axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
+        .then(function(response){
+          self.labels = response.data;
+          self.labels.reverse();
+        })
+        .catch(function(error){
+          console.log(error);
+        })
+    },
+    getNewColor() {
       let gencolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
       let randomColor = "#" + ("000000" + gencolor).slice(-6);
       return randomColor;
@@ -42,9 +43,9 @@ new Vue({
       label.color_background = bg_color;
       label.color_text = text_color;
     },
-  	createLabel() {
+    createLabel() {
       this.new_label = {
-        name: "Новая метка",
+        name: "",
         color_background: "",
         color_text: "",
         project: parseInt(this.project_id),
@@ -54,8 +55,11 @@ new Vue({
       this.getColor(this.new_label);
     },
     postLabel() {
+      self = this;
       axios.post("/api/tl_label/", this.new_label)
         .then(function(response){
+          self.cancelCreate();
+          self.labels.unshift(response.data);
         })
         .catch(function(error){
           console.log(error);
@@ -71,9 +75,9 @@ new Vue({
     deleteLabel(label) {
       self = this;
       axios.delete("/api/tl_label/" + label.id)
-      	.then(function(){
-        	let index = self.labels.indexOf(label);
-        	self.labels.splice(index, 1);
+        .then(function(){
+          let index = self.labels.indexOf(label);
+          self.labels.splice(index, 1);
         })
         .catch(function(error){
           console.log(error);
@@ -85,10 +89,10 @@ new Vue({
     },
     saveEditChanges(label) {
       self = this;
-    	this.active_edit = null;
+      this.active_edit = null;
       axios.patch("/api/tl_label/" + label.id + "/", label)
         .then(function(){
-					self.labels;
+          self.labels;
         })
         .catch(function(error){
           console.log(error);
@@ -96,4 +100,3 @@ new Vue({
     }
   }
 })
-
