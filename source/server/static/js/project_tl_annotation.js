@@ -58,6 +58,17 @@ new Vue({
           if (this.bt_next_enable)
             this.onNext();
           break;
+        default:
+          let prefix_key = this.toStringPreffixKey(e);
+          let key = String.fromCharCode(e.keyCode).toLowerCase();
+          // ---
+          for (i in this.labels){
+            let label = this.labels[i];
+            if (label.prefix_key == prefix_key)
+              if (label.suffix_key == key) {
+                this.createLabel(label.id);
+              }
+          }
       }
     },
     onNext: function () {
@@ -324,6 +335,15 @@ new Vue({
         "?doc=", this.docs[doc_index].id
       );
       window.history.pushState(null, null, newurl);
+    },
+    toStringPreffixKey: function(e){
+      if (e.ctrlKey & !e.shiftKey)
+        return "ctrl";
+      else if (!e.ctrlKey & e.shiftKey)
+        return "shift";
+      else if (e.ctrlKey & e.shiftKey)
+        return "ctrl+shift";
+      return "";
     }
   },
 });
