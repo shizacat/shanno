@@ -26,10 +26,42 @@ class test_tl_label(TestCase):
                 "name": "test",
                 "project": self.project.id,
                 "color_background": "#209cee",
-                "color_text": "#ffffff"
+                "color_text": "#ffffff",
+                "prefix_key": "",
+                "suffix_key": "",
             }
         )
         self.assertEqual(r.status_code, 201)
+
+    def test_create_post_add_shotcut(self):
+        r = self.client.post(
+            "/api/tl_label/",
+            {
+                "name": "test",
+                "project": self.project.id,
+                "color_background": "#209cee",
+                "color_text": "#ffffff",
+                "prefix_key": "",
+                "suffix_key": "",
+            }
+        )
+        self.assertEqual(len(r.json()["suffix_key"]), 1)
+        self.assertEqual(r.json()["prefix_key"], "")
+        self.assertEqual(r.status_code, 201)
+
+        # double
+
+        r = self.client.post(
+            "/api/tl_label/",
+            {
+                "name": "test1",
+                "project": self.project.id,
+                "color_background": "#209cee",
+                "color_text": "#ffffff",
+                "prefix_key": "",
+                "suffix_key": "",
+            }
+        )
 
     def test_create_post_error(self):
         with self.subTest("1"):
@@ -65,6 +97,8 @@ class test_tl_label(TestCase):
         self.assertEqual(payload["name"], self.tl_label.name)
         self.assertTrue("color_background" in payload)
         self.assertTrue("color_text" in payload)
+
+        # print(payload)
 
 
 class TestProject(TestCase):

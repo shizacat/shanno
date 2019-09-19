@@ -388,6 +388,9 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
 
 
 class TLLabelsViewSet(viewsets.ModelViewSet):
+    """
+    suffix_key - если не указано будет попытка найти свободную букву
+    """
     queryset = models.TlLabels.objects.all()
     serializer_class = anno_serializer.TLLabelsSerializer
 

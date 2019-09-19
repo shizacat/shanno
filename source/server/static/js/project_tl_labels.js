@@ -47,14 +47,15 @@ new Vue({
         name: "Новая метка",
         color_background: "",
         color_text: "",
-        project: parseInt(this.project_id)
+        project: parseInt(this.project_id),
+        suffix_key: "",
+        prefix_key: ""
       };
       this.getColor(this.new_label);
     },
     postLabel() {
       axios.post("/api/tl_label/", this.new_label)
         .then(function(response){
-          console.log(response);
         })
         .catch(function(error){
           console.log(error);

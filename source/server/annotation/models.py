@@ -1,3 +1,4 @@
+import string
 from enum import Enum
 
 from django.db import models
@@ -48,6 +49,14 @@ class Sequence(models.Model):
 # text_label
 class TlLabels(models.Model):
     """Содержит список меток"""
+    PREFIX_KEYS = (
+        ('ctrl', 'ctrl'),
+        ('shift', 'shift'),
+    )
+    SUFFIX_KEYS = tuple(
+        (c, c) for c in string.ascii_lowercase
+    )
+
     project = models.ForeignKey(
         Projects, related_name='labels', on_delete=models.CASCADE
     )
@@ -57,13 +66,31 @@ class TlLabels(models.Model):
     color_text = models.CharField(max_length=7, default='#ffffff')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    prefix_key = models.CharField(
+        max_length=10, blank=True, choices=PREFIX_KEYS
+    )
+    suffix_key = models.CharField(
+        max_length=1, blank=True, choices=SUFFIX_KEYS
+    )
 
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.suffix_key:
+            pk = set(TlLabels.objects.filter(
+                project=self.project).values_list("suffix_key", flat=True))
+            keys = set(string.ascii_lowercase).difference(pk)
+            if len(keys) > 0:
+                self.suffix_key = keys.pop()
+        # if not self.prefix_key:
+        #     self.prefix_key = "ctrl"
+        super().save(*args, **kwargs)
+
     class Meta:
         unique_together = (
             ('project', 'name'),
+            ('project', 'prefix_key', 'suffix_key'),
         )
 
 
