@@ -45,7 +45,7 @@ new Vue({
     },
     createLabel() {
       this.new_label = {
-        name: "Новая метка",
+        name: "",
         color_background: "",
         color_text: "",
         project: parseInt(this.project_id)
