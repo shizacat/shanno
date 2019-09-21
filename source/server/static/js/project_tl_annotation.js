@@ -242,6 +242,7 @@ new Vue({
         self.doc_render[self.sel_seq_id].chunks = self.renderCreateChunks(
           self.doc_render[self.sel_seq_id].obj
         );
+        self.selResetRange();
       })
       .catch(function(error) {
         console.log(error);
