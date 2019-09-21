@@ -99,7 +99,6 @@ new Vue({
 
       axios.delete("/api/tl_seq_label/" + label_seq_id + "/")
       .then(function(response){
-        console.log("Complite");
       })
       .catch(function(error) {
         console.log(error);
@@ -254,13 +253,15 @@ new Vue({
       this.sel_offset_end = -1;
       this.sel_seq_id = -1;
     },
-    setSelectedRange: function(seq_id){
-      console.log("Seq id:", seq_id);
-    
+    setSelectedRange: function(seq_id){    
       var offsetChunk = 0;
       var offsetChunkEnd = 0;
       var offsetStartDoc = 0;
       var offsetEndDoc = 0;
+
+      // Senstive onDelete
+      if (window.getSelection().rangeCount == 0)
+        return;
 
       var range = window.getSelection().getRangeAt(0);
       var chunk_id = range.startContainer.parentElement.id;
@@ -324,9 +325,6 @@ new Vue({
       this.sel_offset_start = offsetStartDoc;
       this.sel_offset_end = offsetEndDoc;
       this.sel_seq_id = seq_id;
-
-      console.log(offsetStartDoc, offsetEndDoc);
-      console.log(this.doc_render[seq_id].obj.text.substring(offsetStartDoc, offsetEndDoc));
     },
     setupUrlDocByIndex: function(doc_index){
       var newurl = "".concat(
