@@ -3,10 +3,10 @@ new Vue({
   delimiters: ['${', '}'],
   data: {
     total_docs: 20,
-    processed_docs: 8,
     current_page: 1,
     docs: [],
     docs_by_page: 10,  // Документов на странице
+    docs_approved: 0,  // Документов проверено
   },
   computed: {
     project_id: function(){
@@ -15,6 +15,7 @@ new Vue({
   },
   created() {
     this.getAllDocumentPage(1);
+    this.getAllDocumentApproved();
   },
   methods: {
     getAllDocumentPage: function(page){
@@ -25,6 +26,17 @@ new Vue({
         self.total_docs = response.data.count;
         self.docs = response.data.results;
         self.current_page = page;
+      })
+      .catch(function(error) {
+        console.log(error)
+      });
+    },
+    getAllDocumentApproved: function(){
+      self = this;
+
+      axios.get("/api/project/" + this.project_id + "/documents_all_is_approved/")
+      .then(function(response) {
+        self.docs_approved = response.data.count;
       })
       .catch(function(error) {
         console.log(error)

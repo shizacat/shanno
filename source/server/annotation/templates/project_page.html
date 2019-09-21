@@ -40,8 +40,8 @@
 
         <p class="h5">Количество обработанных документов</p>
         <b-progress class="w-75" :max="total_docs" height="2rem">
-          <b-progress-bar :value="processed_docs">
-            Обработано: <strong>${ processed_docs } / ${ total_docs }</strong>
+          <b-progress-bar :value="docs_approved">
+            Обработано: <strong>${ docs_approved } / ${ total_docs }</strong>
           </b-progress-bar>
         </b-progress>
 
