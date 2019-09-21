@@ -1,5 +1,6 @@
 import io
 import os
+import json
 from copy import deepcopy
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -165,6 +166,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         serializer = anno_serializer.DocumentsSerializerSimple(docs, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def documents_all_is_approved(self, request, pk=None):
+        """Всего проверено"""
+        docs_approved = models.Documents.objects.filter(
+            project=self.get_object(), approved=True
+        ).count()
+        return Response({"count": docs_approved}, status=200)
 
     @action(detail=True, methods=['get'])
     def tl_labels_list(self, request, pk=None):

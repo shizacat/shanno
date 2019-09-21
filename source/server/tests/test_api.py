@@ -112,6 +112,9 @@ class TestProject(TestCase):
         self.document = models.Documents.objects.create(
             project=self.project, file_name="0001"
         )
+        self.document = models.Documents.objects.create(
+            project=self.project, file_name="0002", approved=True
+        )
         self.seq1 = models.Sequence.objects.create(
             document=self.document, text="Мама мыла раму где на балконе.",
             order=1
@@ -149,6 +152,15 @@ class TestProject(TestCase):
                 "exformat": "conllup"
             }
         )
+
+    def test_documents_all_is_approved(self):
+        r = self.client.get(
+            "/api/project/{}/documents_all_is_approved/".format(
+                self.project.id
+            )
+        )
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.json()["count"], 1)
 
 
 class TestDocuments(TestCase):
