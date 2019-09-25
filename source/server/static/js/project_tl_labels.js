@@ -2,12 +2,15 @@ new Vue({
   el: "#project-labels",
   delimiters: ["${", "}"],
   data: {
-      new_label: null,
-      labels: Array,
-      active_edit: null
+    new_label: null,
+    labels: Array,
+    active_edit: null,
+    st_show: false,
+    st_variant: "danger",
+    st_value: "",
   },
   computed: {
-     project_id: function(){
+    project_id: function(){
       return window.location.href.split("/")[4];
     }
   },
@@ -22,9 +25,7 @@ new Vue({
           self.labels = response.data;
           self.labels.reverse();
         })
-        .catch(function(error){
-          console.log(error);
-        })
+        .catch(this.addErrorApi)
     },
     getNewColor() {
       let gencolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
@@ -57,13 +58,11 @@ new Vue({
     postLabel() {
       self = this;
       axios.post("/api/tl_label/", this.new_label)
-        .then(function(response){
-          self.cancelCreate();
-          self.labels.unshift(response.data);
-        })
-        .catch(function(error){
-          console.log(error);
-        });
+      .then(function(response){
+        self.cancelCreate();
+        self.labels.unshift(response.data);
+      })
+      .catch(this.addErrorApi);
     },
     cancelCreate() {
       this.new_label = null;
@@ -75,13 +74,11 @@ new Vue({
     deleteLabel(label) {
       self = this;
       axios.delete("/api/tl_label/" + label.id)
-        .then(function(){
-          let index = self.labels.indexOf(label);
-          self.labels.splice(index, 1);
-        })
-        .catch(function(error){
-          console.log(error);
-        });
+      .then(function(){
+        let index = self.labels.indexOf(label);
+        self.labels.splice(index, 1);
+      })
+      .catch(this.addErrorApi);
     },
     repealEdit(label) {
       this.active_edit = null;
@@ -91,12 +88,25 @@ new Vue({
       self = this;
       this.active_edit = null;
       axios.patch("/api/tl_label/" + label.id + "/", label)
-        .then(function(){
-          self.labels;
-        })
-        .catch(function(error){
-          console.log(error);
-        });
+      .then(function(){
+        self.labels;
+      })
+      .catch(this.addErrorApi);
+    },
+    addError: function(msg){
+      this.st_variant = "danger";
+      this.st_value = msg;
+      this.st_show = true;
+    },
+    addErrorApi: function(error) {
+      let msg = "";
+      if (typeof error.response !== 'undefined'){
+        msg = "Ошибка: [" + error.response.status + "] ";
+        msg += JSON.stringify(error.response.data);
+      } else {
+        msg = "Ошибка: " + error.toString();
+      }
+      this.addError(msg);
     }
   }
 })
