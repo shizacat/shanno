@@ -15,7 +15,10 @@ new Vue({
     sel_seq_id: -1,
     bt_prev_enable: false,
     bt_next_enable: false,
-    is_approved: false    // Зуб даю верный
+    is_approved: false,    // Зуб даю верный
+    st_show: false,
+    st_variant: "danger",
+    st_value: "",
   },
   computed: {
     doc_id: function(){
@@ -38,9 +41,7 @@ new Vue({
       self.labels = response.data;
       self.getDocSequence(self.doc_id);
     })
-    .catch(function(error){
-      console.log(error);
-    });
+    .catch(this.addErrorApi);
 
     // Keys
     document.addEventListener('keyup', this.onKey);
@@ -100,9 +101,7 @@ new Vue({
       axios.delete("/api/tl_seq_label/" + label_seq_id + "/")
       .then(function(response){
       })
-      .catch(function(error) {
-        console.log(error);
-      });
+      .catch(this.addErrorApi);
     },
     onChangeApproved: function(){
       if (this.is_approved){
@@ -116,9 +115,7 @@ new Vue({
         axios.post("/api/document/" + this.doc.id + "/unapproved/")
         .then(function(response){
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(this.addErrorApi);
       }
     },
     getDocSequence: function(doc_id) {
@@ -130,9 +127,7 @@ new Vue({
         self.is_approved = self.doc.approved;
         self.render();
       })
-      .catch(function(error) {
-        console.log(error);
-      });
+      .catch(this.addErrorApi);
     },
     getDocsListbyProject: function(){
       self = this;
@@ -150,9 +145,7 @@ new Vue({
         // Setup Button
         self.setupButton()
       })
-      .catch(function(error) {
-        console.log(error)
-      });
+      .catch(this.addErrorApi);
     },
     setupButton: function(){
       this.bt_prev_enable = (this.docs_cindex != 0);
@@ -243,9 +236,7 @@ new Vue({
         );
         self.selResetRange();
       })
-      .catch(function(error) {
-        console.log(error);
-      });
+      .catch(this.addErrorApi);
     },
     selResetRange: function(){
       // Reset selection
@@ -343,6 +334,21 @@ new Vue({
       else if (e.ctrlKey & e.shiftKey)
         return "ctrl+shift";
       return "";
+    },
+    addError: function(msg){
+      this.st_variant = "danger";
+      this.st_value = msg;
+      this.st_show = true;
+    },
+    addErrorApi: function(error) {
+      let msg = "";
+      if (typeof error.response !== 'undefined'){
+        msg = "Ошибка: [" + error.response.status + "] ";
+        msg += JSON.stringify(error.response.data);
+      } else {
+        msg = "Ошибка: " + error.toString();
+      }
+      this.addError(msg);
     }
   },
 });
