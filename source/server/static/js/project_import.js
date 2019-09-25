@@ -1,5 +1,6 @@
 new Vue({
   el: "#project-import",
+  delimiters: ['${', '}'],
   data: {
     files: null,
     format: 'conllup',
@@ -22,16 +23,24 @@ new Vue({
           }
         }
       ).then(function(response) {
-        self.st_variant = "success";
-        self.st_value = "Файл успешно обработан";
-        self.st_show = true;
+        self.addError(
+          "Файл успешно обработан",
+          "success"
+        )
         self.files = null;
       })
       .catch(function(error) {
-        self.st_variant = "danger";
-        self.st_value = "Получена ошибка: " + error.response.data;
-        self.st_show = true;
+        self.addError(
+          "Получена ошибка: " + error.response.data,
+          "danger"
+        );
+        self.files = null;
       })
+    },
+    addError: function(msg, variant){
+      this.st_variant = variant;
+      this.st_value = msg;
+      this.st_show = true;
     },
   }
 });
