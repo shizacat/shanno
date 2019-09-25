@@ -34,7 +34,13 @@
 
   <div id="project-content">
     {% block project-content %}
+
       <div class="container-fluid" id="project-page">
+
+        <div>
+          <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
+        </div>
+
         <p class="lead">
           <b-badge pill variant="info">{{ project.type }}</b-badge></br>
           Описание: {{ project.description }} 

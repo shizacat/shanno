@@ -7,6 +7,9 @@ new Vue({
     docs: [],
     docs_by_page: 10,  // Документов на странице
     docs_approved: 0,  // Документов проверено
+    st_show: false,
+    st_variant: "danger",
+    st_value: "",
   },
   computed: {
     project_id: function(){
@@ -27,9 +30,7 @@ new Vue({
         self.docs = response.data.results;
         self.current_page = page;
       })
-      .catch(function(error) {
-        console.log(error)
-      });
+      .catch(this.addErrorApi);
     },
     getAllDocumentApproved: function(){
       self = this;
@@ -38,23 +39,34 @@ new Vue({
       .then(function(response) {
         self.docs_approved = response.data.count;
       })
-      .catch(function(error) {
-        console.log(error)
-      });
+      .catch(this.addErrorApi);
     },
     deleteDoc: function(doc_id) {
       self = this;
 
       axios.delete("/api/document/" + doc_id + "/")
-        .then(function(response){
-          self.getAllDocumentPage(self.current_page)
-        })
-        .catch(function(error) {
-          console.log(error)
-        });
+      .then(function(response){
+        self.getAllDocumentPage(self.current_page)
+      })
+      .catch(this.addErrorApi);
     },
     gotoUrl: function(url) {
       window.location.href = url;
+    },
+    addError: function(msg){
+      this.st_variant = "danger";
+      this.st_value = msg;
+      this.st_show = true;
+    },
+    addErrorApi: function(error) {
+      let msg = "";
+      if (typeof error.response !== 'undefined'){
+        msg = "Ошибка: [" + error.response.status + "] ";
+        msg += JSON.stringify(error.response.data);
+      } else {
+        msg = "Ошибка: " + error.toString();
+      }
+      this.addError(msg);
     }
   },
   filters: { 

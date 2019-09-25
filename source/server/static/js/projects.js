@@ -23,11 +23,7 @@ window.addEventListener("load", function(event) {
           .then(function (response) {
             self.projects = response.data;
           })
-          .catch(function (error) {
-            let msg = "Ошибка: [" + error.response.status + "] ";
-            msg += JSON.stringify(error.response.data);
-            self.addError(msg);
-          });
+          .catch(this.addErrorApi);
       },
       onSubmit: function(){
         self = this;
@@ -49,16 +45,22 @@ window.addEventListener("load", function(event) {
             self.description = "";
             self.type = "";
           })
-          .catch(function (error) {
-            let msg = "Ошибка: [" + error.response.status + "] ";
-            msg += JSON.stringify(error.response.data);
-            self.addError(msg);
-          });
+          .catch(this.addErrorApi);
       },
       addError: function(msg){
         this.st_variant = "danger";
         this.st_value = msg;
         this.st_show = true;
+      },
+      addErrorApi: function(error) {
+        let msg = "";
+        if (typeof error.response !== 'undefined'){
+          msg = "Ошибка: [" + error.response.status + "] ";
+          msg += JSON.stringify(error.response.data);
+        } else {
+          msg = "Ошибка: " + error.toString();
+        }
+        this.addError(msg);
       }
     }
   });
