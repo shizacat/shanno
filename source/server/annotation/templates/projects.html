@@ -5,11 +5,14 @@
 {% block title %}<title> Shanno - Projects </title>{% endblock %}
 
 {% block content %}
-{% verbatim %}
 
 <div id="app-projects" class="container">
 
   <b-list-group>
+
+    <div>
+      <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
+    </div>
     
     <b-list-group-item 
       class="flex-column align-items-start"
@@ -18,11 +21,11 @@
       v-for="project in projects">
 
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{project.name}} [{{project.type}}]</h5>
+        <h5 class="mb-1">${project.name} [${project.type}]</h5>
       </div>
 
       <p class="mb-1">
-        {{project.description}}
+        ${project.description}
       </p>
     </b-list-group-item>
 
@@ -58,7 +61,6 @@
 
 </div>
 
-{% endverbatim %}
 {% endblock %}
 
 {% block js-script %}
