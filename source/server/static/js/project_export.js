@@ -1,8 +1,12 @@
 new Vue({
   el: "#project-export",
+  delimiters: ['${', '}'],
   data: {
     format: 'conllup',
     is_process: false,
+    st_variant: 'info', //success, danger
+    st_value: '---',
+    st_show: false,
   },
   methods: {
     download: function(project_id){
@@ -27,8 +31,16 @@ new Vue({
       })
       .catch(function(error){
         self.is_process = false;
-        console.log("Error", error);
+        self.addError(
+          "Ошибка: " + error,
+          "danger"
+        );
       });
-    }
+    },
+    addError: function(msg, variant){
+      this.st_variant = variant;
+      this.st_value = msg;
+      this.st_show = true;
+    },
   }
 });

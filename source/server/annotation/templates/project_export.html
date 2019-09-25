@@ -7,6 +7,11 @@
 {% block project-content %}
 
 <div class="card" id="project-export">
+
+  <div>
+    <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
+  </div>
+  
   <div class="card-body">
     <h5 class="card-title">Выберите тип файла для скачивания</h5>
     <div class="tabset">
