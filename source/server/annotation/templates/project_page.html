@@ -47,9 +47,9 @@
         </p>
 
         <p class="h5">Количество обработанных документов</p>
-        <b-progress class="w-75" :max="total_docs" height="2rem">
+        <b-progress class="w-75" :max="docs_total" height="2rem">
           <b-progress-bar :value="docs_approved">
-            Обработано: <strong>${ docs_approved } / ${ total_docs }</strong>
+            Обработано: <strong>${ docs_approved } / ${ docs_total }</strong>
           </b-progress-bar>
         </b-progress>
 
@@ -82,7 +82,7 @@
           </b-list-group>
           <b-pagination
             v-model="current_page"
-            :total-rows="total_docs"
+            :total-rows="docs_total"
             :per-page="docs_by_page"
             aria-controls="docs-table"
             @input="getAllDocumentPage(current_page)">

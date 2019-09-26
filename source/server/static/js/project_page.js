@@ -1,8 +1,14 @@
+var router = new VueRouter({
+    mode: 'history',
+    routes: []
+});
+
 new Vue({
+  router,
   el: "#project-page",
   delimiters: ['${', '}'],
   data: {
-    total_docs: 20,
+    docs_total: 0,
     current_page: 1,
     docs: [],
     docs_by_page: 10,  // Документов на странице
@@ -16,19 +22,39 @@ new Vue({
       return window.location.href.split("/")[4];
     }
   },
-  created() {
-    this.getAllDocumentPage(1);
+  async created() {
+    let page = 1;
+    if ("page" in this.$route.query){
+      page = parseInt(this.$route.query.page);
+    };
+
     this.getAllDocumentApproved();
+    await this.getCountDocuments();
+    this.current_page = page;
   },
   methods: {
+    getCountDocuments: function(){
+      self = this;
+
+      return axios.get("/api/project/" + this.project_id + "/documents_list/?page=1")
+        .then(function(response) {
+          self.docs_total = response.data.count;
+          self.docs = response.data.results;
+        })
+        .catch(this.addErrorApi);
+    },
     getAllDocumentPage: function(page){
       self = this;
 
       axios.get("/api/project/" + this.project_id + "/documents_list/?page=" + page)
       .then(function(response) {
-        self.total_docs = response.data.count;
         self.docs = response.data.results;
-        self.current_page = page;
+        // Set Page
+        if (page != self.$route.query.page){
+          q = Object.assign({}, self.$route.query);
+          q.page = page;
+          self.$router.push({query: q});
+        }
       })
       .catch(this.addErrorApi);
     },
