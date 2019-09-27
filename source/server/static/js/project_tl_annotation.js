@@ -1,4 +1,10 @@
+var router = new VueRouter({
+    mode: 'history',
+    routes: []
+});
+
 new Vue({
+  router,
   el: "#project-annotaion",
   delimiters: ['${', '}'],
   data: {
@@ -16,13 +22,14 @@ new Vue({
     bt_prev_enable: false,
     bt_next_enable: false,
     is_approved: false,    // Зуб даю верный
+    filter: {},
     st_show: false,
     st_variant: "danger",
     st_value: "",
   },
   computed: {
     doc_id: function(){
-      return window.location.href.split("?doc=")[1];
+      return this.$route.query.doc;
     },
     project_id: function(){
       return window.location.href.split("/")[4];
@@ -30,6 +37,11 @@ new Vue({
   },
   created() {
     self = this;
+
+    if ("approved" in this.$route.query){
+      this.filter.approved = parseInt(this.$route.query.approved);
+    }
+
     this.getDocsListbyProject()
 
     // GetLabels
@@ -131,7 +143,10 @@ new Vue({
     },
     getDocsListbyProject: function(){
       self = this;
-      axios.get("/api/project/" + this.project_id + "/documents_list_simple/")
+      axios.get(
+        "/api/project/" + this.project_id + "/documents_list_simple/",
+        {params: this.filter}
+      )
       .then(function(response){
         self.docs = response.data
 
@@ -318,13 +333,9 @@ new Vue({
       this.sel_seq_id = seq_id;
     },
     setupUrlDocByIndex: function(doc_index){
-      var newurl = "".concat(
-        window.location.protocol, "//",
-        window.location.host, 
-        window.location.pathname,
-        "?doc=", this.docs[doc_index].id
-      );
-      window.history.pushState(null, null, newurl);
+      q = Object.assign({}, self.$route.query);
+      q.doc = this.docs[doc_index].id;
+      self.$router.push({query: q});
     },
     toStringPreffixKey: function(e){
       if (e.ctrlKey & !e.shiftKey)

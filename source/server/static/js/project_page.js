@@ -12,7 +12,10 @@ new Vue({
     current_page: 1,
     docs: [],
     docs_by_page: 10,  // Документов на странице
-    docs_approved: 0,  // Документов проверено
+    stat_docs_approved: 0,  // Документов проверено
+    stat_docs_total: 0,     // Всего документов в наборе данных
+    filter_approved: null,
+    filter: {},
     st_show: false,
     st_variant: "danger",
     st_value: "",
@@ -27,6 +30,10 @@ new Vue({
     if ("page" in this.$route.query){
       page = parseInt(this.$route.query.page);
     };
+    if ("approved" in this.$route.query){
+      this.filter.approved = parseInt(this.$route.query.approved);
+      this.filter_approved = this.filter.approved;
+    }
 
     this.getAllDocumentApproved();
     await this.getCountDocuments();
@@ -36,7 +43,10 @@ new Vue({
     getCountDocuments: function(){
       self = this;
 
-      return axios.get("/api/project/" + this.project_id + "/documents_list/?page=1")
+      let p = Object.assign({}, this.filter, {page: 1});
+      return axios.get(
+        "/api/project/" + this.project_id + "/documents_list/",
+        {params: p})
         .then(function(response) {
           self.docs_total = response.data.count;
           self.docs = response.data.results;
@@ -46,7 +56,11 @@ new Vue({
     getAllDocumentPage: function(page){
       self = this;
 
-      axios.get("/api/project/" + this.project_id + "/documents_list/?page=" + page)
+      let p = Object.assign({}, this.filter, {page: page});
+      axios.get(
+        "/api/project/" + this.project_id + "/documents_list/",
+        {params: p}
+      )
       .then(function(response) {
         self.docs = response.data.results;
         // Set Page
@@ -63,7 +77,8 @@ new Vue({
 
       axios.get("/api/project/" + this.project_id + "/documents_all_is_approved/")
       .then(function(response) {
-        self.docs_approved = response.data.count;
+        self.stat_docs_approved = response.data.count;
+        self.stat_docs_total = response.data.total;
       })
       .catch(this.addErrorApi);
     },
@@ -76,8 +91,10 @@ new Vue({
       })
       .catch(this.addErrorApi);
     },
-    gotoUrl: function(url) {
-      window.location.href = url;
+    gotoAnnotation: function(doc_id){
+      let q = Object.assign({}, this.filter);
+      q.doc = doc_id;
+      window.location.href = "annotation?" + new URLSearchParams(q).toString();
     },
     addError: function(msg){
       this.st_variant = "danger";
@@ -93,6 +110,27 @@ new Vue({
         msg = "Ошибка: " + error.toString();
       }
       this.addError(msg);
+    },
+    changeFilterApproved: async function(){
+      q = Object.assign({}, self.$route.query);
+
+      if (this.filter_approved == null){
+        if (this.filter.hasOwnProperty("approved")){
+          delete this.filter["approved"];
+          delete q["approved"];
+        }
+      }else{
+        this.filter.approved = this.filter_approved;
+        q.approved = this.filter_approved;
+      };
+      
+      // Update URL
+      self.$router.push({query: q});
+
+      // Update docs list
+      this.getAllDocumentApproved();
+      await this.getCountDocuments();
+      this.current_page = 1;
     }
   },
   filters: { 

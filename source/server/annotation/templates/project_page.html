@@ -47,11 +47,18 @@
         </p>
 
         <p class="h5">Количество обработанных документов</p>
-        <b-progress class="w-75" :max="docs_total" height="2rem">
-          <b-progress-bar :value="docs_approved">
-            Обработано: <strong>${ docs_approved } / ${ docs_total }</strong>
+        <b-progress class="w-75" :max="stat_docs_total" height="2rem">
+          <b-progress-bar :value="stat_docs_approved">
+            Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong>
           </b-progress-bar>
         </b-progress>
+
+        <p class="h5">Отфильтровать</p>
+        <b-form-select v-model="filter_approved" class="mb-3" @input="changeFilterApproved()">
+          <option :value="null">-</option>
+          <option value="0">Не проверен</option>
+          <option value="1">Проверен</option>
+        </b-form-select>
 
         <div class="overflow-auto">
           <p class="h5">Список документов</p>
@@ -64,7 +71,7 @@
             v-for="doc in docs">
               <div class="d-flex justify-content-between">
               <h5 class="mb-1">${doc.file_name}</h5> 
-              <b-button @click="gotoUrl('annotation?doc=' + doc.id)" size="sm" variant="info">Аннотация</b-button>
+              <b-button @click="gotoAnnotation(doc.id)" size="sm" variant="info">Аннотация</b-button>
               <b-button v-b-toggle="`doc-${doc.id}`" size="sm" variant="danger">Удалить</b-button>
               </div>
               <div class="d-flex">
@@ -87,6 +94,7 @@
             aria-controls="docs-table"
             @input="getAllDocumentPage(current_page)">
           </b-pagination>
+          Total: ${docs_total}
         </div>
       </div>
     {% endblock %}

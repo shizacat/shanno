@@ -146,9 +146,20 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def documents_list(self, request, pk=None):
-        docs = models.Documents.objects.filter(
-            project=self.get_object()
-        ).order_by("file_name")
+        """
+        Query:
+            approved - Если указано отфильтровывать по полю approved
+                0 - только не проверенные
+                1 - только проверенные
+        """
+        afilter = {
+            "project": self.get_object()
+        }
+        f_approved = request.query_params.get("approved")
+        if f_approved is not None and self.is_int(f_approved):
+            afilter["approved"] = bool(int(f_approved))
+
+        docs = models.Documents.objects.filter(**afilter).order_by("file_name")
         docs_page = self.paginate_queryset(docs)
 
         if docs_page is not None:
@@ -160,9 +171,20 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def documents_list_simple(self, request, pk=None):
-        docs = models.Documents.objects.filter(
-            project=self.get_object()
-        ).order_by("file_name")
+        """
+        Query:
+            approved - Если указано отфильтровывать по полю approved
+                0 - только не проверенные
+                1 - только проверенные
+        """
+        afilter = {
+            "project": self.get_object()
+        }
+        f_approved = request.query_params.get("approved")
+        if f_approved is not None and self.is_int(f_approved):
+            afilter["approved"] = bool(int(f_approved))
+
+        docs = models.Documents.objects.filter(**afilter).order_by("file_name")
 
         serializer = anno_serializer.DocumentsSerializerSimple(docs, many=True)
         return Response(serializer.data)
@@ -173,7 +195,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
         docs_approved = models.Documents.objects.filter(
             project=self.get_object(), approved=True
         ).count()
-        return Response({"count": docs_approved}, status=200)
+        docs_total = models.Documents.objects.filter(
+            project=self.get_object()
+        ).count()
+        r = {
+            "count": docs_approved,
+            "total": docs_total
+        }
+        return Response(r, status=200)
 
     @action(detail=True, methods=['get'])
     def tl_labels_list(self, request, pk=None):
@@ -372,6 +401,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
             offsetStart = range_word[1] + 1
 
         return result
+
+    def is_int(self, s) -> bool:
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
 
 
 class DocumentSeqViewSet(viewsets.ModelViewSet):
