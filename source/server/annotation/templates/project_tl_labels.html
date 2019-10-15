@@ -31,6 +31,19 @@
       				</b-input>
 		  		</b-form>
 		  		<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(new_label)">Случайный цвет</button>
+		  		<b-form-select v-model="new_label.prefix_key" class="w-25 align-self-end ml-3">
+		  			<template v-slot:first>
+        			<option :value="null" disabled>prefix key</option>
+      			</template>
+      			<option value="ctrl">ctrl</option>
+      			<option value="shift">shift</option>
+		  		</b-form-select>
+		  		<b-form-select v-model="new_label.suffix_key" class="w-25 align-self-end ml-3">
+		  			<template v-slot:first>
+        			<option :value="null" disabled>suffix key</option>
+      			</template>
+      			<option v-for="key in hot_keys" v-bind:key="key">${ key }</option>
+		  		</b-form-select>
 		  		<button type="button" class="btn btn-outline-success align-self-end ml-auto" @click="postLabel()">Добавить метку</button>
 					<button type="button" class="btn btn-outline-danger align-self-end ml-1" @click="cancelCreate()">Отменить</button>
 		  	</div>
@@ -64,6 +77,19 @@
       					</b-input>
 		  				</b-form>
 		  				<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(label)">Случайный цвет</button>
+		  				<b-form-select v-model="label.prefix_key" class="w-25 align-self-end ml-3">
+		  					<template v-slot:first>
+        					<option :value="null" disabled>prefix key</option>
+      					</template>
+      					<option value="ctrl">ctrl</option>
+      					<option value="shift">shift</option>
+		  				</b-form-select>
+		  				<b-form-select v-model="label.suffix_key" class="w-25 align-self-end ml-3">
+		  					<template v-slot:first>
+        					<option :value="null" disabled>suffix key</option>
+      					</template>
+      					<option v-for="key in hot_keys" v-bind:key="key">${ key }</option>
+		  					</b-form-select>
 		  				<button type="button" class="btn btn-outline-danger align-self-end ml-auto" @click="repealEdit(label)">Отменить</button>
 		  				<button type="button" class="btn btn-outline-success align-self-end ml-1" @click="saveEditChanges(label)">Сохранить изменения</button>
 		  			</div>

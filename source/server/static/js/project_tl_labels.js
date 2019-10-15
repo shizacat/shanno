@@ -8,6 +8,7 @@ new Vue({
     st_show: false,
     st_variant: "danger",
     st_value: "",
+    hot_keys: "abcdefghijklmnopqrstuvwxyz",
   },
   computed: {
     project_id: function(){
@@ -50,8 +51,8 @@ new Vue({
         color_background: "",
         color_text: "",
         project: parseInt(this.project_id),
-        suffix_key: "",
-        prefix_key: ""
+        suffix_key: null,
+        prefix_key: null
       };
       this.getColor(this.new_label);
     },
