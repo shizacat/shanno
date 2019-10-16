@@ -58,6 +58,7 @@
 				<b-list-group-item class="border-0">
 					<div class="d-flex justify-content-start">
 						<span class="tag has-addons is-medium" :style="{color: label.color_text, backgroundColor: label.color_background}">${ label.name }</span>
+						<span class="tag has-addons is-medium" style="margin-left: 10px;">${ label.prefix_key } : ${ label.suffix_key }</span>
 						<b-button variant="link" class="text-dark align-self-end ml-auto" @click="editLabel(label)">
 							<i class="fas fa-pen"></i>
 						Редактировать
