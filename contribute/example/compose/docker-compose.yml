@@ -13,10 +13,15 @@ services:
   web:
     image: shanno
     environment:
-      SH_DATABASE_URL: "sqlite:////data/db.sqlite3"
+      # SH_DATABASE_URL: "sqlite:////data/db.sqlite3"
+      SH_DATABASE_URL: "postgresql://postgres:123456@10.211.55.161/test"
+      SH_WORKERS: "4"
+      SH_ADMIN_USERNAME: "admin"
+      SH_ADMIN_PASSWORD: "123456"
+      SH_ADMIN_EMAIL: "admin@admin"
     volumes:
       - static-data:/opt/shanno/staticfiles
-      - ./data:/data/
+      # - ./data:/data/
 
 volumes:
   static-data:
