@@ -52,7 +52,7 @@ new Vue({
         color_text: "",
         project: parseInt(this.project_id),
         suffix_key: null,
-        prefix_key: null
+        prefix_key: ""
       };
       this.getColor(this.new_label);
     },
