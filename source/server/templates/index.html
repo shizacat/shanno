@@ -29,13 +29,13 @@
 				{{ project.name }} 123123123
 			</p>
 			<ul class="menu-list">
-				<li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}active{% endif %}">Инфо</a></li>
-				<li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a></li>
-				<li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}active{% endif %}">Экспорт</a></li>
+				<li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %}">Инфо</a></li>
+				<li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}is-active{% endif %}">Импорт</a></li>
+				<li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}is-active{% endif %}">Экспорт</a></li>
 				<hr class="has-background-light is-marginless">
-				<li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}active{% endif %}">Метки</a></li>
+				<li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}is-active{% endif %}">Метки</a></li>
 				<hr class="has-background-light is-marginless">
-				<li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}active{% endif %}">Настройки</a></li>
+				<li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}is-active{% endif %}">Настройки</a></li>
 			</ul>
 		</aside>
 		<div class="container column is-10">
