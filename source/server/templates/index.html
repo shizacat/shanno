@@ -23,17 +23,21 @@
 	</b-navbar>
 
 	<section class="columns is-fullheight">
-		<aside class="column is-3 is-narrow-mobile is-fullheight section has-background-dark">
-  <ul class="menu-list">
-    <li><a class="has-text-white">test</a></li>
-    <li><a class="has-text-white">test</a></li>
-    <li><a class="has-text-white">test</a></li>
-    <li><a class="has-text-white">test</a></li>
-    <li><a class="has-text-white">test</a></li>
-    <li><a class="has-text-white">test</a></li>
-  </ul>
+		<aside class="column is-2 is-narrow-mobile is-fullheight section">
+			<p class="menu-label">
+				{{ project.name }}
+			</p>
+			<ul class="menu-list">
+				<li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}active{% endif %}">Инфо</a></li>
+				<li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a></li>
+				<li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}active{% endif %}">Экспорт</a></li>
+				<hr class="has-background-dark is-marginless">
+				<li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}active{% endif %}">Метки</a></li>
+				<hr class="has-background-dark is-marginless">
+				<li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}active{% endif %}">Настройки</a></li>
+			</ul>
 		</aside>
-		<div class="container column is-9">
+		<div class="container column is-10">
 			<div class="section">
 				<div class="card">
 					<div class="card-header">
