@@ -1,6 +1,6 @@
-<!DOCTYPE html>
 {% load static %}
 
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   {% block title %}<title> Shanno - Annotation documents </title>{% endblock %}
@@ -29,7 +29,7 @@
 <body>
 
   <!-- Menu -->
-  <b-navbar id="app" class="is-dark">
+  <b-navbar id="menu" class="is-dark">
     <template slot="brand">
       <b-navbar-item href="/">
         <span class="is-size-5">Shanno</span>
@@ -45,24 +45,17 @@
     </template>
   </b-navbar>
 
-  <section class="columns is-fullheight ">
+  <section class="section">
     {% block content %}
-      <aside class="column is-2 is-narrow-mobile is-fullheight section">
-        {% block sidebar %}
-        {% endblock %}
-      </aside>
-
-      <div class="container column is-10">
-        <div class="section">
-          {% block sub_content %}
-          {% endblock %}
-        </div>
-      </div>
     {% endblock %}
   </section>
 
+  <script type="text/javascript">
+    new Vue({
+      el: '#menu'
+    })
+  </script>
   {% block js-script %}
-    <script src="{% static 'js/index.js' %}"></script>
   {% endblock %}
 
 </body>
