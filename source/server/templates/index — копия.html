@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!-- <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"> -->
+	<link rel="stylesheet" href="https://unpkg.com/bulmaswatch/darkly/bulmaswatch.min.css">
+	<title>Document</title>
+</head>
+<body>
+	<b-navbar id="app" class="is-dark">
+		<template slot="brand">
+			<b-navbar-item href="/">
+				<span class="is-size-5">Shanno</span>
+			</b-navbar-item>
+		</template>
+		<template slot="start">
+			<b-navbar-item class="{% if request.resolver_match.url_name == 'index' %}is-active{% endif %}" href="/">
+				Home
+			</b-navbar-item>
+			<b-navbar-item class="{% if request.resolver_match.url_name|slice:':8' == 'projects' %}is-active{% endif %}" href="/projects/">
+				Projects
+			</b-navbar-item>
+		</template>
+	</b-navbar>
+
+	<section class="columns is-fullheight ">
+		<aside class="column is-2 is-narrow-mobile is-fullheight section">
+			<p class="menu-label is-size-6">
+				{{ project.name }} 123123123
+			</p>
+			<ul class="menu-list">
+				<li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %}">Инфо</a></li>
+				<li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}is-active{% endif %}">Импорт</a></li>
+				<li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}is-active{% endif %}">Экспорт</a></li>
+				<hr class="has-background-light is-marginless">
+				<li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}is-active{% endif %}">Метки</a></li>
+				<hr class="has-background-light is-marginless">
+				<li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}is-active{% endif %}">Настройки</a></li>
+			</ul>
+		</aside>
+		<div class="container column is-10">
+			<div class="section">
+				<div class="card">
+					<div class="card-header">
+						<p class="card-header-title">Заголовок</p>
+					</div>
+					<div class="card-content">
+						<div class="content">
+							Название
+						</div>
+						<div class="columns">
+							<div class="column">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere obcaecati possimus commodi ex omnis ea repellat magnam magni nulla ipsa ut quod officia, ducimus adipisci non suscipit necessitatibus voluptatem! Quidem.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+
+	<script>
+		new Vue({
+			el: '#app'
+		})
+	</script>
+</body>
+</html>

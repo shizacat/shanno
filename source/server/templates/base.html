@@ -1,87 +1,69 @@
+<!DOCTYPE html>
 {% load static %}
 
-<!DOCTYPE html>
 <html lang="ru">
 <head>
   {% block title %}<title> Shanno - Annotation documents </title>{% endblock %}
 
   <meta charset="utf-8">
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
-  <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no"
-  />
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-  <link
-    type="text/css"
-    rel="stylesheet"
-    href="{% static 'css/bootstrap.min.css' %}"
-  />
-  <link
-    type="text/css"
-    rel="stylesheet"
-    href="{% static 'css/bootstrap-vue.min.css' %}"
-  />
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-tag.css' %}">
+  <!-- <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"> -->
+  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/darkly/bulmaswatch.min.css">
+
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-tag.css' %}"> -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/awfont.min.css' %}">
 
   {% if DEBUG %}
-    <script src="{% static 'js/vue.js' %}"></script>
+    <script src="{% static 'js/ex/vue.js' %}"></script>
   {% else %}
-    <script src="{% static 'js/vue.min.js' %}"></script>
+    <script src="{% static 'js/ex/vue.min.js' %}"></script>
   {% endif %}
-  <script src="{% static 'js/bootstrap-vue.min.js' %}"></script>
-  <script src="{% static 'js/axios.min.js' %}"></script>
-  <script src="{% static 'js/vue-router.min.js' %}"></script>
+  <!-- <script src="{% static 'js/bootstrap-vue.min.js' %}"></script> -->
+  <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+  <script src="{% static 'js/ex/axios.min.js' %}"></script>
+  <script src="{% static 'js/ex/vue-router.min.js' %}"></script>
 </head>
-<body id="root">
+<body>
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Shanno</a>
-   <!--  <button 
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarsExampleDefault"
-      aria-controls="navbarsExampleDefault"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
-    <div class="collapse navbar-collapse" id="navbarsDefault">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item {% if request.resolver_match.url_name|slice:':8' == 'projects' %}active{% endif %}">
-          <a class="nav-link" href="/projects/">Projects <span class="sr-only">(current)</span></a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> -->
-      </ul>
-     <!--  <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form> -->
-    </div>
-  </nav>
+  <!-- Menu -->
+  <b-navbar id="app" class="is-dark">
+    <template slot="brand">
+      <b-navbar-item href="/">
+        <span class="is-size-5">Shanno</span>
+      </b-navbar-item>
+    </template>
+    <template slot="start">
+      <b-navbar-item class="{% if request.resolver_match.url_name == 'index' %}is-active{% endif %}" href="/">
+        Home
+      </b-navbar-item>
+      <b-navbar-item class="{% if request.resolver_match.url_name|slice:':8' == 'projects' %}is-active{% endif %}" href="/projects/">
+        Projects
+      </b-navbar-item>
+    </template>
+  </b-navbar>
 
-  <div class="container-fluid base-content">
-    {% block content %}<!-- default content text (typically empty) -->{% endblock %}    
-  </div>
+  <section class="columns is-fullheight ">
+    {% block content %}
+      <aside class="column is-2 is-narrow-mobile is-fullheight section">
+        {% block sidebar %}
+        {% endblock %}
+      </aside>
+
+      <div class="container column is-10">
+        <div class="section">
+          {% block sub_content %}
+          {% endblock %}
+        </div>
+      </div>
+    {% endblock %}
+  </section>
 
   {% block js-script %}
+    <script src="{% static 'js/index.js' %}"></script>
   {% endblock %}
+
 </body>
 </html>
