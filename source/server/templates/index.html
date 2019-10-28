@@ -11,6 +11,22 @@
 		</div>
 	</div>
 </section>
+
+<section id="main-project-page" class="section">
+	<p class="title is-2 has-text-centered">Проекты</p>
+	<div class="project-list">
+		<a 
+		:href="'/projects/' + project.id + '/'" 
+		v-bind:key="project.id" 
+		v-for="project in projects" 
+		class="box-link">
+		<article class="project-card">
+			<p class="title">${project.name}</p>
+			<p class="subtitle">${project.description}</p>
+		</article>
+	</a>
+</div>
+</section>
 {% endblock %}
 
 {% block js-script %}
