@@ -10,9 +10,9 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
   <!-- <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"> -->
-  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/darkly/bulmaswatch.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/flatly/bulmaswatch.min.css">
 
-  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-tag.css' %}"> -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/awfont.min.css' %}">
 
@@ -29,7 +29,7 @@
 <body>
 
   <!-- Menu -->
-  <b-navbar id="menu" class="is-dark">
+  <b-navbar id="menu" class="is-main-color">
     <template slot="brand">
       <b-navbar-item href="/">
         <span class="is-size-5">Shanno</span>
@@ -45,10 +45,8 @@
     </template>
   </b-navbar>
 
-  <section class="section">
     {% block content %}
     {% endblock %}
-  </section>
 
   <script type="text/javascript">
     new Vue({
