@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<section class="columns is-fullheight fh-section">
+<section class="columns is-fullheight fh-section is-marginless">
   <aside class="column is-2 is-main-color">
     <p class="menu-label is-size-6 has-text-white has-text-centered">
       {{ project.name }} <span class="tag has-text-white" style="background: #18b193">{{ project.type }}</span>
@@ -23,7 +23,9 @@
   </aside>
   <div class="column is-10">
     {% block project-content %}
-    <h3 class="subtitle is-3">{{ project.description }}</h2>
+      <div class="container">
+        <h4 class="subtitle is-4">{{ project.description }}</h4>
+      </div>
     {% endblock %}
   </div>
 </section>
