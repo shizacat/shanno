@@ -27,3 +27,47 @@ a.box-link,
 a.box-link:hover {
 	color: inherit;
 }
+
+aside {
+  background: #343a40;
+}
+
+.fh-section {
+  min-height: calc(100vh - ( 3.25rem - .75rem ) );
+  max-height: calc(100vh - ( 3.25rem - .75rem ) );
+  height: calc(100vh - ( 3.25rem - .75rem ) );
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.menu-list li {
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 20px;
+}
+
+.menu-list li a {
+  padding: 10px 15px 10px 30px;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu-list li a:hover,
+.menu-list li a:focus {
+  border-left: 4px solid #3dd19b;
+  background-color: #4f5b69; 
+}
+
+.menu-list hr {
+  width: 80%;
+  height: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #666666;
+  border: 0 none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

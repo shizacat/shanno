@@ -6,7 +6,45 @@
 
 {% block content %}
 
-<div class="projects-base">
+<section class="columns is-fullheight fh-section">
+  <aside class="column is-2">
+    <p class="menu-label is-size-6 has-text-white has-text-centered">
+      {{ project.name }}
+    </p>
+    <ul class="menu-list">
+      <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">Инфо</a></li>
+      <li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}is-active{% endif %} has-text-white">Импорт</a></li>
+      <li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}is-active{% endif %} has-text-white">Экспорт</a></li>
+      <hr>
+      <li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}is-active{% endif %} has-text-white">Метки</a></li>
+      <hr>
+      <li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}is-active{% endif %} has-text-white">Настройки</a></li>
+    </ul>
+  </aside>
+  <div class="column is-10">
+    {% block project-content %}
+    <div class="section">
+      <div class="card">
+        <div class="card-header">
+          <p class="card-header-title">Заголовок</p>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            Название
+          </div>
+          <div class="columns">
+            <div class="column">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere obcaecati possimus commodi ex omnis ea repellat magnam magni nulla ipsa ut quod officia, ducimus adipisci non suscipit necessitatibus voluptatem! Quidem.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </div>
+</section>
+
+<!-- <div class="projects-base">
   <nav class="sidebar">
     <div class="sidebar-header">
       {{ project.name }}
@@ -33,7 +71,6 @@
   </nav>
 
   <div id="project-content">
-    {% block project-content %}
 
       <div class="container-fluid" id="project-page">
 
@@ -97,9 +134,8 @@
           Total: ${docs_total}
         </div>
       </div>
-    {% endblock %}
   </div>
-</div>
+</div> -->
 
 {% endblock %}
 
