@@ -7,9 +7,9 @@
 {% block content %}
 
 <section class="columns is-fullheight fh-section">
-  <aside class="column is-2">
+  <aside class="column is-2 is-main-color">
     <p class="menu-label is-size-6 has-text-white has-text-centered">
-      {{ project.name }}
+      {{ project.name }} <span class="tag has-text-white" style="background: #18b193">{{ project.type }}</span>
     </p>
     <ul class="menu-list">
       <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">Инфо</a></li>
@@ -23,23 +23,7 @@
   </aside>
   <div class="column is-10">
     {% block project-content %}
-    <div class="section">
-      <div class="card">
-        <div class="card-header">
-          <p class="card-header-title">Заголовок</p>
-        </div>
-        <div class="card-content">
-          <div class="content">
-            Название
-          </div>
-          <div class="columns">
-            <div class="column">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere obcaecati possimus commodi ex omnis ea repellat magnam magni nulla ipsa ut quod officia, ducimus adipisci non suscipit necessitatibus voluptatem! Quidem.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h3 class="subtitle is-3">{{ project.description }}</h2>
     {% endblock %}
   </div>
 </section>
