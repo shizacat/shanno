@@ -1,5 +1,6 @@
 .is-main-color {
   background: #343a40;
+  color: #ecf0f1;
 }
 
 .project-list {
@@ -67,3 +68,17 @@ a.box-link:hover {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+@media screen and (max-width: 1023px){
+	.navbar .navbar-item:not(.is-active):not(:hover), 
+	.navbar .navbar-link:not(.is-active):not(:hover) {
+		color: #ecf0f1;
+	}
+	.navbar .navbar-menu {
+		background-color: #343a40;
+		border-radius: 0 0 .4em .4em;
+	}
+}
+
+
+
