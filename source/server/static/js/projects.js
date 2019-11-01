@@ -1,30 +1,14 @@
-window.addEventListener("load", function(event) {
-
-  new Vue({
+new Vue({
     el: "#app-projects",
     delimiters: ['${', '}'],
     data: {
-      projects: [],
       name: "",
       description: null,
       type: "",
       st_show: false,
-      st_variant: "danger",
       st_value: "",
     },
-    created() {
-      this.getAllProjects();
-    },
     methods: {
-      getAllProjects: function() {
-        self = this;
-
-        axios.get("/api/project/")
-          .then(function (response) {
-            self.projects = response.data;
-          })
-          .catch(this.addErrorApi);
-      },
       onSubmit: function(){
         self = this;
         axios.post("/api/project/",
@@ -40,7 +24,6 @@ window.addEventListener("load", function(event) {
             }
           )
           .then(function (response) {
-            self.projects.push(response.data);
             self.name = "";
             self.description = "";
             self.type = "";
@@ -48,7 +31,6 @@ window.addEventListener("load", function(event) {
           .catch(this.addErrorApi);
       },
       addError: function(msg){
-        this.st_variant = "danger";
         this.st_value = msg;
         this.st_show = true;
       },
@@ -64,5 +46,3 @@ window.addEventListener("load", function(event) {
       }
     }
   });
-
-});

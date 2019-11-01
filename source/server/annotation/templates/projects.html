@@ -6,60 +6,38 @@
 
 {% block content %}
 
-<div id="app-projects" class="container">
-
-  <b-list-group>
-
-    <div>
-      <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
-    </div>
-    
-    <b-list-group-item 
-      class="flex-column align-items-start"
-      :href="'/projects/' + project.id + '/'"
-      v-bind:key="project.id"
-      v-for="project in projects">
-
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">${project.name} [${project.type}]</h5>
-      </div>
-
-      <p class="mb-1">
-        ${project.description}
-      </p>
-    </b-list-group-item>
-
-  </b-list-group>
-
-  <div>
-    <h2>Создание проекта</h2>
-
-    <form v-on:submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="name">Название</label>
-        <input type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Название" v-model="name">
-        <small id="nameHelp" class="form-text text-muted">Необходимо ввести название проекта.</small>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Описание</label>
-        <textarea class="form-control" id="description" rows="3" aria-describedby="descriptionHelp" v-model="description"></textarea>
-        <small id="descriptionHelp" class="form-text text-muted">Необходимо описать кратно назначение проекта.</small>
-      </div>
-
-      <div class="form-group">
-        <label for="type">Тип проекта</label>
-        <select id="type" class="form-control" v-model="type">
-          <option selected value="text_label">Text labeling</option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Создать</button>
-
-    </form>
+<section id="app-projects" class="section">
+  <div class="container" style="padding: 2rem 0 2rem 0">
+    <p class="title is-2">Создание проекта</p>
   </div>
-
+  <div class="container">
+    <b-field label="Название">
+      <b-input v-model="name" placeholder="Необходимо ввести название проекта" required></b-input>
+    </b-field>
+    <b-field label="Описание">
+      <b-input maxlength="200" type="textarea" v-model="description" placeholder="Необходимо описать кратно назначение проекта" required></b-input>
+    </b-field>
+    <b-field label="Тип проекта">
+      <b-select placeholder="Выберите тип проекта" v-model="type" expanded required>
+        <option value="text_label">Text labeling</option>
+      </b-select>
+    </b-field>
+    <b-field>
+      <p class="control">
+        <b-button class="button is-primary" @click="onSubmit()">Создать</b-button>
+      </p>  
+    </b-field>
+    <b-notification
+    type="is-danger"
+    aria-close-label="Close notification"
+    role="alert"
+    :active.sync="st_show"
+    v-show="st_show">
+    ${ st_value }
+  </b-notification>
 </div>
+</section>
+
 
 {% endblock %}
 
