@@ -9,7 +9,7 @@
 <section class="columns is-fullheight fh-section is-marginless">
   <aside class="column is-2 is-main-color">
     <p class="menu-label is-size-6 has-text-white has-text-centered">
-      {{ project.name }} <span class="tag has-text-white" style="background: #18b193">{{ project.type }}</span>
+      {{ project.name }}
     </p>
     <ul class="menu-list">
       <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">Инфо</a></li>
@@ -23,9 +23,20 @@
   </aside>
   <div class="column is-10">
     {% block project-content %}
-      <div class="container">
-        <h4 class="subtitle is-4">{{ project.description }}</h4>
+    <div id="project-page">
+      <div class="column">
+        <h4 class="subtitle is-5">
+          <span class="tag is-link">{{ project.type }}</span>
+        Описание: {{ project.description }}</h4>
       </div>
+      <div class="column is-half">
+        <p class="title is-5">Количество обработанных документов</p>
+        <div class="progress-wrapper">
+          <progress class="progress is-info is-large" :value="stat_docs_approved" :max="stat_docs_total">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></progress>
+          <p class="progress-value has-text-black">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
+        </div>
+      </div>
+    </div>
     {% endblock %}
   </div>
 </section>
