@@ -3,6 +3,7 @@ new Vue({
   delimiters: ['${', '}'],
   data: {
     files: null,
+    activeTab: 0,
     format: 'conllup',
     st_variant: 'info', //success, danger
     st_value: '---',
