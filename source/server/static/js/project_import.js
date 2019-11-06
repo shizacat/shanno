@@ -3,11 +3,17 @@ new Vue({
   delimiters: ['${', '}'],
   data: {
     files: null,
-    activeTab: 0,
+    selected: 0,
     format: 'conllup',
     st_variant: 'info', //success, danger
     st_value: '---',
     st_show: false,
+  },
+  watch: {
+    selected(index) {
+      if (index === 0) this.format = 'conllup';
+      if (index === 1) this.format = 'some';
+    }
   },
   methods: {
     uploadFiles: function(project_id) {
