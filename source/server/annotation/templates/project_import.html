@@ -37,6 +37,7 @@ example _
         </p>
       </b-tab-item>
     </b-tabs>
+  </div>
     <div class="column">
       <b-field grouped>
         <p class="control">
@@ -60,80 +61,6 @@ example _
   </b-notification>
   </div>
 </div>
-
-<!-- <div id="project-import" class="card">
-
-  <div>
-    <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
-  </div>
-
-
-  <div class="card-body">
-    <h5 class="card-title">Выберите тип файла для загрузки</h5>
-    <div class="tabset">
-    
-      <input type="radio" name="tabset" v-model="format" id="tab1" aria-controls="conllu" value="conllup">
-      <label for="tab1">conllu</label>
-      
-      <input type="radio" name="tabset" v-model="format" id="tab2" aria-controls="some" value="some">
-      <label for="tab2">Что-то ещё</label>
-
-      <div class="tab-panels">
-        <section id="conllu" class="tab-panel">
-          <h2>CoNLL-U Plus</h2>
-          <p>
-            Является расширением формата CoNLL-U. Может иметь любое количество столбцов.
-            <a href="https://universaldependencies.org/ext-format.html">Формат.</a>
-            Должен быть в кодировке UTF-8.
-          </p>
-          <p>Пример:</p>
-          <pre class=table-dark>
-# global.columns = FORM NE
-
-This	_
-is	VERB
-only	_
-example	_ 
-          </pre>
-        </section>
-      
-        <section id="some" class="tab-panel">
-          <h2>Другой формат</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Harum nihil deleniti labore eos ratione, omnis nam fuga dignissimos
-            architecto eum temporibus voluptate molestiae iusto ipsam,
-            quisquam rem hic mollitia earum.
-          </p>
-        </section>
-
-      </div>
-
-    </div>
-
-    <form>
-      <p>Поддерживается загрузка архивов zip. Файл должен иметь соответствующие расширение (.zip).</p>
-
-      <div class="form-group">
-        <div class="input-group input-file" name="file">
-          <b-form-file v-model="files" plain></b-form-file>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <button
-          type="button"
-          class="btn btn-primary pull-right"
-          @click="uploadFiles({{project.id}})"
-          :disabled="files === null"
-          >
-            Загрузить
-          </button>
-      </div>
-    </form>
-
-  </div>
-</div> -->
 
 {% endblock %}
 

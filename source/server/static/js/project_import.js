@@ -4,15 +4,15 @@ new Vue({
   data: {
     files: null,
     selected: 0,
-    format: 'conllup',
-    st_variant: 'info', //success, danger
-    st_value: '---',
+    format: "conllup",
+    st_variant: "is-info", //success, danger
+    st_value: "---",
     st_show: false,
   },
   watch: {
     selected(index) {
-      if (index === 0) this.format = 'conllup';
-      if (index === 1) this.format = 'some';
+      if (index === 0) this.format = "conllup";
+      if (index === 1) this.format = "some";
     }
   },
   methods: {
@@ -39,7 +39,7 @@ new Vue({
       .catch(function(error) {
         self.addError(
           "Получена ошибка: " + error.response.data,
-          "danger"
+          "is-danger"
         );
         self.files = null;
       })
