@@ -10,15 +10,24 @@
 	grid-gap: 1rem;
 }
 
-.project-list > article {
+/*.project-list > article {
   border: 1px solid #ccc;
   box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-}
+}*/
 
 .project-list .project-card {
-  box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+/*  box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);*/
+  border: 1px solid #343a40;
   padding: 10px;
+}
+
+.project-list .project-card:hover {
+  border: 1.5px solid #18b193;
+}
+
+.project-list .project-card:hover p {
+  color: #18b193;
 }
 
 /*.project-list .project-card:hover {
