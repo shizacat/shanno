@@ -36,7 +36,46 @@
           <p class="progress-value has-text-black">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
         </div>
       </div>
+      <div class="column">
+        <p class="title is-5">Список документов:</p>
+      </div>
+      <div 
+      class="column box"
+      id="docs-table"
+      :item="doc"
+      :key="doc.id"
+      v-for="doc in docs">
+      <nav class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div>
+            <p class="header">${doc.file_name}</p>
+            <p class="subtitle is-6">${doc.sequence_preview | truncate(50)}</p>
+          </div>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <button @click="gotoAnnotation(doc.id)" class="button is-info">Аннотация</button>
+          </div>
+          <div class="level-item">
+            <button :aria-controls="`doc-${doc.id}`" class="button is-danger is-outlined" v-on:click="doc.isOpen = !doc.isOpen">Удалить</button>
+          </div>
+        </div>
+    </nav>
     </div>
+    <b-pagination
+    :total="docs_total"
+    :current.sync="current_page"
+    :per-page="docs_by_page"
+    order="is-centered"
+    range-before="1"
+    range-after="3"
+    icon-pack="fa"
+    icon-prev="chevron-left"
+    icon-next="chevron-right"
+    @change="getAllDocumentPage">
+    </b-pagination>
     {% endblock %}
   </div>
 </section>

@@ -47,11 +47,14 @@ new Vue({
       return axios.get(
         "/api/project/" + this.project_id + "/documents_list/",
         {params: p})
-        .then(function(response) {
-          self.docs_total = response.data.count;
-          self.docs = response.data.results;
-        })
-        .catch(this.addErrorApi);
+      .then(function(response) {
+        self.docs_total = response.data.count;
+        self.docs = response.data.results;
+        for(let i = 0; i < self.docs.length; i++){
+          self.docs[i].isOpen = false;
+        };
+      })
+      .catch(this.addErrorApi);
     },
     getAllDocumentPage: function(page){
       self = this;
@@ -60,9 +63,12 @@ new Vue({
       axios.get(
         "/api/project/" + this.project_id + "/documents_list/",
         {params: p}
-      )
+        )
       .then(function(response) {
         self.docs = response.data.results;
+        for(let i = 0; i < self.docs.length; i++){
+          self.docs[i].isOpen = false;
+        };
         // Set Page
         if (page != self.$route.query.page){
           q = Object.assign({}, self.$route.query);
