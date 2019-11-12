@@ -7,6 +7,14 @@
 {% block content %}
 
 <section id="app-projects" class="section">
+  <b-notification
+  type="is-danger"
+  aria-close-label="Close notification"
+  role="alert"
+  :active.sync="st_show"
+  v-show="st_show">
+  ${ st_value }
+  </b-notification>
   <div class="container" style="padding: 2rem 0 2rem 0">
     <p class="title is-2">Создание проекта</p>
   </div>
@@ -24,18 +32,11 @@
     </b-field>
     <b-field>
       <p class="control">
-        <b-button class="button is-primary" @click="onSubmit()">Создать</b-button>
+        <b-button class="button is-success" @click="onSubmit()">Создать</b-button>
+        <b-button class="button is-danger" @click="$router.go(-1)">Отменить</b-button>
       </p>  
     </b-field>
-    <b-notification
-    type="is-danger"
-    aria-close-label="Close notification"
-    role="alert"
-    :active.sync="st_show"
-    v-show="st_show">
-    ${ st_value }
-  </b-notification>
-</div>
+  </div>
 </section>
 
 
