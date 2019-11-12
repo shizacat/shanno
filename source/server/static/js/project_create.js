@@ -27,6 +27,7 @@ new Vue({
             self.name = "";
             self.description = "";
             self.type = "";
+            location.href = '/';
           })
           .catch(this.addErrorApi);
       },
