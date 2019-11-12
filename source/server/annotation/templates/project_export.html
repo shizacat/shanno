@@ -7,6 +7,14 @@
 {% block project-content %}
 
 <div id="project-export">
+  <b-notification
+  :type="st_variant"
+  aria-close-label="Close notification"
+  role="alert"
+  :active.sync="st_show"
+  v-show="st_show">
+  ${ st_value }
+  </b-notification>
   <div class="column">
     <h5 class="title is-5">Выберите тип файла для загрузки</h5>
   </div>
@@ -36,15 +44,7 @@
           @click="download({{project.id}})">
           Скачать
         </button>
-  </div>
-  <b-notification
-    :type="st_variant"
-    aria-close-label="Close notification"
-    role="alert"
-    :active.sync="st_show"
-    v-show="st_show">
-    ${ st_value }
-  </b-notification>
+    </div>
   </div>
 </div>
 
