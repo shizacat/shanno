@@ -40,7 +40,7 @@
       <b-navbar-item class="{% if request.resolver_match.url_name == 'index' %}is-active{% endif %}" href="/">
         Home
       </b-navbar-item>
-      <b-navbar-item class="{% if request.resolver_match.url_name|slice:':8' == 'projects' %}is-active{% endif %}" href="/projects/">
+      <b-navbar-item class="{% if request.resolver_match.url_name|slice:':7' == 'project' %}is-active{% endif %}" href="/">
         Projects
       </b-navbar-item>
     </template>

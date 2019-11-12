@@ -14,9 +14,9 @@ urlpatterns = [
     path('health', views.health),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path(
-        'projects/',
-        TemplateView.as_view(template_name='projects.html'),
-        name='projects'),
+        'project_create/',
+        TemplateView.as_view(template_name='project_create.html'),
+        name='project_create'),
     path(
         'projects/<int:project>/',
         views.project_action,

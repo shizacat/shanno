@@ -15,7 +15,7 @@
       <b-input v-model="name" placeholder="Необходимо ввести название проекта" required></b-input>
     </b-field>
     <b-field label="Описание">
-      <b-input maxlength="200" type="textarea" v-model="description" placeholder="Необходимо описать кратно назначение проекта" required></b-input>
+      <b-input maxlength="200" type="textarea" v-model="description" placeholder="Необходимо описать кратко назначение проекта" required></b-input>
     </b-field>
     <b-field label="Тип проекта">
       <b-select placeholder="Выберите тип проекта" v-model="type" expanded required>
@@ -42,5 +42,5 @@
 {% endblock %}
 
 {% block js-script %}
-  <script src="{% static 'js/projects.js' %}"></script>
+  <script src="{% static 'js/project_create.js' %}"></script>
 {% endblock %}
