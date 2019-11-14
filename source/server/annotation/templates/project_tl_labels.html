@@ -6,101 +6,179 @@
 
 {% block project-content %}
 
-<div class="container-fluid" id="project-labels">
-
-	<div>
-	    <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
-	</div>
-
-	<div class="d-inline-flex">
-		<button type="button" class="btn btn-primary" v-on:click="createLabel()">Новая метка</button>
-	</div>
-	<div class="d-flex flex-row pt-4" v-if="new_label">
-		  <b-card class="flex-fill" border-variant="dark">
-		  	<b-card-text>
-		  		<span class="tag has-addons is-medium" :style="{color: new_label.color_text, backgroundColor: new_label.color_background}">${ new_label.name }</span>
-		  	</b-card-text>
-		  	<div class="d-flex justify-content-start">
-		  		<b-form>
-		  			<label for="label_name">Название метки</label>
-		  			<b-input
-	      				id="label_name"
-	      				class="mb-2 mr-sm-2 mb-sm-0"
-	      				placeholder="Название метки"
-	      				v-model="new_label.name">
-      				</b-input>
-		  		</b-form>
-		  		<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(new_label)">Случайный цвет</button>
-		  		<b-form-select v-model="new_label.prefix_key" class="w-25 align-self-end ml-3">
-		  			<template v-slot:first>
-        			<option :value="null" disabled>prefix key</option>
-      			</template>
-      			<option value=""></option>
-      			<option value="ctrl">ctrl</option>
-      			<option value="shift">shift</option>
-		  		</b-form-select>
-		  		<b-form-select v-model="new_label.suffix_key" class="w-25 align-self-end ml-3">
-		  			<template v-slot:first>
-        			<option :value="null" disabled>suffix key</option>
-      			</template>
-      			<option v-for="key in hot_keys" v-bind:key="key">${ key }</option>
-		  		</b-form-select>
-		  		<button type="button" class="btn btn-outline-success align-self-end ml-auto" @click="postLabel()">Добавить метку</button>
-					<button type="button" class="btn btn-outline-danger align-self-end ml-1" @click="cancelCreate()">Отменить</button>
-		  	</div>
-		  </b-card>
-	</div>
-	<div class="d-flex flex-row pt-4">
-		<b-card class="flex-fill" border-variant="success" header-bg-variant="transparent" :header="`${labels.length} метки в проекте`">
-			<b-list-group
-			v-for="label in labels"
-			:key="label.id">
-				<b-list-group-item class="border-0">
-					<div class="d-flex justify-content-start">
-						<span class="tag has-addons is-medium" :style="{color: label.color_text, backgroundColor: label.color_background}">${ label.name }</span>
-						<span class="tag has-addons is-medium" style="margin-left: 10px;">${ label.prefix_key } : ${ label.suffix_key }</span>
-						<b-button variant="link" class="text-dark align-self-end ml-auto" @click="editLabel(label)">
-							<i class="fas fa-pen"></i>
-						Редактировать
-				  	</b-button>
-						<b-button variant="link" class="text-dark align-self-end ml-1" @click="deleteLabel(label)">
-							<i class="fas fa-trash-alt"></i>
-						Удалить
-				  	</b-button>
-					</div>
-				  <div v-show="label === active_edit">
-				  	<div class="d-flex flex-row justify-content-start pt-2">
-		  				<b-form >
-		  					<b-input
-      						id="label_name_edit"
-      						class="mb-2 mr-sm-2 mb-sm-0"
-      						placeholder="Введите название"
-      						v-model="label.name">	
-      					</b-input>
-		  				</b-form>
-		  				<button type="button" class="btn btn-info align-self-end ml-3" @click="getColor(label)">Случайный цвет</button>
-		  				<b-form-select v-model="label.prefix_key" class="w-25 align-self-end ml-3">
-		  					<template v-slot:first>
-        					<option :value="null" disabled>prefix key</option>
-      					</template>
-      					<option value=""></option>
-      					<option value="ctrl">ctrl</option>
-      					<option value="shift">shift</option>
-		  				</b-form-select>
-		  				<b-form-select v-model="label.suffix_key" class="w-25 align-self-end ml-3">
-		  					<template v-slot:first>
-        					<option :value="null" disabled>suffix key</option>
-      					</template>
-      					<option v-for="key in hot_keys" v-bind:key="key">${ key }</option>
-		  					</b-form-select>
-		  				<button type="button" class="btn btn-outline-success align-self-end ml-1" @click="saveEditChanges(label)">Сохранить изменения</button>
-		  				<button type="button" class="btn btn-outline-danger align-self-end ml-auto" @click="repealEdit(label)">Отменить</button>
-		  			</div>
-		  		</div>
-				</b-list-group-item>
-			</b-list-group>
-		</b-card>
-	</div>
+<div id="project-labels">
+  <div class="columns is-multiline">
+    <div class="column is-full">
+      <button class="button is-primary" @click="createLabel()">Новая метка</button>
+    </div>
+    <div class="column is-full" v-if="new_label">
+      <div class="box has-background-white">
+        <div class="columns is-multiline is-vcentered">
+          <div class="column is-full">
+            <div class="tags are-medium has-addons">
+              <span class="tag has-addons" :style="{color: new_label.color_text, backgroundColor: new_label.color_background}">${ new_label.name }</span>
+              <span class="tag is-dark has-addons">${ new_label.prefix_key } : ${ new_label.suffix_key }</span>
+            </div>
+          </div>
+          <div class="column">
+            <b-field label="Название метки">
+              <b-field>
+                <b-input v-model="new_label.name" expanded></b-input>
+                <p class="control">
+                  <button class="button" @click="getColor(new_label)">
+                    <span class="icon">
+                      <i class="fas fa-palette"></i>
+                    </span>
+                    <span>Цвет</span>
+                  </button>
+                </p>
+              </b-field>
+            </b-field>
+          </div>
+          <div class="column">
+            <b-field label="Горячие клавиши">
+              <b-field>
+                <b-select v-model="new_label.prefix_key" expanded>
+                  <option value="ctrl">ctrl</option>
+                  <option value="shift">shift</option>
+                </b-select>
+                <b-select v-model="new_label.suffix_key" expanded>
+                  <option
+                  v-for="key in hot_keys"
+                  :value="key"
+                  :key="key">
+                  ${ key }
+                </option>
+              </b-select>
+            </b-field>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">&nbsp;</label>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-success" @click="postLabel()">
+                    <span class="icon is-small">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Добавить метку</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button class="button is-danger is-outlined" @click="cancelCreate()">
+                    <span>Отменить</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        Метки в проекте - ${labels.length}
+      </p>
+    </header>
+    <div class="card-content">
+      <div v-for="label in labels" :key="label.id">
+        <nav class="level is-desktop">
+          <div class="level-left">
+            <div class="level-item">
+              <div class="tags has-addons are-medium">
+                <span class="tag has-addons" :style="{color: label.color_text, backgroundColor: label.color_background}">${ label.name }</span>
+                <span class="tag is-dark has-addons">${ label.prefix_key } : ${ label.suffix_key }</span>
+              </div>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <b-field groupped>
+                <p class="control">
+                  <button class="button is-text" @click="editLabel(label)">
+                    <span class="icon is-small">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                    <span>Редактировать</span>
+                  </button>
+                </p>
+                <p class="control">
+                  <button class="button is-text" @click="deleteLabel(label)">
+                    <span class="icon is-small">
+                      <i class="fas fa-trash-alt"></i>
+                    </span>
+                    <span>Удалить</span>
+                  </button>
+                </p>
+              </b-field>
+            </div>
+          </div>
+        </nav>
+        <div class="columns" style="margin-bottom: 1rem" v-show="label === active_edit">
+          <div class="column">
+            <b-field label="Название метки">
+              <b-field>
+                <b-input v-model="label.name" expanded></b-input>
+                <p class="control">
+                  <button class="button" @click="getColor(label)">
+                    <span class="icon">
+                      <i class="fas fa-palette"></i>
+                    </span>
+                    <span>Цвет</span>
+                  </button>
+                </p>
+              </b-field>
+            </b-field>
+          </div>
+          <div class="column">
+            <b-field label="Горячие клавиши">
+              <b-field>
+                <b-select v-model="label.prefix_key" expanded>
+                  <option value="ctrl">ctrl</option>
+                  <option value="shift">shift</option>
+                </b-select>
+                <b-select v-model="label.suffix_key" expanded>
+                  <option
+                  v-for="key in hot_keys"
+                  :value="key"
+                  :key="key">
+                  ${ key }
+                </option>
+              </b-select>
+            </b-field>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">&nbsp;</label>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-success" @click="saveEditChanges(label)">
+                    <span class="icon is-small">
+                      <i class="fas fa-save"></i>
+                    </span>
+                    <span>Сохранить изменения</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button class="button is-danger is-outlined" @click="repealEdit(label)">
+                    <span>Отменить</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
