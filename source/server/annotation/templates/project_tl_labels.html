@@ -7,6 +7,16 @@
 {% block project-content %}
 
 <div id="project-labels">
+
+  <b-notification
+    :type="st_variant"
+    aria-close-label="Close notification"
+    role="alert"
+    :active.sync="st_show"
+    v-show="st_show">
+    ${ st_value }
+  </b-notification>
+
   <div class="columns is-multiline">
     <div class="column is-full">
       <button class="button is-primary" @click="createLabel()">Новая метка</button>
@@ -39,6 +49,7 @@
             <b-field label="Горячие клавиши">
               <b-field>
                 <b-select v-model="new_label.prefix_key" expanded>
+                  <option value=""></option>
                   <option value="ctrl">ctrl</option>
                   <option value="shift">shift</option>
                 </b-select>
@@ -139,6 +150,7 @@
             <b-field label="Горячие клавиши">
               <b-field>
                 <b-select v-model="label.prefix_key" expanded>
+                  <option value=""></option>
                   <option value="ctrl">ctrl</option>
                   <option value="shift">shift</option>
                 </b-select>

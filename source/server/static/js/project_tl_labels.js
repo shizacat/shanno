@@ -6,7 +6,7 @@ new Vue({
     labels: Array,
     active_edit: null,
     st_show: false,
-    st_variant: "danger",
+    st_variant: "is-danger",
     st_value: "",
     hot_keys: "abcdefghijklmnopqrstuvwxyz",
   },
@@ -95,7 +95,7 @@ new Vue({
       .catch(this.addErrorApi);
     },
     addError: function(msg){
-      this.st_variant = "danger";
+      this.st_variant = "is-danger";
       this.st_value = msg;
       this.st_show = true;
     },
