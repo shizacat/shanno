@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<section class="columns is-fullheight fh-section is-marginless">
+<section class="columns fh-section is-marginless">
   <aside class="column is-2 is-main-color">
     <p class="menu-label is-size-6 has-text-white has-text-centered">
       {{ project.name }}
@@ -29,8 +29,7 @@
           <span class="tag is-link">{{ project.type }}</span>
         Описание: {{ project.description }}</h4>
       </div>
-      <div class="column is-half">
-        <p class="title is-5">Количество обработанных документов</p>
+      <div class="column is-one-third">
         <div class="progress-wrapper">
           <progress class="progress is-info is-large" :value="stat_docs_approved" :max="stat_docs_total">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></progress>
           <p class="progress-value has-text-black">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
