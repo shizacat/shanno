@@ -84,6 +84,11 @@ a.box-link:hover {
   margin-bottom: 5px;
 }
 
+.right-block {
+  clear: left; 
+  float: right;
+}
+
 @media screen and (max-width: 1023px){
 	.navbar .navbar-item:not(.is-active):not(:hover), 
 	.navbar .navbar-link:not(.is-active):not(:hover) {
@@ -93,6 +98,13 @@ a.box-link:hover {
 		background-color: #343a40;
 		border-radius: 0 0 .4em .4em;
 	}
+}
+
+@media screen and (max-width: 768px){
+  .right-block {
+    clear: left; 
+    float: none;
+  }
 }
 
 .progress-wrapper {

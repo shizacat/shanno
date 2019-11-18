@@ -44,24 +44,18 @@
       :item="doc"
       :key="doc.id"
       v-for="doc in docs">
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <div>
-            <p class="header">${doc.file_name}</p>
-            <p class="subtitle is-6">${doc.sequence_preview | truncate(100)}</p>
-          </div>
-          </div>
+      <div class="columns">
+        <div class="column">
+          <p class="header">${doc.file_name}</p>
+          <p class="subtitle is-6">${doc.sequence_preview }</p>
         </div>
-        <div class="level-right">
-          <div class="level-item">
+        <div class="column is-one-quarter">
+          <div class="right-block">
             <button @click="gotoAnnotation(doc.id)" class="button is-info">Аннотация</button>
-          </div>
-          <div class="level-item">
             <button :aria-controls="`doc-${doc.id}`" class="button is-danger is-outlined" v-on:click="doc.isOpen = !doc.isOpen">Удалить</button>
           </div>
         </div>
-    </nav>
+      </div>
     </div>
     <b-pagination
     :total="docs_total"
