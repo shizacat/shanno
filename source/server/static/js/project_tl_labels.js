@@ -9,6 +9,7 @@ new Vue({
     st_variant: "is-danger",
     st_value: "",
     hot_keys: "abcdefghijklmnopqrstuvwxyz",
+    is_open_delete: null,
   },
   computed: {
     project_id: function(){
@@ -19,6 +20,12 @@ new Vue({
     this.getLabels();
   },
   methods: {
+    closeDelete: function() {
+      this.is_open_delete = null
+    },
+    openDelete: function(index) {
+      this.is_open_delete = index
+    },
     getLabels() {
       self = this;
       axios.get("/api/project/" + this.project_id + "/tl_labels_list/")
@@ -77,6 +84,7 @@ new Vue({
       axios.delete("/api/tl_label/" + label.id)
       .then(function(){
         let index = self.labels.indexOf(label);
+        self.is_open_delete = null
         self.labels.splice(index, 1);
       })
       .catch(this.addErrorApi);

@@ -97,7 +97,7 @@
       </p>
     </header>
     <div class="card-content">
-      <div v-for="label in labels" :key="label.id">
+      <div v-for="(label, index) in labels" :key="label.id">
         <nav class="level is-desktop">
           <div class="level-left">
             <div class="level-item">
@@ -119,7 +119,7 @@
                   </button>
                 </p>
                 <p class="control">
-                  <button class="button is-text" @click="deleteLabel(label)">
+                  <button class="button is-text" @click="openDelete(index)">
                     <span class="icon is-small">
                       <i class="fas fa-trash-alt"></i>
                     </span>
@@ -187,6 +187,18 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete == index">
+          <p>Вы действительно хотите удалить метку?</p>
+          <br>
+          <div class="field is-grouped">
+            <p class="control">
+          <button class="button is-success is-inverted is-outlined is-small" @click="deleteLabel(label)">Да</button>
+        </p>
+        <p class="control">
+          <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">Нет</button>
+        </p>
+        </div>
         </div>
       </div>
     </div>

@@ -50,9 +50,6 @@ new Vue({
       .then(function(response) {
         self.docs_total = response.data.count;
         self.docs = response.data.results;
-        for(let i = 0; i < self.docs.length; i++){
-          self.docs[i].isOpen = false;
-        };
       })
       .catch(this.addErrorApi);
     },
@@ -66,9 +63,6 @@ new Vue({
         )
       .then(function(response) {
         self.docs = response.data.results;
-        for(let i = 0; i < self.docs.length; i++){
-          self.docs[i].isOpen = false;
-        };
         // Set Page
         if (page != self.$route.query.page){
           q = Object.assign({}, self.$route.query);

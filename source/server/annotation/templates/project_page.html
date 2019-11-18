@@ -43,7 +43,7 @@
       id="docs-table"
       :item="doc"
       :key="doc.id"
-      v-for="doc in docs">
+      v-for="(doc, index) in docs">
       <div class="columns">
         <div class="column">
           <p class="header">${doc.file_name}</p>
@@ -52,7 +52,7 @@
         <div class="column is-one-quarter">
           <div class="right-block">
             <button @click="gotoAnnotation(doc.id)" class="button is-info">Аннотация</button>
-            <button :aria-controls="`doc-${doc.id}`" class="button is-danger is-outlined" v-on:click="doc.isOpen = !doc.isOpen">Удалить</button>
+            <button class="button is-danger is-outlined" @:click="doc.isOpen = !doc.isOpen">Удалить</button>
           </div>
         </div>
       </div>
