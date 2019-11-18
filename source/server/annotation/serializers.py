@@ -27,7 +27,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
         text = ""
         seq = models.Sequence.objects.filter(document=obj)[:1]
         if seq:
-            text = seq[0].text[:50]
+            text = seq[0].text[:200]
         return text
 
 
