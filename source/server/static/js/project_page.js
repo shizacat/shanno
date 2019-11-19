@@ -88,6 +88,7 @@ new Vue({
 
       axios.delete("/api/document/" + doc_id + "/")
       .then(function(response){
+        self.is_open_delete = null
         self.getAllDocumentPage(self.current_page)
       })
       .catch(this.addErrorApi);
@@ -134,8 +135,10 @@ new Vue({
       this.current_page = 1;
     },
     openDelete: function(index) {
-      console.log(index);
       this.is_open_delete = index;
+    },
+    closeDelete: function() {
+      this.is_open_delete = null
     },
   },
   filters: { 
