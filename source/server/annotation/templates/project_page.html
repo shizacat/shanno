@@ -22,7 +22,9 @@
     </ul>
   </aside>
   <div class="column is-10">
+
     {% block project-content %}
+
     <div id="project-page">
       <div class="column">
         <h4 class="subtitle is-5">
@@ -52,7 +54,8 @@
         <div class="column is-one-quarter">
           <div class="right-block">
             <button @click="gotoAnnotation(doc.id)" class="button is-info">Аннотация</button>
-            <button class="button is-danger is-outlined" @:click="doc.isOpen = !doc.isOpen">Удалить</button>
+            <button class="button is-danger is-outlined" @click="openDelete(index)">Удалить</button>
+            <!-- <p v-show="is_open_delete == index">Test <button>Cancel</button></button></p> -->
           </div>
         </div>
       </div>
@@ -69,102 +72,11 @@
     icon-next="chevron-right"
     @change="getAllDocumentPage">
     </b-pagination>
+    
     {% endblock %}
+
   </div>
 </section>
-
-<!-- <div class="projects-base">
-  <nav class="sidebar">
-    <div class="sidebar-header">
-      {{ project.name }}
-    </div>
-    <ul class="sidebar-nav">
-      <li>
-        <a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}active{% endif %}">Инфо</a>
-      </li>
-      <li>
-        <a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}active{% endif %}">Импорт</a>
-      </li>
-      <li>
-        <a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}active{% endif %}">Экспорт</a>
-      </li>
-      <hr>
-      <li>
-        <a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}active{% endif %}">Метки</a>
-      </li>
-      <hr>
-      <li>
-        <a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}active{% endif %}">Настройки</a>
-      </li>
-    </ul>
-  </nav>
-
-  <div id="project-content">
-
-      <div class="container-fluid" id="project-page">
-
-        <div>
-          <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
-        </div>
-
-        <p class="lead">
-          <b-badge pill variant="info">{{ project.type }}</b-badge></br>
-          Описание: {{ project.description }} 
-        </p>
-
-        <p class="h5">Количество обработанных документов</p>
-        <b-progress class="w-75" :max="stat_docs_total" height="2rem">
-          <b-progress-bar :value="stat_docs_approved">
-            Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong>
-          </b-progress-bar>
-        </b-progress>
-
-        <p class="h5">Отфильтровать</p>
-        <b-form-select v-model="filter_approved" class="mb-3" @input="changeFilterApproved()">
-          <option :value="null">-</option>
-          <option value="0">Не проверен</option>
-          <option value="1">Проверен</option>
-        </b-form-select>
-
-        <div class="overflow-auto">
-          <p class="h5">Список документов</p>
-          <b-list-group class="doc-list">
-            <b-list-group-item
-            class="flex-column align-items-start"
-            id="docs-table"
-            :item="doc"
-            :key="doc.id"
-            v-for="doc in docs">
-              <div class="d-flex justify-content-between">
-              <h5 class="mb-1">${doc.file_name}</h5> 
-              <b-button @click="gotoAnnotation(doc.id)" size="sm" variant="info">Аннотация</b-button>
-              <b-button v-b-toggle="`doc-${doc.id}`" size="sm" variant="danger">Удалить</b-button>
-              </div>
-              <div class="d-flex">
-                <p class="mb-1">
-                  ${doc.sequence_preview | truncate(50)}
-                </p>
-              </div>
-              <b-collapse :id="`doc-${doc.id}`">
-                <b-card border-variant="danger" header-bg-variant="danger" header-text-variant="white" header="Вы действительно хотите удалить документ?" class="text-left mt-2">
-                  <b-button variant="outline-danger" @click="deleteDoc(doc.id)">Да</b-button>
-                  <b-button v-b-toggle="`doc-${doc.id}`" variant="outline-success">Нет</b-button>
-                </b-card>
-              </b-collapse>
-            </b-list-group-item>
-          </b-list-group>
-          <b-pagination
-            v-model="current_page"
-            :total-rows="docs_total"
-            :per-page="docs_by_page"
-            aria-controls="docs-table"
-            @input="getAllDocumentPage(current_page)">
-          </b-pagination>
-          Total: ${docs_total}
-        </div>
-      </div>
-  </div>
-</div> -->
 
 {% endblock %}
 

@@ -19,6 +19,7 @@ new Vue({
     st_show: false,
     st_variant: "danger",
     st_value: "",
+    is_open_delete: null,
   },
   computed: {
     project_id: function(){
@@ -131,7 +132,11 @@ new Vue({
       this.getAllDocumentApproved();
       await this.getCountDocuments();
       this.current_page = 1;
-    }
+    },
+    openDelete: function(index) {
+      console.log(index);
+      this.is_open_delete = index;
+    },
   },
   filters: { 
     truncate: function(string, value) {
