@@ -44,14 +44,6 @@ a.box-link:hover {
 	color: inherit;
 }
 
-.fh-section {
-  min-height: calc(100vh - (3.25rem - .75rem));
-  max-height: 200vh;
-  /*height: calc(110vh - ( 3.25rem - .75rem ) );*/
-  flex-direction: row;
-  justify-content: stretch;
-}
-
 .menu-list li {
   background-color: transparent;
   position: relative;
@@ -98,6 +90,9 @@ a.box-link:hover {
 		background-color: #343a40;
 		border-radius: 0 0 .4em .4em;
 	}
+  .hero.is-fullheight {
+    min-height: 100%;
+  }
 }
 
 @media screen and (max-width: 768px){
