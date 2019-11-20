@@ -90,15 +90,15 @@ a.box-link:hover {
 		background-color: #343a40;
 		border-radius: 0 0 .4em .4em;
 	}
-  .hero.is-fullheight {
-    min-height: 100%;
-  }
 }
 
 @media screen and (max-width: 768px){
   .right-block {
     clear: left; 
     float: none;
+  }
+  .hero.is-fullheight {
+    min-height: 100%;
   }
 }
 
@@ -131,3 +131,399 @@ a.box-link:hover {
   line-height: 1.5rem;
 }
 
+.tl_anno_row {
+  text-indent: .75em;
+  line-height: 2.5em;
+}
+
+.switch {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.switch + .switch {
+  margin-left: 0.5em;
+}
+
+.switch input[type=checkbox] {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  outline: none;
+  z-index: -1;
+}
+
+.switch input[type=checkbox] + .check {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 2.75em;
+  height: 1.575em;
+  padding: 0.2em;
+  background: #b5b5b5;
+  border-radius: 4px;
+  transition: background 150ms ease-out;
+}
+
+.switch input[type=checkbox] + .check:before {
+  content: "";
+  display: block;
+  border-radius: 4px;
+  width: 1.175em;
+  height: 1.175em;
+  background: whitesmoke;
+  box-shadow: 0 3px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 150ms ease-out, width 150ms ease-out;
+  will-change: transform;
+}
+
+.switch input[type=checkbox] + .check.is-elastic:before {
+  width: 1.75em;
+}
+
+.switch input[type=checkbox]:checked + .check {
+  background: #7957d5;
+}
+
+.switch input[type=checkbox]:checked + .check.is-white {
+  background: white;
+}
+
+.switch input[type=checkbox]:checked + .check.is-black {
+  background: #0a0a0a;
+}
+
+.switch input[type=checkbox]:checked + .check.is-light {
+  background: whitesmoke;
+}
+
+.switch input[type=checkbox]:checked + .check.is-dark {
+  background: #363636;
+}
+
+.switch input[type=checkbox]:checked + .check.is-primary {
+  background: #7957d5;
+}
+
+.switch input[type=checkbox]:checked + .check.is-link {
+  background: #7957d5;
+}
+
+.switch input[type=checkbox]:checked + .check.is-info {
+  background: #167df0;
+}
+
+.switch input[type=checkbox]:checked + .check.is-success {
+  background: #23d160;
+}
+
+.switch input[type=checkbox]:checked + .check.is-warning {
+  background: #ffdd57;
+}
+
+.switch input[type=checkbox]:checked + .check.is-danger {
+  background: #ff3860;
+}
+
+.switch input[type=checkbox]:checked + .check:before {
+  transform: translate3d(100%, 0, 0);
+}
+
+.switch input[type=checkbox]:checked + .check.is-elastic:before {
+  transform: translate3d(36.36364%, 0, 0);
+}
+
+.switch input[type=checkbox]:focus {
+  outline: none;
+}
+
+.switch input[type=checkbox]:focus + .check {
+  box-shadow: 0 0 0.5em rgba(122, 122, 122, 0.6);
+}
+
+.switch input[type=checkbox]:focus:checked + .check {
+  box-shadow: 0 0 0.5em rgba(121, 87, 213, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-white {
+  box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-black {
+  box-shadow: 0 0 0.5em rgba(10, 10, 10, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-light {
+  box-shadow: 0 0 0.5em rgba(245, 245, 245, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-dark {
+  box-shadow: 0 0 0.5em rgba(54, 54, 54, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-primary {
+  box-shadow: 0 0 0.5em rgba(121, 87, 213, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-link {
+  box-shadow: 0 0 0.5em rgba(121, 87, 213, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-info {
+  box-shadow: 0 0 0.5em rgba(22, 125, 240, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-success {
+  box-shadow: 0 0 0.5em rgba(35, 209, 96, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-warning {
+  box-shadow: 0 0 0.5em rgba(255, 221, 87, 0.8);
+}
+
+.switch input[type=checkbox]:focus:checked + .check.is-danger {
+  box-shadow: 0 0 0.5em rgba(255, 56, 96, 0.8);
+}
+
+.switch .control-label {
+  padding-left: 0.5em;
+}
+
+.switch:hover input[type=checkbox] + .check {
+  background: rgba(181, 181, 181, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check {
+  background: rgba(121, 87, 213, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-white {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-black {
+  background: rgba(10, 10, 10, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-light {
+  background: rgba(245, 245, 245, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-dark {
+  background: rgba(54, 54, 54, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-primary {
+  background: rgba(121, 87, 213, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-link {
+  background: rgba(121, 87, 213, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-info {
+  background: rgba(22, 125, 240, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-success {
+  background: rgba(35, 209, 96, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-warning {
+  background: rgba(255, 221, 87, 0.9);
+}
+
+.switch:hover input[type=checkbox]:checked + .check.is-danger {
+  background: rgba(255, 56, 96, 0.9);
+}
+
+.switch.is-rounded input[type=checkbox] + .check {
+  border-radius: 290486px;
+}
+
+.switch.is-rounded input[type=checkbox] + .check:before {
+  border-radius: 290486px;
+}
+
+.switch.is-outlined input[type=checkbox] + .check {
+  background: transparent;
+  border: 0.1rem solid #b5b5b5;
+}
+
+.switch.is-outlined input[type=checkbox] + .check:before {
+  background: #b5b5b5;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check {
+  border-color: #7957d5;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-white {
+  background: transparent;
+  border-color: white;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-white:before {
+  background: white;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-black {
+  background: transparent;
+  border-color: #0a0a0a;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-black:before {
+  background: #0a0a0a;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-light {
+  background: transparent;
+  border-color: whitesmoke;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-light:before {
+  background: whitesmoke;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-dark {
+  background: transparent;
+  border-color: #363636;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-dark:before {
+  background: #363636;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-primary {
+  background: transparent;
+  border-color: #7957d5;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-primary:before {
+  background: #7957d5;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-link {
+  background: transparent;
+  border-color: #7957d5;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-link:before {
+  background: #7957d5;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-info {
+  background: transparent;
+  border-color: #167df0;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-info:before {
+  background: #167df0;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-success {
+  background: transparent;
+  border-color: #23d160;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-success:before {
+  background: #23d160;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-warning {
+  background: transparent;
+  border-color: #ffdd57;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-warning:before {
+  background: #ffdd57;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-danger {
+  background: transparent;
+  border-color: #ff3860;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check.is-danger:before {
+  background: #ff3860;
+}
+
+.switch.is-outlined input[type=checkbox]:checked + .check:before {
+  background: #7957d5;
+}
+
+.switch.is-outlined:hover input[type=checkbox] + .check {
+  background: transparent;
+  border-color: rgba(181, 181, 181, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check {
+  background: transparent;
+  border-color: rgba(121, 87, 213, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-white {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-black {
+  border-color: rgba(10, 10, 10, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-light {
+  border-color: rgba(245, 245, 245, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-dark {
+  border-color: rgba(54, 54, 54, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-primary {
+  border-color: rgba(121, 87, 213, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-link {
+  border-color: rgba(121, 87, 213, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-info {
+  border-color: rgba(22, 125, 240, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-success {
+  border-color: rgba(35, 209, 96, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-warning {
+  border-color: rgba(255, 221, 87, 0.9);
+}
+
+.switch.is-outlined:hover input[type=checkbox]:checked + .check.is-danger {
+  border-color: rgba(255, 56, 96, 0.9);
+}
+
+.switch.is-small {
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+.switch.is-medium {
+  font-size: 1.25rem;
+}
+
+.switch.is-large {
+  font-size: 1.5rem;
+}
+
+.switch[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: #7a7a7a;
+}
