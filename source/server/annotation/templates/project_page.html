@@ -45,6 +45,7 @@
       <div class="column">
         <b-field horizontal label="Отфильтровать">
           <b-select v-model="filter_approved" @input="changeFilterApproved()">
+            <option value="">---</option>
             <option value="0">Не проверен</option>
             <option value="1">Проверен</option>
           </b-select>
