@@ -6,16 +6,19 @@
 
 {% block project-content %}
 
-<div class="card" id="project-settings">
-
-  <div>
-    <b-alert dismissible :variant="st_variant" :show="st_show" @dismissed="st_show=false">${st_value}</b-alert>
-  </div>
-
-  <div class="card-body">
-    <h5 class="card-title">Удаление проекта</h5>
-    <p>Удалить проет <strong>{{ project.name }}</strong>?</p>
-    <button type="button" class="btn btn-danger" @click="deleteProject({{project.id}})">Удалить</button>
+<div id="project-settings">
+  <b-notification
+  :type="st_variant"
+  aria-close-label="Close notification"
+  role="alert"
+  :active.sync="st_show"
+  v-show="st_show">
+  ${ st_value }
+  </b-notification>
+  <div class="column">
+    <h4 class="title is-spaced is-4">Удаление проекта</h4>
+    <h6 class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</h6>
+    <button class="button is-danger" @click="deleteProject({{project.id}})">Удалить</button>
   </div>
 </div>
 
