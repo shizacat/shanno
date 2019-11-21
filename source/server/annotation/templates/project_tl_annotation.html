@@ -54,7 +54,15 @@
         'background-color': labels_hash[chunk.obj.label].color_background,
         'color': labels_hash[chunk.obj.label].color_text,
         'text-indent': '0px'} : {}]"
-        :id="i_chunk">${chunk.text}
+        :id="i_chunk">
+          <template v-if="chunk.type == 'label'">
+            <b-tooltip :label="labels_hash[chunk.obj.label].name" type="is-dark" animated>
+              ${chunk.text}
+            </b-tooltip>
+          </template>
+          <template v-else>
+            ${chunk.text}
+          </template>
           <button 
           v-if="chunk.type == 'label'"
           @click="onDeleteLabel(chunk.obj.id, data.obj.id, i_chunk)"
