@@ -10,7 +10,7 @@ new Vue({
     deleteProject: function(project_id) {
       axios.delete("/api/project/" + project_id + "/")
         .then(function (response) {
-            location.href = '/projects/';
+            location.href = '/';
         })
         .catch(this.addErrorApi);
     },
