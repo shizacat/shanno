@@ -1,6 +1,9 @@
 const router = new VueRouter({
   routes: []
 });
+// const cookie = new VueCookie();
+// var VueCookie = require('vue-cookie');
+// Vue.use(VueCookies);
 
 new Vue({
   router,
@@ -24,7 +27,8 @@ new Vue({
         }),
         {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': this.$cookies.get('csrftoken')
           }
         }
         )

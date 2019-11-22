@@ -11,7 +11,9 @@ from django.db import transaction
 from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
+from rest_framework import permissions
+from django.contrib.auth.decorators import login_required
 
 from annotation import models
 from annotation.exceptions import FileParseException
@@ -31,6 +33,7 @@ def health(request):
     return response
 
 
+@login_required
 def project_action(request, project, action="page"):
     # dict: name_action -> name_suffix_template
     actions_list_map = {
@@ -91,19 +94,33 @@ class ProjectViewSet(viewsets.ModelViewSet):
     # Поддерживаемые форматы
     file_format_list = ["conllup"]
 
+    def create(self, request, *args, **kwargs):
+        project = models.Projects.objects.create(
+            name=request.data["name"],
+            description=request.data.get("description", ""),
+            type=request.data["type"],
+            owner=request.user
+        )
+
+        serializer = self.serializer_class(project, many=False)
+        return Response(serializer.data)
+
     def list(self, request, *args, **kwargs):
-        queryset = models.Projects.objects.all()
+        queryset = models.Projects.objects.filter(owner=request.user)
 
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
+        if obj.owner != request.user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['put'])
     def ds_import(self, request, pk=None):
+        print("test")
         file_obj = request.FILES.get("files", None)
         file_format = request.data.get("format", None)
 
@@ -409,6 +426,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
         except ValueError:
             return False
 
+    def _check_permision(self, request) -> bool:
+        """Проверяет есть ли права на операцию"""
+
 
 class DocumentSeqViewSet(viewsets.ModelViewSet):
     queryset = models.Documents.objects.all()
@@ -432,6 +452,33 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# Permissions
+# ==========
+
+# class RBACPermission(permissions.BasePermission):
+#     def has_permission(self, request, view):
+#         print(type(view))
+#         project = None
+#         if type(view) == TLLabelsViewSet:
+#             project = models.Projects.objects.get(pk=request.data["project"])
+#         return self._check(request, project)
+
+#     def has_object_permission(self, request, view, obj):
+#         project = None
+#         if type(obj) == models.TlLabels:
+#             project = obj.project
+#         return self._check(request, project)
+
+#     def _check(self, request, project):
+#         if project is None:
+#             return False
+
+#         if request.user == project.owner:
+#             return True
+#         return False
+
+
+# @permission_classes([RBACPermission])
 class TLLabelsViewSet(viewsets.ModelViewSet):
     """
     suffix_key - если не указано будет попытка найти свободную букву

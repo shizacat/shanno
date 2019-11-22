@@ -2,6 +2,7 @@ import string
 from enum import Enum
 
 from django.db import models
+from django.conf import settings
 
 
 PROJECT_TYPE = (
@@ -10,12 +11,30 @@ PROJECT_TYPE = (
 
 
 class Projects(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(max_length=100)
     description = models.TextField(default="", blank=True)
     type = models.CharField(
         choices=(PROJECT_TYPE),
         max_length=20
     )
+
+    # def save_model(self, request, obj, form, change):
+    #     print("Call save model")
+    #     if not obj.pk:
+    #         # Only set added_by during the first save.
+    #         obj.owner = request.user
+    #     super().save_model(request, obj, form, change)
+
+    # def save(self, *args, **kwargs):
+    #     print("Call save")
+    # #     if not obj.pk:
+    # #         # Only set added_by during the first save.
+    # #         obj.owner = request.user
+    #     super().save(*args, **kwargs)
 
 
 class Documents(models.Model):

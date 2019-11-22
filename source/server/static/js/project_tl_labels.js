@@ -65,7 +65,16 @@ new Vue({
     },
     postLabel() {
       self = this;
-      axios.post("/api/tl_label/", this.new_label)
+      axios.post(
+        "/api/tl_label/",
+        this.new_label,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
       .then(function(response){
         self.cancelCreate();
         self.labels.unshift(response.data);
@@ -81,7 +90,15 @@ new Vue({
     },
     deleteLabel(label) {
       self = this;
-      axios.delete("/api/tl_label/" + label.id)
+      axios.delete(
+        "/api/tl_label/" + label.id,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
       .then(function(){
         let index = self.labels.indexOf(label);
         self.is_open_delete = null
@@ -96,7 +113,16 @@ new Vue({
     saveEditChanges(label) {
       self = this;
       this.active_edit = null;
-      axios.patch("/api/tl_label/" + label.id + "/", label)
+      axios.patch(
+        "/api/tl_label/" + label.id + "/",
+        label,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
       .then(function(){
         self.labels;
       })

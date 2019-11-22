@@ -22,11 +22,13 @@ new Vue({
       let fileData = new FormData;
       fileData.append("files", this.files);
       fileData.append("format", this.format);
-      axios.put("/api/project/" + project_id + "/ds_import/", 
+      axios.put(
+        "/api/project/" + project_id + "/ds_import/",
         fileData,
         {
           headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
+            "X-CSRFToken": this.$cookies.get("csrftoken")
           }
         }
       ).then(function(response) {

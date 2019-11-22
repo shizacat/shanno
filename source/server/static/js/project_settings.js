@@ -8,11 +8,18 @@ new Vue({
   },
   methods: {
     deleteProject: function(project_id) {
-      axios.delete("/api/project/" + project_id + "/")
-        .then(function (response) {
-            location.href = '/';
-        })
-        .catch(this.addErrorApi);
+      axios.delete(
+        "/api/project/" + project_id + "/",
+        {
+          headers: {
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
+      .then(function (response) {
+          location.href = '/';
+      })
+      .catch(this.addErrorApi);
     },
     addError: function(msg){
       this.st_variant = "danger";

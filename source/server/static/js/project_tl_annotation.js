@@ -108,23 +108,43 @@ new Vue({
       this.doc_render[seq_id].chunks = this.renderCreateChunks(
         this.doc_render[seq_id].obj
       );
-      
 
-      axios.delete("/api/tl_seq_label/" + label_seq_id + "/")
+      axios.delete(
+        "/api/tl_seq_label/" + label_seq_id + "/",
+        {
+          headers: {
+            "X-CSRFToken": this.$cookies.get("csrftoken")
+          }
+        }
+      )
       .then(function(response){
       })
       .catch(this.addErrorApi);
     },
     onChangeApproved: function(){
       if (this.is_approved){
-        axios.post("/api/document/" + this.doc.id + "/approved/")
+        axios.post(
+          "/api/document/" + this.doc.id + "/approved/",
+          "",
+          {
+            headers: {
+              "X-CSRFToken": this.$cookies.get("csrftoken")
+            }
+          }
+        )
         .then(function(response){
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch(this.addErrorApi);
       }else{
-        axios.post("/api/document/" + this.doc.id + "/unapproved/")
+        axios.post(
+          "/api/document/" + this.doc.id + "/unapproved/",
+          "",
+          {
+            headers: {
+              "X-CSRFToken": this.$cookies.get("csrftoken")
+            }
+          }
+        )
         .then(function(response){
         })
         .catch(this.addErrorApi);
@@ -221,7 +241,8 @@ new Vue({
 
       var self = this;
 
-      axios.post("/api/tl_seq_label/",
+      axios.post(
+        "/api/tl_seq_label/",
         JSON.stringify({
             offset_start: this.sel_offset_start,
             offset_stop: this.sel_offset_end,
@@ -230,7 +251,8 @@ new Vue({
         }),
         {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "X-CSRFToken": this.$cookies.get("csrftoken")
           }
         }
       )

@@ -26,7 +26,10 @@ new Vue({
         params: {
           "exformat": this.format
         },
-        responseType: "arraybuffer"
+        responseType: "arraybuffer",
+        headers: {
+          "X-CSRFToken": this.$cookies.get("csrftoken") 
+        }
       })
       .then(function(response){
         const blob = new Blob([response.data]);
