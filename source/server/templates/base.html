@@ -13,17 +13,15 @@
   <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/flatly/bulmaswatch.min.css">
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-tag.css' %}"> -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/awfont.min.css' %}">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 
   {% if DEBUG %}
     <script src="{% static 'js/ex/vue.js' %}"></script>
   {% else %}
     <script src="{% static 'js/ex/vue.min.js' %}"></script>
   {% endif %}
-  <!-- <script src="{% static 'js/bootstrap-vue.min.js' %}"></script> -->
-  <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+
+  <script src="{% static 'js/ex/buefy.min.js' %}"></script>
   <script src="{% static 'js/ex/axios.min.js' %}"></script>
   <script src="{% static 'js/ex/vue-router.min.js' %}"></script>
 </head>

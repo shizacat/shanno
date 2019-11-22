@@ -7,10 +7,8 @@ Django application structure folder:
 
 Набор используемых инструментов и библиотек:
 - Django
-- Bootstrap 4.3.1
-- Bootstrap-vue 2.0.1
+- Buefy (Bulma for Vue) v0.8.8
 - Vue 2.6.10
 - Vue Router 3.1.3
 - axios 0.19.0
-- Font Awesome
-- Bulma (кусок)
+- Font Awesome 5.10.2
