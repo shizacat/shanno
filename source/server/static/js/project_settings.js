@@ -2,7 +2,10 @@ new Vue({
   el: "#project-settings",
   delimiters: ['${', '}'],
   data: {
-    new_permission: null,
+    members: Array,
+    new_member: null,
+    is_open_delete: null,
+    active_edit: null,
     st_show: false,
     st_variant: "is-danger",
     st_value: "",
@@ -12,10 +15,13 @@ new Vue({
       return window.location.href.split("/")[4];
     }
   },
+  created() {
+    this.getMembers();
+  },
   methods: {
     deleteProject: function(project_id) {
       axios.delete(
-        "/api/project/" + project_id + "/",
+        "/api/project/" + this.project_id + "/",
         {
           headers: {
             'X-CSRFToken': this.$cookies.get('csrftoken')
@@ -27,20 +33,20 @@ new Vue({
       })
       .catch(this.addErrorApi);
     },
-    createPermission() {
-      this.new_permission = {
-        permission: "view"
+    addMember() {
+      this.new_member = {
+        permission: "view",
         username: ""
       };
     },
     cancelCreate() {
-      this.new_permission = null;
+      this.new_member = null;
     },
-    postPermission() {
+    postMember() {
       self = this;
       axios.post(
         "/api/project/" + this.project_id + "/permission/",
-        this.new_permission,
+        this.new_member,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -50,6 +56,67 @@ new Vue({
       )
       .then(function(response){
         self.cancelCreate();
+        self.getMembers();
+      })
+      .catch(this.addErrorApi);
+    },
+    getMembers() {
+      self = this;
+      axios.get("/api/project/" + this.project_id + "/permission/")
+        .then(function(response){
+          self.members = response.data;
+          self.members.reverse();
+        })
+        .catch(this.addErrorApi)
+    },
+    closeDelete: function() {
+      this.is_open_delete = null
+    },
+    openDelete: function(index) {
+      this.is_open_delete = index
+    },
+    editLabel(member) {
+      this.clone_member = Object.assign({}, member);
+      this.active_edit = member;
+    },
+    saveEditChanges(member) {
+      self = this;
+      this.active_edit = null;
+      axios.put(
+        "/api/project/" + this.project_id + "/permission/",
+        member,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
+      .then(function(){
+        self.members;
+      })
+      .catch(this.addErrorApi);
+    },
+    repealEdit(member) {
+      this.active_edit = null;
+      Object.assign(member, this.clone_member);
+    },
+    deleteMember(member) {
+      self = this;
+      axios.delete(
+        "/api/project/" + this.project_id + "/permission/",
+        {
+          data: { username: "admin" },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
+      .then(function(){
+        let index = self.members.indexOf(member);
+        self.is_open_delete = null
+        self.members.splice(index, 1);
       })
       .catch(this.addErrorApi);
     },

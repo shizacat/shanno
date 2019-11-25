@@ -17,25 +17,33 @@
   </b-notification>
 
   <div class="columns is-multiline">
-    <div class="column is-full">
-      <button class="button is-primary" @click="createPermission()">Добавить участника</button>
+    <div class="column is-12">
+      <button class="button is-primary" @click="addMember()">Добавить участника</button>
     </div>
-    <div class="column is-full" v-if="new_permission">
+    <div class="column" v-if="new_member">
       <div class="box">
         <div class="columns is-multiline is-vcentered">
-          <div class="column">
+          <div class="column is-3">
             <b-field label="Имя пользователя">
               <b-field>
-                <b-input v-model="new_permission.username"></b-input>
+                <b-input v-model="new_member.username"></b-input>
               </b-field>
             </b-field>
           </div>
-          <div class="column">
+          <div class="column is-3">
+            <b-field label="Роль">
+              <b-select placeholder="Выберите роль" v-model="new_member.permission" expanded>
+                <option value="view">Просмотр</option>
+                <option value="change">Редактирование</option>
+              </b-select>
+            </b-field>
+          </div>
+          <div class="column is-3">
             <div class="field">
               <label class="label">&nbsp;</label>
-              <div class="field is-grouped">
+              <div class="field is-grouped has-addons-right">
                 <div class="control">
-                  <button class="button is-success" @click="postPermission()">
+                  <button class="button is-success" @click="postMember()">
                     <span class="icon is-small">
                       <i class="fas fa-check"></i>
                     </span>
@@ -52,6 +60,102 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        Участников в проекте - ${members.length}
+      </p>
+    </header>
+    <div class="card-content">
+      <div v-for="(member, index) in members" :key="member.id">
+        <nav class="level is-desktop">
+          <div class="level-left">
+            <div class="level-item">
+              <div class="tags has-addons are-medium">
+                <span class="tag has-addons">${member.user_id}</span>
+                <span v-if="member.is_change" class="tag is-success has-addons">Редактирование</span>
+                <span v-else class="tag is-warning has-addons">Просмотр</span>
+              </div>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <b-field groupped>
+                <p class="control">
+                  <button class="button is-text" @click="editLabel(member)">
+                    <span class="icon is-small">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                    <span>Редактировать</span>
+                  </button>
+                </p>
+                <p class="control">
+                  <button class="button is-text" @click="openDelete(index)">
+                    <span class="icon is-small">
+                      <i class="fas fa-trash-alt"></i>
+                    </span>
+                    <span>Удалить</span>
+                  </button>
+                </p>
+              </b-field>
+            </div>
+          </div>
+        </nav>
+        <div class="columns" style="margin-bottom: 1rem" v-show="member === active_edit">
+          <div class="column">
+            <b-field label="Имя пользователя">
+              <b-field>
+                <b-input v-model="member.username"></b-input>
+              </b-field>
+            </b-field>
+          </div>
+          <div class="column">
+            <b-field label="Роль">
+              <b-select placeholder="Выберите роль" v-model="member.permission" expanded>
+                <option value="view">Просмотр</option>
+                <option value="change">Редактирование</option>
+              </b-select>
+            </b-field>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">&nbsp;</label>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-success" @click="saveEditChanges(member)">
+                    <span class="icon is-small">
+                      <i class="fas fa-save"></i>
+                    </span>
+                    <span>Сохранить изменения</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button class="button is-danger is-outlined" @click="repealEdit(member)">
+                    <span>Отменить</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete == index">
+          <p>Вы действительно хотите удалить участника?</p>
+          <br>
+          <div class="field is-grouped">
+            <p class="control">
+              <button class="button is-success is-inverted is-outlined is-small" @click="deleteMember(member)">Да</button>
+            </p>
+            <p class="control">
+              <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">Нет</button>
+            </p>
           </div>
         </div>
       </div>

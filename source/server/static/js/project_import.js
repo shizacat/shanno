@@ -34,7 +34,7 @@ new Vue({
       ).then(function(response) {
         self.addError(
           "Файл успешно обработан",
-          "success"
+          "is-success"
         )
         self.files = null;
       })
