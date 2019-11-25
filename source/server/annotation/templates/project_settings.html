@@ -15,6 +15,49 @@
   v-show="st_show">
   ${ st_value }
   </b-notification>
+
+  <div class="columns is-multiline">
+    <div class="column is-full">
+      <button class="button is-primary" @click="createPermission()">Добавить участника</button>
+    </div>
+    <div class="column is-full" v-if="new_permission">
+      <div class="box">
+        <div class="columns is-multiline is-vcentered">
+          <div class="column">
+            <b-field label="Имя пользователя">
+              <b-field>
+                <b-input v-model="new_permission.user"></b-input>
+              </b-field>
+            </b-field>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">&nbsp;</label>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-success" @click="postPermission()">
+                    <span class="icon is-small">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Добавить</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button class="button is-danger is-outlined" @click="cancelCreate()">
+                    <span>Отменить</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
   <div class="column">
     <h4 class="title is-spaced is-4">Удаление проекта</h4>
     <h6 class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</h6>
