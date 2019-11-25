@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 
 from annotation import models
@@ -10,8 +11,10 @@ class test_tl_label(TestCase):
 
     def setUp(self):
         # Model
+        self.user = User.objects.create_user(username='test', password='12345')
         self.project = models.Projects.objects.create(
-            name="lion", description="", type=models.PROJECT_TYPE[0]
+            name="lion", description="", type=models.PROJECT_TYPE[0],
+            owner=self.user
         )
         self.tl_label = models.TlLabels.objects.create(
             project=self.project, name="tltest"
@@ -106,8 +109,10 @@ class TestProject(TestCase):
 
     def setUp(self):
         # Models
+        self.user = User.objects.create_user(username='test', password='12345')
         self.project = models.Projects.objects.create(
-            name="lion", description="", type=models.PROJECT_TYPE[0]
+            name="lion", description="", type=models.PROJECT_TYPE[0],
+            owner=self.user
         )
         self.document = models.Documents.objects.create(
             project=self.project, file_name="0001"
@@ -162,12 +167,154 @@ class TestProject(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.json()["count"], 1)
 
+    def test_permission_add(self):
+        user = User.objects.create_user(username='user1', password='12345')
+        self.client.login(username='test', password='12345')
+
+        with self.subTest("Error username"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "user": "t",
+                    "permission": "view"
+                }
+            )
+            print(r.json())
+            self.assertEqual(r.status_code, 400)
+
+        with self.subTest("Error permission"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "username": "t",
+                }
+            )
+            print(r.json())
+            self.assertEqual(r.status_code, 400)
+
+        with self.subTest("Error user not found"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "username": "t",
+                    "permission": "view"
+                }
+            )
+            print(r.json())
+            self.assertEqual(r.status_code, 400)
+
+        with self.subTest("Error user owner"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "username": self.user.username,
+                    "permission": "view"
+                }
+            )
+            print(r.json())
+            self.assertEqual(r.status_code, 400)
+
+        with self.subTest("Success"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "username": user.username,
+                    "permission": "view"
+                }
+            )
+            self.assertEqual(r.status_code, 204)
+
+            a = models.ProjectsPermission.objects.get(user=user)
+            self.assertEqual(a.is_view, True)
+            self.assertEqual(a.is_change, False)
+
+        with self.subTest("Success to change"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "username": user.username,
+                    "permission": "change"
+                }
+            )
+            self.assertEqual(r.status_code, 204)
+
+            a = models.ProjectsPermission.objects.get(user=user)
+            self.assertEqual(a.is_view, True)
+            self.assertEqual(a.is_change, True)
+
+        with self.subTest("Success to view"):
+            r = self.client.post(
+                "/api/project/{}/permission/".format(self.project.id),
+                {
+                    "username": user.username,
+                    "permission": "view"
+                }
+            )
+            self.assertEqual(r.status_code, 204)
+
+            a = models.ProjectsPermission.objects.get(user=user)
+            self.assertEqual(a.is_view, True)
+            self.assertEqual(a.is_change, False)
+
+    def test_permission_delete(self):
+        user = User.objects.create_user(username='user1', password='12345')
+        self.client.login(username='test', password='12345')
+
+        self.client.post(
+            "/api/project/{}/permission/".format(self.project.id),
+            {
+                "username": user.username,
+                "permission": "view"
+            }
+        )
+
+        r = self.client.delete(
+            "/api/project/{}/permission/".format(self.project.id),
+            {
+                "username": user.username,
+            }
+        )
+        self.assertEqual(r.status_code, 204)
+
+        self.assertRaises(
+            models.ProjectsPermission.DoesNotExist,
+            models.ProjectsPermission.objects.get,
+            user=user
+        )
+
+    def test_permission_list(self):
+        """Получить список прав"""
+        user = User.objects.create_user(username='user1', password='12345')
+        self.client.login(username='test', password='12345')
+
+        with self.subTest("Null"):
+            r = self.client.get(
+                "/api/project/{}/permission/".format(self.project.id)
+            )
+            self.assertEqual(len(r.json()), 0)
+
+        self.client.post(
+            "/api/project/{}/permission/".format(self.project.id),
+            {
+                "username": user.username,
+                "permission": "view"
+            }
+        )
+
+        with self.subTest("Exists"):
+            r = self.client.get(
+                "/api/project/{}/permission/".format(self.project.id)
+            )
+            self.assertEqual(len(r.json()), 1)
+
 
 class TestDocuments(TestCase):
 
     def setUp(self):
+        self.user = User.objects.create_user(username='test', password='12345')
         self.project = models.Projects.objects.create(
-            name="lion", description="", type=models.PROJECT_TYPE[0]
+            name="lion", description="", type=models.PROJECT_TYPE[0],
+            owner=self.user
         )
         self.document = models.Documents.objects.create(
             project=self.project, file_name="0001"

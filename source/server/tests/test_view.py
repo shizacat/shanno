@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from django.contrib.auth.models import User
+
 from annotation.views import ProjectViewSet
 from annotation import models
 
@@ -8,8 +10,10 @@ class TestPViewExport(TestCase):
 
     def setUp(self):
         # Models
+        self.user = User.objects.create_user(username='test', password='12345')
         self.project = models.Projects.objects.create(
-            name="lion", description="", type=models.PROJECT_TYPE[0]
+            name="lion", description="", type=models.PROJECT_TYPE[0],
+            owner=self.user
         )
         self.document = models.Documents.objects.create(
             project=self.project, file_name="0001"

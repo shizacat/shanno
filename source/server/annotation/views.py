@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action, permission_classes
 from rest_framework import permissions
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from annotation import models
 from annotation.exceptions import FileParseException
@@ -120,7 +121,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put'])
     def ds_import(self, request, pk=None):
-        print("test")
         file_obj = request.FILES.get("files", None)
         file_format = request.data.get("format", None)
 
@@ -229,6 +229,140 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         serializer = anno_serializer.TLLabelsSerializer(labels, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get', 'post', 'put', 'delete'])
+    def permission(self, request, pk=None):
+        """Маршрутизатор для работы с правами"""
+        # --- Auth
+        if self.get_object().owner != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if request.method == 'GET':
+            resp = self._permission_list(request, pk)
+        elif request.method == 'POST':
+            resp = self._permission_add(request, pk)
+        elif request.method == 'PUT':
+            resp = self._permission_add(request, pk)
+        elif request.method == 'DELETE':
+            resp = self._permission_delete(request, pk)
+        else:
+            resp = Response(status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        return resp
+
+    def _permission_add(self, request, pk=None):
+        """Выдает/изменяет права пользователю
+
+        Args:
+            username - логин пользователя
+            permission - строка ["view", "change"]
+        """
+        # --- Auth
+        # if self.get_object().owner != request.user:
+        #     return Response(status=status.HTTP_403_FORBIDDEN)
+
+        # --- Checks
+
+        username = request.data.get("username")
+        permission = request.data.get("permission")
+
+        if username is None:
+            return Response(
+                "Не верно заполнено поле {}".format("username"),
+                status=status.HTTP_400_BAD_REQUEST)
+        if permission is None:
+            return Response(
+                "Не верно заполнено поле {}".format("permission"),
+                status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user_obj = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(
+                "Пользователь '{}' не найден".format(username),
+                status=status.HTTP_400_BAD_REQUEST)
+
+        if user_obj == self.get_object().owner:
+            return Response(
+                "Указан владелец проекта",
+                status=status.HTTP_400_BAD_REQUEST)
+
+        is_change = permission.lower() == "change"
+        is_view = permission.lower() == "view" or is_change
+
+        try:
+            perm = models.ProjectsPermission.objects.get(
+                project=self.get_object(),
+                user=user_obj
+            )
+        except models.ProjectsPermission.DoesNotExist:
+            perm = None
+
+        # --- Action
+        if perm is None:
+            # create
+            perm = models.ProjectsPermission.objects.create(
+                project=self.get_object(),
+                user=user_obj,
+                is_view=is_view,
+                is_change=is_change
+            )
+        else:
+            # update
+            perm.is_view = is_view
+            perm.is_change = is_change
+            perm.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def _permission_delete(self, request, pk=None):
+        """Забирает права у пользователя
+
+        Args:
+            username - логин пользователя
+        """
+        # --- Auth
+        # if self.get_object().owner != request.user:
+        #     return Response(status=status.HTTP_403_FORBIDDEN)
+
+        # --- Check
+        username = request.data.get("username")
+
+        try:
+            user_obj = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(
+                "Пользователь '{}' не найден".format(username),
+                status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            perm = models.ProjectsPermission.objects.get(
+                project=self.get_object(),
+                user=user_obj
+            )
+            perm.delete()
+        except models.ProjectsPermission.DoesNotExist:
+            pass
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def _permission_list(self, request, pk=None):
+        """Получить список прав"""
+        # --- Auth
+        # if self.get_object().owner != request.user:
+        #     return Response(status=status.HTTP_403_FORBIDDEN)
+
+        # --- Action
+        result = []
+
+        try:
+            perm = models.ProjectsPermission.objects.filter(
+                project=self.get_object()
+            ).values()
+        except models.ProjectsPermission.DoesNotExist:
+            pass
+
+        return Response(perm)
 
     def _import_conllup(self, file, file_name):
         """Импортирует файл формата CoNLLU Plus"""

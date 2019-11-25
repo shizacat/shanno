@@ -22,19 +22,17 @@ class Projects(models.Model):
         max_length=20
     )
 
-    # def save_model(self, request, obj, form, change):
-    #     print("Call save model")
-    #     if not obj.pk:
-    #         # Only set added_by during the first save.
-    #         obj.owner = request.user
-    #     super().save_model(request, obj, form, change)
 
-    # def save(self, *args, **kwargs):
-    #     print("Call save")
-    # #     if not obj.pk:
-    # #         # Only set added_by during the first save.
-    # #         obj.owner = request.user
-    #     super().save(*args, **kwargs)
+class ProjectsPermission(models.Model):
+    project = models.ForeignKey(
+        Projects, related_name='permissions', on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    is_view = models.BooleanField(default=False)    # Смотреть
+    is_change = models.BooleanField(default=False)  # Изменять
 
 
 class Documents(models.Model):
