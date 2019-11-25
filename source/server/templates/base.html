@@ -46,16 +46,18 @@
     <template slot="end">
       <b-navbar-item tag="div">
         {% if user.is_authenticated %}
-        <p class="user_name">{{ user.get_username }}</p>
+        <p class="user_name has-text-white">
+          <strong>{{ user.get_username }}</strong>
+        </p>
         <div class="buttons">
           <a class="button is-danger is-inverted is-outlined" href="{% url 'logout'%}?next={{request.path}}">
-            <strong>Выход</strong>
+            Выход
           </a>
         </div>
         {% else %}
         <div class="buttons">
           <a class="button is-success" href="{% url 'login'%}?next={{request.path}}">
-            <strong>Вход</strong>
+            Вход
           </a>
         </div>
         {% endif %}        
