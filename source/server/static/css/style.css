@@ -136,6 +136,10 @@ a.box-link:hover {
   line-height: 2.5em;
 }
 
+.user_name {
+  padding-right: 1em
+}
+
 .switch {
   cursor: pointer;
   display: inline-flex;
