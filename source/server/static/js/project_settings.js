@@ -29,10 +29,8 @@ new Vue({
     },
     createPermission() {
       this.new_permission = {
-        is_view: true,
-        is_change: false,
-        project: parseInt(this.project_id),
-        user: ""
+        permission: "view"
+        username: ""
       };
     },
     cancelCreate() {
