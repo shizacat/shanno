@@ -4,41 +4,70 @@
 
 {% block content %}
 
-  {{user.is_authenticated}}
-
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
-
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
-    {% endif %}
-  {% endif %}
-
-  <form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  <table>
-
-  <tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-  </tr>
-
-  <tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-  </tr>
-  </table>
-
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-  </form>
-
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<section class="hero is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-three-fifths is-offset-one-fifth">
+          <div class="box">
+            {% if next %}
+              {% if user.is_authenticated %}
+                <p>У вас нет доступа к этой странице</p>
+              {% else %}
+                <p class="title is-4 has-text-centered">Авторизация</p>
+              {% endif %}
+            {% endif %}
+            <form method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">{{ form.username.label_tag }}</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input class="input" id="id_username" name="username" type="text" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">{{ form.password.label_tag }}</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input class="input" id="id_password" type="password" name="password" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label">
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <button class="button is-primary" type="submit">
+                        login
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="next" value="{{ next }}" />
+            </form>
+            {% if form.errors %}
+            <div class="notification is-danger">
+              Неверный логин или пароль
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
