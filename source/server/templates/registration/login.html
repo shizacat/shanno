@@ -10,59 +10,62 @@
       <div class="columns is-centered">
         <div class="column is-three-fifths">
           <div class="box">
-            {% if next %}
-              {% if user.is_authenticated %}
-                <p>У вас нет доступа к этой странице</p>
-              {% else %}
-                <p class="title is-4 has-text-centered">Авторизация</p>
-              {% endif %}
+
+            {% if user.is_authenticated %}
+              <p>У вас нет доступа к этой странице</p>
+            {% else %}
+              <p class="title is-4 has-text-centered">Авторизация</p>
+
+              <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">{{ form.username.label_tag }}</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <input class="input" id="id_username" name="username" type="text" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">{{ form.password.label_tag }}</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <input class="input" id="id_password" type="password" name="password" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label">
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="control">
+                        <button class="button is-primary" type="submit">
+                          login
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="next" value="{{ next }}" />
+              </form>
+
             {% endif %}
-            <form method="post" action="{% url 'login' %}">
-              {% csrf_token %}
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">{{ form.username.label_tag }}</label>
-                </div>
-                <div class="field-body">
-                  <div class="field">
-                    <div class="control">
-                      <input class="input" id="id_username" name="username" type="text" required>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                  <label class="label">{{ form.password.label_tag }}</label>
-                </div>
-                <div class="field-body">
-                  <div class="field">
-                    <div class="control">
-                      <input class="input" id="id_password" type="password" name="password" required>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="field is-horizontal">
-                <div class="field-label">
-                </div>
-                <div class="field-body">
-                  <div class="field">
-                    <div class="control">
-                      <button class="button is-primary" type="submit">
-                        login
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <input type="hidden" name="next" value="{{ next }}" />
-            </form>
+
             {% if form.errors %}
-            <div class="notification is-danger">
-              Неверный логин или пароль
-            </div>
+              <div class="notification is-danger">
+                Неверный логин или пароль
+              </div>
             {% endif %}
+
           </div>
         </div>
       </div>
