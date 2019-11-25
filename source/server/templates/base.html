@@ -46,8 +46,8 @@
     <template slot="end">
       <b-navbar-item tag="div">
         {% if user.is_authenticated %}
-        <p class="user_name has-text-white">
-          <strong>{{ user.get_username }}</strong>
+        <p class="user_name">
+          <strong class="has-text-white">{{ user.get_username }}</strong>
         </p>
         <div class="buttons">
           <a class="button is-danger is-inverted is-outlined" href="{% url 'logout'%}?next={{request.path}}">
