@@ -5,6 +5,7 @@ new Vue({
     members: Array,
     new_member: null,
     is_open_delete: null,
+    is_open_project_delete: false,
     active_edit: null,
     st_show: false,
     st_variant: "is-danger",
@@ -119,6 +120,12 @@ new Vue({
         self.members.splice(index, 1);
       })
       .catch(this.addErrorApi);
+    },
+    openProjectDelete: function() {
+      this.is_open_project_delete = true
+    },
+    closeProjectDelete: function() {
+      this.is_open_project_delete = false
     },
     addError: function(msg){
       this.st_variant = "is-danger";

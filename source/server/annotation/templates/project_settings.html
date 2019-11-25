@@ -18,6 +18,7 @@
 
   <div class="columns is-multiline">
     <div class="column is-12">
+      <h3 class="title is-spaced is-3">Участники проекта</h3>
       <button class="button is-primary" @click="addMember()">Добавить участника</button>
     </div>
     <div class="column" v-if="new_member">
@@ -163,9 +164,23 @@
   </div>
   <hr>
   <div class="column">
-    <h4 class="title is-spaced is-4">Удаление проекта</h4>
-    <h6 class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</h6>
-    <button class="button is-danger" @click="deleteProject({{project.id}})">Удалить</button>
+    <button class="button is-danger" style="margin-bottom: 1rem" @click="openProjectDelete()">Удалить проект</button>
+    <div class="container" v-show="is_open_project_delete">
+      <h4 class="title is-spaced is-4">Удаление проекта</h4>
+      <h6 class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</h6>
+      <div class="field is-grouped">
+        <p class="control">
+          <button class="button is-success is-outlined" @click="deleteProject({{project.id}})">
+            Да
+          </button>
+        </p>
+        <p class="control">
+          <button class="button is-danger is-outlined" @click="closeProjectDelete()">
+            Нет
+          </button>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
