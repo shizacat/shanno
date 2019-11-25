@@ -44,24 +44,24 @@
       </b-navbar-item>
     </template>
     <template slot="end">
+      {% if user.is_authenticated %}
       <b-navbar-item tag="div">
-        {% if user.is_authenticated %}
-        <p class="user_name">
+        <p>
           <strong class="has-text-white">{{ user.get_username }}</strong>
         </p>
-        <div class="buttons">
-          <a class="button is-danger is-inverted is-outlined" href="{% url 'logout'%}?next={{request.path}}">
-            Выход
-          </a>
-        </div>
-        {% else %}
-        <div class="buttons">
-          <a class="button is-success" href="{% url 'login'%}?next={{request.path}}">
-            Вход
-          </a>
-        </div>
-        {% endif %}        
       </b-navbar-item>
+      <b-navbar-item tag="div">
+        <a class="button is-danger is-inverted is-outlined" href="{% url 'logout'%}?next={{request.path}}">
+          Выход
+        </a>
+      </b-navbar-item>
+      {% else %}
+      <b-navbar-item tag="div">
+        <a class="button is-success" href="{% url 'login'%}?next={{request.path}}">
+          Вход
+        </a>
+      </b-navbar-item>
+      {% endif %}
     </template>
   </b-navbar>
 
