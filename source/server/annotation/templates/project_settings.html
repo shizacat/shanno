@@ -164,22 +164,22 @@
   </div>
   <hr>
   <div class="column">
-    <button class="button is-danger mb-1r" @click="openProjectDelete()">Удалить проект</button>
-    <div class="container" v-show="is_open_project_delete">
-      <h4 class="title is-spaced is-4">Удаление проекта</h4>
-      <h6 class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</h6>
-      <div class="field is-grouped">
-        <p class="control">
-          <button class="button is-success is-outlined" @click="deleteProject({{project.id}})">
-            Да
-          </button>
-        </p>
-        <p class="control">
-          <button class="button is-danger is-outlined" @click="closeProjectDelete()">
-            Нет
-          </button>
-        </p>
-      </div>
+    <div class="container">
+      <p class="title is-spaced is-4">Удаление проекта</p>
+      <p class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</p>
+      <button class="button is-danger" @click="openProjectDelete()">Удалить</button>
+    </div>
+  </div>
+  <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_project_delete">
+    <p>Вы действительно хотите удалить проект?</p>
+    <br>
+    <div class="field is-grouped">
+      <p class="control">
+        <button class="button is-success is-inverted is-outlined is-small" @click="eleteProject({{project.id}})">Да</button>
+      </p>
+      <p class="control">
+        <button class="button is-danger is-inverted is-outlined is-small" @click="closeProjectDelete()">Нет</button>
+      </p>
     </div>
   </div>
 </div>
