@@ -33,7 +33,7 @@
           </div>
           <div class="column is-3">
             <b-field label="Роль">
-              <b-select placeholder="Выберите роль" v-model="new_member.permission" expanded>
+              <b-select placeholder="Выберите роль" v-model="new_member.role" expanded>
                 <option value="view">Просмотр</option>
                 <option value="change">Редактирование</option>
               </b-select>
@@ -78,8 +78,8 @@
           <div class="level-left">
             <div class="level-item">
               <div class="tags has-addons are-medium">
-                <span class="tag has-addons">${member.user_id}</span>
-                <span v-if="member.is_change" class="tag is-success has-addons">Редактирование</span>
+                <span class="tag has-addons">${member.username}</span>
+                <span v-if="member.role == 'change'" class="tag is-success has-addons">Редактирование</span>
                 <span v-else class="tag is-warning has-addons">Просмотр</span>
               </div>
             </div>
@@ -108,16 +108,9 @@
           </div>
         </nav>
         <div class="columns mb-1r" v-show="member === active_edit">
-          <div class="column">
-            <b-field label="Имя пользователя">
-              <b-field>
-                <b-input v-model="member.username"></b-input>
-              </b-field>
-            </b-field>
-          </div>
-          <div class="column">
+          <div class="column is-3">
             <b-field label="Роль">
-              <b-select placeholder="Выберите роль" v-model="member.permission" expanded>
+              <b-select placeholder="Выберите роль" v-model="member.role" expanded>
                 <option value="view">Просмотр</option>
                 <option value="change">Редактирование</option>
               </b-select>

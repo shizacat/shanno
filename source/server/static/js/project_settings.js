@@ -36,7 +36,7 @@ new Vue({
     },
     addMember() {
       this.new_member = {
-        permission: "view",
+        role: "view",
         username: ""
       };
     },
@@ -107,7 +107,7 @@ new Vue({
       axios.delete(
         "/api/project/" + this.project_id + "/permission/",
         {
-          data: { username: "admin" },
+          data: { username: member.username },
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': this.$cookies.get('csrftoken')
