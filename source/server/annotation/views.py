@@ -274,15 +274,15 @@ class ProjectViewSet(viewsets.ModelViewSet):
         # --- Checks
 
         username = request.data.get("username")
-        permission = request.data.get("permission")
+        role = request.data.get("role")
 
         if username is None:
             return Response(
                 "Не верно заполнено поле {}".format("username"),
                 status=status.HTTP_400_BAD_REQUEST)
-        if permission is None:
+        if role is None:
             return Response(
-                "Не верно заполнено поле {}".format("permission"),
+                "Не верно заполнено поле {}".format("role"),
                 status=status.HTTP_400_BAD_REQUEST)
 
         try:
@@ -297,7 +297,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 "Указан владелец проекта",
                 status=status.HTTP_400_BAD_REQUEST)
 
-        if permission not in [x[0] for x in models.PROJECT_ROLES]:
+        if role not in [x[0] for x in models.PROJECT_ROLES]:
             return Response(
                 "Неизвестная роль", status=status.HTTP_400_BAD_REQUEST)
 
@@ -315,11 +315,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
             perm = models.ProjectsPermission.objects.create(
                 project=self.get_object(),
                 user=user_obj,
-                role=permission
+                role=role
             )
         else:
             # update
-            perm.role = permission
+            perm.role = role
             perm.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)

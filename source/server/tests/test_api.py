@@ -207,13 +207,13 @@ class TestProject(TestCase):
                 "/api/project/{}/permission/".format(self.project.id),
                 {
                     "user": "t",
-                    "permission": "view"
+                    "role": "view"
                 }
             )
             print(r.json())
             self.assertEqual(r.status_code, 400)
 
-        with self.subTest("Error permission"):
+        with self.subTest("Error role"):
             r = self.client.post(
                 "/api/project/{}/permission/".format(self.project.id),
                 {
@@ -228,7 +228,7 @@ class TestProject(TestCase):
                 "/api/project/{}/permission/".format(self.project.id),
                 {
                     "username": "t",
-                    "permission": "view"
+                    "role": "view"
                 }
             )
             print(r.json())
@@ -239,7 +239,7 @@ class TestProject(TestCase):
                 "/api/project/{}/permission/".format(self.project.id),
                 {
                     "username": self.user.username,
-                    "permission": "view"
+                    "role": "view"
                 }
             )
             print(r.json())
@@ -250,7 +250,7 @@ class TestProject(TestCase):
                 "/api/project/{}/permission/".format(self.project.id),
                 {
                     "username": user.username,
-                    "permission": "view"
+                    "role": "view"
                 }
             )
             self.assertEqual(r.status_code, 204)
@@ -263,7 +263,7 @@ class TestProject(TestCase):
                 "/api/project/{}/permission/".format(self.project.id),
                 {
                     "username": user.username,
-                    "permission": "change"
+                    "role": "change"
                 }
             )
             self.assertEqual(r.status_code, 204)
@@ -276,7 +276,7 @@ class TestProject(TestCase):
                 "/api/project/{}/permission/".format(self.project.id),
                 {
                     "username": user.username,
-                    "permission": "view"
+                    "role": "view"
                 }
             )
             self.assertEqual(r.status_code, 204)
@@ -292,7 +292,7 @@ class TestProject(TestCase):
             "/api/project/{}/permission/".format(self.project.id),
             {
                 "username": user.username,
-                "permission": "view"
+                "role": "view"
             }
         )
 
@@ -325,7 +325,7 @@ class TestProject(TestCase):
             "/api/project/{}/permission/".format(self.project.id),
             {
                 "username": user.username,
-                "permission": "view"
+                "role": "view"
             }
         )
 
