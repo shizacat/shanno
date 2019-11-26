@@ -8,13 +8,14 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from django.http import Http404, HttpResponse
 from django.db import transaction
+# from django.db.models import F
 from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import action, permission_classes
 from rest_framework import permissions
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 
 from annotation import models
 from annotation.exceptions import FileParseException
@@ -107,7 +108,16 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def list(self, request, *args, **kwargs):
-        queryset = models.Projects.objects.filter(owner=request.user)
+        if isinstance(request.user, AnonymousUser):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        o_pr_id = models.ProjectsPermission.objects.filter(
+            user=request.user
+        ).values_list('project', flat=True)
+
+        q1 = models.Projects.objects.filter(owner=request.user)
+        q2 = models.Projects.objects.filter(pk__in=o_pr_id)
+        queryset = q1 | q2
 
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
@@ -287,8 +297,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 "Указан владелец проекта",
                 status=status.HTTP_400_BAD_REQUEST)
 
-        is_change = permission.lower() == "change"
-        is_view = permission.lower() == "view" or is_change
+        if permission not in [x[0] for x in models.PROJECT_ROLES]:
+            return Response(
+                "Неизвестная роль", status=status.HTTP_400_BAD_REQUEST)
 
         try:
             perm = models.ProjectsPermission.objects.get(
@@ -304,13 +315,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
             perm = models.ProjectsPermission.objects.create(
                 project=self.get_object(),
                 user=user_obj,
-                is_view=is_view,
-                is_change=is_change
+                role=permission
             )
         else:
             # update
-            perm.is_view = is_view
-            perm.is_change = is_change
+            perm.role = permission
             perm.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)

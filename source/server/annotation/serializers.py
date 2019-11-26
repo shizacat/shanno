@@ -9,7 +9,7 @@ class ProjectsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Projects
-        exclude = ["owner"]
+        exclude = []
         extra_kwargs = {
             "id": {'read_only': True},
             "type": {'read_only': True},

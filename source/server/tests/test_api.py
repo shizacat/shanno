@@ -158,6 +158,37 @@ class TestProject(TestCase):
             }
         )
 
+    def test_list(self):
+        """Список проектов пользователя"""
+        user = User.objects.create_user(username='user1', password='12345')
+        project = models.Projects.objects.create(
+            name="lion42", description="", type=models.PROJECT_TYPE[0],
+            owner=user
+        )
+        self.client.login(username='test', password='12345')
+
+        with self.subTest("Default"):
+            r = self.client.get(
+                "/api/project/"
+            )
+            self.assertEqual(len(r.json()), 1)
+
+        self.client.login(username='user1', password='12345')
+        r = self.client.post(
+            "/api/project/{}/permission/".format(project.id),
+            {
+                "username": self.user.username,
+                "permission": "view"
+            }
+        )
+        self.client.login(username='test', password='12345')
+
+        with self.subTest("Access"):
+            r = self.client.get(
+                "/api/project/"
+            )
+            print(r.content)
+
     def test_documents_all_is_approved(self):
         r = self.client.get(
             "/api/project/{}/documents_all_is_approved/".format(
@@ -225,8 +256,7 @@ class TestProject(TestCase):
             self.assertEqual(r.status_code, 204)
 
             a = models.ProjectsPermission.objects.get(user=user)
-            self.assertEqual(a.is_view, True)
-            self.assertEqual(a.is_change, False)
+            self.assertEqual(a.role, "view")
 
         with self.subTest("Success to change"):
             r = self.client.post(
@@ -239,8 +269,7 @@ class TestProject(TestCase):
             self.assertEqual(r.status_code, 204)
 
             a = models.ProjectsPermission.objects.get(user=user)
-            self.assertEqual(a.is_view, True)
-            self.assertEqual(a.is_change, True)
+            self.assertEqual(a.role, "change")
 
         with self.subTest("Success to view"):
             r = self.client.post(
@@ -253,8 +282,7 @@ class TestProject(TestCase):
             self.assertEqual(r.status_code, 204)
 
             a = models.ProjectsPermission.objects.get(user=user)
-            self.assertEqual(a.is_view, True)
-            self.assertEqual(a.is_change, False)
+            self.assertEqual(a.role, "view")
 
     def test_permission_delete(self):
         user = User.objects.create_user(username='user1', password='12345')

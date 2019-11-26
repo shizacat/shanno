@@ -9,6 +9,11 @@ PROJECT_TYPE = (
     ("text_label", "Text Labeling"),
 )
 
+PROJECT_ROLES = (
+    ("view", "Only view"),
+    ("change", "Full access")
+)
+
 
 class Projects(models.Model):
     owner = models.ForeignKey(
@@ -31,8 +36,7 @@ class ProjectsPermission(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    is_view = models.BooleanField(default=False)    # Смотреть
-    is_change = models.BooleanField(default=False)  # Изменять
+    role = models.CharField(max_length=50, choices=(PROJECT_ROLES))
 
 
 class Documents(models.Model):
