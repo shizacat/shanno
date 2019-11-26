@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from django.http import Http404, HttpResponse
 from django.db import transaction
-# from django.db.models import F
+from django.db.models import Subquery, OuterRef
 from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -365,8 +365,15 @@ class ProjectViewSet(viewsets.ModelViewSet):
         result = []
 
         try:
+            user_qs = User.objects.filter(
+                pk=OuterRef("user")
+            )
             perm = models.ProjectsPermission.objects.filter(
                 project=self.get_object()
+            ).annotate(
+                username=Subquery(
+                    user_qs.values('username')[:1]
+                )
             ).values()
         except models.ProjectsPermission.DoesNotExist:
             pass
