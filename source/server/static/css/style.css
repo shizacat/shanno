@@ -97,7 +97,7 @@ a.box-link:hover {
     clear: left; 
     float: none;
   }
-  .hero.is-fullheight {
+  .hero.is-fullheight-with-navbar {
     min-height: 100%;
   }
 }
