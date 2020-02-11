@@ -427,7 +427,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
 
             # Labels
-            all_label_name = models.TlLabels.objects.all().values_list('name', flat=True)
+            all_label_name = models.TlLabels.objects.all().values_list(
+                'name', flat=True
+            )
             for label in list(labels_uniq):
                 if label in all_label_name:
                     continue
@@ -442,7 +444,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
             for char_left, char_right, tag in labels:
                 models.TlSeqLabel.objects.create(
                     sequence=seq,
-                    label=models.TlLabels.objects.get(name=tag),
+                    label=models.TlLabels.objects.get(
+                        project=self.get_object(),
+                        name=tag
+                    ),
                     offset_start=char_left,
                     offset_stop=char_right
                 )
