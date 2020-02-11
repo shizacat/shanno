@@ -22,6 +22,7 @@ metadata:
   name: shanno
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
   namespace: development
 spec:
   rules:
@@ -118,6 +119,8 @@ data:
     server {
         listen 80;
         server_name localhost;
+
+        client_max_body_size 32m;
 
         location / {
             proxy_pass http://web;
