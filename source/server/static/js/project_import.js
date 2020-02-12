@@ -5,6 +5,7 @@ new Vue({
     files: null,
     selected: 0,
     format: "conllup",
+    is_loading: false,
     st_variant: "is-info", //success, danger
     st_value: "---",
     st_show: false,
@@ -18,7 +19,8 @@ new Vue({
   methods: {
     uploadFiles: function(project_id) {
       self = this;
-
+      this.is_loading = true
+      
       let fileData = new FormData;
       fileData.append("files", this.files);
       fileData.append("format", this.format);

@@ -49,11 +49,13 @@ example _
     <div class="column">
       <b-field grouped>
         <p class="control">
-          <button 
+          <b-button 
           class="button is-link"
-          @click="uploadFiles({{project.id}})">
+          @click="uploadFiles({{project.id}})"
+          :disabled="files === null"
+          :loading="is_loading">
           Загрузить
-        </button>
+        </b-button>
       </p>
       <b-upload v-model="files">
       </b-upload>
