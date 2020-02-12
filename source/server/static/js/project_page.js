@@ -24,6 +24,13 @@ new Vue({
   computed: {
     project_id: function(){
       return window.location.href.split("/")[4];
+    },
+    page_id: function(){
+      if ("page" in this.$route.query){
+        return parseInt(this.$route.query.page);
+      } else {
+        return 1
+      }
     }
   },
   async created() {
@@ -44,7 +51,7 @@ new Vue({
     getCountDocuments: function(){
       self = this;
 
-      let p = Object.assign({}, this.filter, {page: 1});
+      let p = Object.assign({}, this.filter, {page: this.page_id});
       return axios.get(
         "/api/project/" + this.project_id + "/documents_list/",
         {params: p})
