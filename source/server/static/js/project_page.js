@@ -86,7 +86,14 @@ new Vue({
     deleteDoc: function(doc_id) {
       self = this;
 
-      axios.delete("/api/document/" + doc_id + "/")
+      axios.delete(
+        "/api/document/" + doc_id + "/",
+        {
+          headers: {
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
       .then(function(response){
         self.is_open_delete = null
         self.getAllDocumentPage(self.current_page)
