@@ -39,6 +39,7 @@ new Vue({
           "is-success"
         )
         self.files = null;
+        self.is_loading = false
       })
       .catch(function(error) {
         self.addError(
