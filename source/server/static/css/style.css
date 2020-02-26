@@ -136,6 +136,10 @@ a.box-link:hover {
   line-height: 2.5em;
 }
 
+.tl_anno_row:first-letter {
+  font-weight: bold
+}
+
 .mb-1r {
   margin-bottom: 1rem
 }
