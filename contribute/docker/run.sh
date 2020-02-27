@@ -2,6 +2,9 @@
 
 set -o errexit
 
+# Run
+python3 ./manage.py migrate
+
 # Create super admin
 if [[ -n "${SH_ADMIN_USERNAME}" ]] && \
    [[ -n "${SH_ADMIN_PASSWORD}" ]] && \
@@ -13,8 +16,6 @@ then
 		--email ${SH_ADMIN_EMAIL}
 fi
 
-# Run
-python3 ./manage.py migrate
 gunicorn \
 	--bind="0.0.0.0:${SH_PORT:-8000}" \
 	--workers="${SH_WORKERS:-1}" \
