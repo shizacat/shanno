@@ -47,6 +47,7 @@ new Vue({
           "is-danger"
         );
         self.files = null;
+        self.is_loading = false
       })
     },
     addError: function(msg, variant){
