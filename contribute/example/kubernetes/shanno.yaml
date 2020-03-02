@@ -23,6 +23,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
   namespace: development
 spec:
   rules:
@@ -121,6 +122,11 @@ data:
         server_name localhost;
 
         client_max_body_size 32m;
+
+        proxy_connect_timeout       300;
+        proxy_send_timeout          300;
+        proxy_read_timeout          300;
+        send_timeout                300;
 
         location / {
             proxy_pass http://web;
