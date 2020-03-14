@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
 {% block content %}
+
+  {% trans "Shanno - проект подготовки текста для работы с нейронными сетями" as the_title_1 %}
+  {% trans "Позволяет сделать разметку на сущности (NER), импортировать и экспортировать результаты работы в формате collnu plus" as the_title_2 %}
 
   {% if user.is_authenticated %}
     <section class="hero is-main-color">
       <div class="hero-body">
         <div class="container">
-          <p class="is-size-3 has-text-white">Shanno - проект подготовки текста для работы с нейронными сетями</p>
-          <p class="is-size-5 has-text-white">Позволяет сделать разметку на сущности (NER), импортировать и экспортировать результаты работы в формате collnu plus</p>
+          <p class="is-size-3 has-text-white">{{ the_title_1 }}</p>
+          <p class="is-size-5 has-text-white">{{ the_title_2 }}</p>
         </div>
       </div>
     </section>
@@ -18,12 +22,12 @@
       <nav class="level">
         <div class="level-left">
           <div class="level-item">
-            <p class="title is-3">Проекты</p>
+            <p class="title is-3">{% trans "Projects" %}</p>
           </div>
         </div>
         <div class="level-right">
           <div class="level-item">
-            <a class="button is-link" href="/project_create/">Создать проект</a>
+            <a class="button is-link" href="/project_create/">{% trans "Create project" %}</a>
           </div>
         </div>
       </nav>
@@ -44,13 +48,13 @@
     <section class="hero is-main-color">
       <div class="hero-body">
         <div class="container">
-          <p class="is-size-3 has-text-white">Shanno - проект подготовки текста для работы с нейронными сетями</p>
-          <p class="is-size-5 has-text-white">Позволяет сделать разметку на сущности (NER), импортировать и экспортировать результаты работы в формате collnu plus</p>
+          <p class="is-size-3 has-text-white">{{ the_title_1 }}и</p>
+          <p class="is-size-5 has-text-white">{{ the_title_2 }}</p>
         </div>
       </div>
     </section>
     <section class="section">
-      <p class="title is-3 has-text-centered">Для управления проектами необходимо авторизоваться</p>
+      <p class="title is-3 has-text-centered">{% trans "Для управления проектами необходимо авторизоваться" %}</p>
     </section>
   {% endif %}
 

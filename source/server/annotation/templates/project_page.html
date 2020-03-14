@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
 {% block title %}<title> Shanno - {{ project.name }} </title>{% endblock %}
 
@@ -13,13 +14,13 @@
         {{ project.name }}
       </p>
       <ul class="menu-list">
-        <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">Инфо</a></li>
-        <li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}is-active{% endif %} has-text-white">Импорт</a></li>
-        <li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}is-active{% endif %} has-text-white">Экспорт</a></li>
+        <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">{% trans "Info" %}</a></li>
+        <li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}is-active{% endif %} has-text-white">{% trans "Import" %}</a></li>
+        <li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}is-active{% endif %} has-text-white">{% trans "Export" %}</a></li>
         <hr>
-        <li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}is-active{% endif %} has-text-white">Метки</a></li>
+        <li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}is-active{% endif %} has-text-white">{% trans "Labels" %}</a></li>
         <hr>
-        <li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}is-active{% endif %} has-text-white">Настройки</a></li>
+        <li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}is-active{% endif %} has-text-white">{% trans "Settings" %}</a></li>
       </ul>
     </div>
   </aside>
@@ -31,23 +32,23 @@
       <div class="column">
         <h4 class="subtitle is-5">
           <span class="tag is-link">{{ project.type }}</span>
-        Описание: {{ project.description }}</h4>
+        {% trans "Description" %}: {{ project.description }}</h4>
       </div>
       <div class="column is-one-third">
         <div class="progress-wrapper">
-          <progress class="progress is-info is-large" :value="stat_docs_approved" :max="stat_docs_total">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></progress>
-          <p class="progress-value has-text-black">Обработано: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
+          <progress class="progress is-info is-large" :value="stat_docs_approved" :max="stat_docs_total">{% trans "Обработано" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></progress>
+          <p class="progress-value has-text-black">{% trans "Обработано" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
         </div>
       </div>
       <div class="column">
-        <p class="title is-5">Список документов:</p>
+        <p class="title is-5">{% trans "Список документов" %}:</p>
       </div>
       <div class="column">
         <b-field horizontal label="Отфильтровать">
           <b-select v-model="filter_approved" @input="changeFilterApproved()">
             <option value="">---</option>
-            <option value="0">Не проверен</option>
-            <option value="1">Проверен</option>
+            <option value="0">{% trans "Не проверен" %}</option>
+            <option value="1">{% trans "Проверен" %}</option>
           </b-select>
         </b-field>
       </div>
@@ -64,20 +65,20 @@
         </div>
         <div class="column is-one-quarter">
           <div class="right-block">
-            <button @click="gotoAnnotation(doc.id)" class="button is-info">Аннотация</button>
-            <button class="button is-danger is-outlined" @click="openDelete(index)">Удалить</button>
+            <button @click="gotoAnnotation(doc.id)" class="button is-info">{% trans "Annotation" %}</button>
+            <button class="button is-danger is-outlined" @click="openDelete(index)">{% trans "Delete" %}</button>
           </div>
         </div>
       </div>
       <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete == index">
-        <p>Вы действительно хотите удалить документ?</p>
+        <p>{% trans "Вы действительно хотите удалить документ?" %}</p>
         <br>
         <div class="field is-grouped">
           <p class="control">
-            <button class="button is-success is-inverted is-outlined is-small" @click="deleteDoc(doc.id)">Да</button>
+            <button class="button is-success is-inverted is-outlined is-small" @click="deleteDoc(doc.id)">{% trans "Yes" %}</button>
           </p>
           <p class="control">
-            <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">Нет</button>
+            <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">{% trans "No" %}</button>
           </p>
         </div>
       </div>

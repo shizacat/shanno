@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block content %}
   <div class="column">
-  <p class="title is-3 is-spaced has-text-centered">Выполнен выход</p>
-  <p class="subtitle is-5 has-text-centered"><a href="{% url 'login'%}">Нажмите, чтобы авторизоваться</a></p>
+  	<p class="title is-3 is-spaced has-text-centered">{% trans "Выполнен выход" %}</p>
+  	<p class="subtitle is-5 has-text-centered"><a href="{% url 'login'%}">{% trans "Нажмите, чтобы авторизоваться" %}</a></p>
   </div>
 {% endblock %}

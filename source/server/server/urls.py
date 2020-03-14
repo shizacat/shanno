@@ -28,6 +28,11 @@ urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
+# Add translation | set language
+urlpatterns += [
+    path('i18n/', include('django.conf.urls.i18n')),
+]
+
 if settings.DEBUG:
     urlpatterns.extend(
         static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

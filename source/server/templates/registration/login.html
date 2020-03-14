@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 
@@ -12,9 +13,9 @@
           <div class="box">
 
             {% if user.is_authenticated %}
-              <p>У вас нет доступа к этой странице</p>
+              <p>{% trans "У вас нет доступа к этой странице" %}</p>
             {% else %}
-              <p class="title is-4 has-text-centered">Авторизация</p>
+              <p class="title is-4 has-text-centered">{% trans "Authorization" %}</p>
 
               <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
@@ -49,7 +50,7 @@
                     <div class="field">
                       <div class="control">
                         <button class="button is-primary" type="submit">
-                          login
+                          {% trans "Log in" %}
                         </button>
                       </div>
                     </div>
@@ -62,7 +63,7 @@
 
             {% if form.errors %}
               <div class="notification is-danger">
-                Неверный логин или пароль
+                {% trans "Неверный логин или пароль" %}
               </div>
             {% endif %}
 

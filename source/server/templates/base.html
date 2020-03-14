@@ -1,15 +1,15 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  {% block title %}<title> Shanno - Annotation documents </title>{% endblock %}
+  {% block title %}<title>{% trans "Shanno - Annotation documents" %}</title>{% endblock %}
 
   <meta charset="utf-8">
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-  <!-- <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"> -->
   <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/flatly/bulmaswatch.min.css">
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -37,11 +37,16 @@
     </template>
     <template slot="start">
       <b-navbar-item class="{% if request.resolver_match.url_name == 'index' %}is-active{% endif %}" href="/">
-        Home
+        {% trans "Home" %}
       </b-navbar-item>
       <b-navbar-item class="{% if request.resolver_match.url_name|slice:':7' == 'project' %}is-active{% endif %}" href="/">
-        Projects
+        {% trans "Projects" %}
+        {% get_current_language as LANGUAGE_CODE %}
+        {{ LANGUAGE_CODE }}
+        {% get_available_languages as LANGUAGES %}
+        {{ LANGUAGES }}
       </b-navbar-item>
+
     </template>
     <template slot="end">
       {% if user.is_authenticated %}
@@ -52,18 +57,33 @@
       </b-navbar-item>
       <b-navbar-item tag="div">
         <a class="button is-danger is-inverted is-outlined" href="{% url 'logout'%}?next={{request.path}}">
-          Выход
+          {% trans "Sign out" %}
         </a>
       </b-navbar-item>
       {% else %}
       <b-navbar-item tag="div">
         <a class="button is-success" href="{% url 'login'%}?next={{request.path}}">
-          Вход
+          {% trans "Sign in" %}
         </a>
       </b-navbar-item>
       {% endif %}
     </template>
   </b-navbar>
+
+  <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+    <input name="next" type="hidden" value="{{ redirect_to }}">
+    <select name="language">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                {{ language.name_local }} ({{ language.code }})
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Go">
+  </form>
 
   {% block content %}
   {% endblock %}
