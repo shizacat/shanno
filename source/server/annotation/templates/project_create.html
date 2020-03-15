@@ -3,7 +3,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}<title> Shanno - Projects </title>{% endblock %}
+{% block title %}<title>Shanno - {% trans "Projects" %}</title>{% endblock %}
 
 {% block content %}
 
@@ -17,24 +17,24 @@
   ${ st_value }
   </b-notification>
   <div class="container" style="padding: 2rem 0 2rem 0">
-    <p class="title is-2">Создание проекта</p>
+    <p class="title is-2">{% trans "Project creation" %}</p>
   </div>
   <div class="container">
-    <b-field label="Название">
-      <b-input v-model="name" placeholder="Необходимо ввести название проекта" required></b-input>
+    <b-field label='{% trans "Name" %}'>
+      <b-input v-model="name" placeholder='{% trans "You need to enter name of project" %}' required></b-input>
     </b-field>
-    <b-field label="Описание">
-      <b-input maxlength="200" type="textarea" v-model="description" placeholder="Необходимо описать кратко назначение проекта" required></b-input>
+    <b-field label='{% trans "Description" %}'>
+      <b-input maxlength="200" type="textarea" v-model="description" placeholder='{% trans "You need to describe briefly purpuse of project" %}' required></b-input>
     </b-field>
-    <b-field label="Тип проекта">
-      <b-select placeholder="Выберите тип проекта" v-model="type" expanded required>
+    <b-field label='{% trans "Type of project" %}'>
+      <b-select placeholder='{% trans "Choose project type" %}' v-model="type" expanded required>
         <option value="text_label">Text labeling</option>
       </b-select>
     </b-field>
     <b-field>
       <p class="control">
-        <b-button class="button is-success" @click="onSubmit()">Создать</b-button>
-        <b-button class="button is-danger" @click="$router.go(-1)">Отменить</b-button>
+        <b-button class="button is-success" @click="onSubmit()">{% trans "Create" %}</b-button>
+        <b-button class="button is-danger" @click="$router.go(-1)">{% trans "Cancel" %}</b-button>
       </p>  
     </b-field>
   </div>

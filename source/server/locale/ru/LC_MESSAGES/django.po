@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 21:39+0000\n"
+"POT-Creation-Date: 2020-03-15 17:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: annotation/templates/project_create.html:6 templates/base.html:43
+#: templates/index.html:25
+msgid "Projects"
+msgstr "Проекты"
+
+#: annotation/templates/project_create.html:20
+msgid "Project creation"
+msgstr "Создание проекта"
+
+#: annotation/templates/project_create.html:23
+msgid "Name"
+msgstr "Название"
+
+#: annotation/templates/project_create.html:24
+msgid "You need to enter name of project"
+msgstr "Необходимо ввести название проекта"
+
+#: annotation/templates/project_create.html:26
+#: annotation/templates/project_page.html:35
+msgid "Description"
+msgstr "Описание"
+
+#: annotation/templates/project_create.html:27
+msgid "You need to describe briefly purpuse of project"
+msgstr "Необходимо кратко описать назначение проекта"
+
+#: annotation/templates/project_create.html:29
+msgid "Type of project"
+msgstr "Тип проекта"
+
+#: annotation/templates/project_create.html:30
+msgid "Choose project type"
+msgstr "Выберите тип проекта"
+
+#: annotation/templates/project_create.html:36
+msgid "Create"
+msgstr "Создать"
+
+#: annotation/templates/project_create.html:37
+msgid "Cancel"
+msgstr "Отменить"
 
 #: annotation/templates/project_page.html:17
 msgid "Info"
@@ -40,26 +82,26 @@ msgstr "Метки"
 msgid "Settings"
 msgstr "Настройки"
 
-#: annotation/templates/project_page.html:35
-msgid "Description"
-msgstr "Описание"
-
 #: annotation/templates/project_page.html:39
 #: annotation/templates/project_page.html:40
-msgid "Обработано"
-msgstr ""
+msgid "Processed"
+msgstr "Обработано"
 
 #: annotation/templates/project_page.html:44
-msgid "Список документов"
-msgstr ""
+msgid "List of documents"
+msgstr "Список документов"
+
+#: annotation/templates/project_page.html:47
+msgid "Filter by"
+msgstr "Отфильтровать"
 
 #: annotation/templates/project_page.html:50
-msgid "Не проверен"
-msgstr ""
+msgid "Not verified"
+msgstr "Не проверен"
 
 #: annotation/templates/project_page.html:51
-msgid "Проверен"
-msgstr ""
+msgid "Verified"
+msgstr "Проверен"
 
 #: annotation/templates/project_page.html:68
 msgid "Annotation"
@@ -70,8 +112,8 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: annotation/templates/project_page.html:74
-msgid "Вы действительно хотите удалить документ?"
-msgstr ""
+msgid "Are you sure you want to delete the document?"
+msgstr "Вы действительно хотите удалить документ?"
 
 #: annotation/templates/project_page.html:78
 msgid "Yes"
@@ -97,27 +139,27 @@ msgstr ""
 msgid "Home"
 msgstr "Домой"
 
-#: templates/base.html:43 templates/index.html:25
-msgid "Projects"
-msgstr "Проекты"
-
-#: templates/base.html:60
+#: templates/base.html:56
 msgid "Sign out"
 msgstr "Вход"
 
-#: templates/base.html:66
+#: templates/base.html:62
 msgid "Sign in"
 msgstr "Выход"
 
 #: templates/index.html:8
-msgid "Shanno - проект подготовки текста для работы с нейронными сетями"
-msgstr ""
+msgid ""
+"Shanno - this is the project for preparation a text, the one will be use to "
+"work with neuron networks"
+msgstr "Shanno - проект подготовки текста для работы с нейронными сетями"
 
 #: templates/index.html:9
 msgid ""
+"Allows you to make markup on entities (NER), import and export the results "
+"of the work in collnu plus format"
+msgstr ""
 "Позволяет сделать разметку на сущности (NER), импортировать и экспортировать "
 "результаты работы в формате collnu plus"
-msgstr ""
 
 #: templates/index.html:30
 msgid "Create project"

@@ -36,19 +36,19 @@
       </div>
       <div class="column is-one-third">
         <div class="progress-wrapper">
-          <progress class="progress is-info is-large" :value="stat_docs_approved" :max="stat_docs_total">{% trans "Обработано" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></progress>
-          <p class="progress-value has-text-black">{% trans "Обработано" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
+          <progress class="progress is-info is-large" :value="stat_docs_approved" :max="stat_docs_total">{% trans "Processed" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></progress>
+          <p class="progress-value has-text-black">{% trans "Processed" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
         </div>
       </div>
       <div class="column">
-        <p class="title is-5">{% trans "Список документов" %}:</p>
+        <p class="title is-5">{% trans "List of documents" %}:</p>
       </div>
       <div class="column">
-        <b-field horizontal label="Отфильтровать">
+        <b-field horizontal label='{% trans "Filter by" %}'>
           <b-select v-model="filter_approved" @input="changeFilterApproved()">
             <option value="">---</option>
-            <option value="0">{% trans "Не проверен" %}</option>
-            <option value="1">{% trans "Проверен" %}</option>
+            <option value="0">{% trans "Not verified" %}</option>
+            <option value="1">{% trans "Verified" %}</option>
           </b-select>
         </b-field>
       </div>
@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete == index">
-        <p>{% trans "Вы действительно хотите удалить документ?" %}</p>
+        <p>{% trans "Are you sure you want to delete the document?" %}</p>
         <br>
         <div class="field is-grouped">
           <p class="control">

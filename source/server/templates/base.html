@@ -41,10 +41,6 @@
       </b-navbar-item>
       <b-navbar-item class="{% if request.resolver_match.url_name|slice:':7' == 'project' %}is-active{% endif %}" href="/">
         {% trans "Projects" %}
-        {% get_current_language as LANGUAGE_CODE %}
-        {{ LANGUAGE_CODE }}
-        {% get_available_languages as LANGUAGES %}
-        {{ LANGUAGES }}
       </b-navbar-item>
 
     </template>
@@ -70,6 +66,8 @@
     </template>
   </b-navbar>
 
+  {% get_current_language as LANGUAGE_CODE %}
+  {{ LANGUAGE_CODE }}
   <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
     <input name="next" type="hidden" value="{{ redirect_to }}">
     <select name="language">
