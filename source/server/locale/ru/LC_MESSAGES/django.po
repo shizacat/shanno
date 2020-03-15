@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-15 17:26+0000\n"
+"POT-Creation-Date: 2020-03-15 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,8 @@ msgid "Create"
 msgstr "Создать"
 
 #: annotation/templates/project_create.html:37
+#: annotation/templates/project_tl_labels.html:81
+#: annotation/templates/project_tl_labels.html:182
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -108,6 +110,7 @@ msgid "Annotation"
 msgstr "Аннотация"
 
 #: annotation/templates/project_page.html:69
+#: annotation/templates/project_tl_labels.html:127
 msgid "Delete"
 msgstr "Удалить"
 
@@ -116,12 +119,54 @@ msgid "Are you sure you want to delete the document?"
 msgstr "Вы действительно хотите удалить документ?"
 
 #: annotation/templates/project_page.html:78
+#: annotation/templates/project_tl_labels.html:197
 msgid "Yes"
 msgstr "Да"
 
 #: annotation/templates/project_page.html:81
+#: annotation/templates/project_tl_labels.html:200
 msgid "No"
 msgstr "Нет"
+
+#: annotation/templates/project_tl_labels.html:23
+msgid "New label"
+msgstr "Новая метка"
+
+#: annotation/templates/project_tl_labels.html:35
+#: annotation/templates/project_tl_labels.html:136
+msgid "Name of label"
+msgstr "Название метки"
+
+#: annotation/templates/project_tl_labels.html:43
+#: annotation/templates/project_tl_labels.html:144
+msgid "Color"
+msgstr "Цвет"
+
+#: annotation/templates/project_tl_labels.html:50
+#: annotation/templates/project_tl_labels.html:151
+msgid "Hotkey"
+msgstr "Горячая клавиша"
+
+#: annotation/templates/project_tl_labels.html:76
+msgid "Add label"
+msgstr "Добавить метку"
+
+#: annotation/templates/project_tl_labels.html:97
+msgid "Labels in the project"
+msgstr "Метки в проекте"
+
+#: annotation/templates/project_tl_labels.html:119
+msgid "Edit"
+msgstr "Редактировать"
+
+#: annotation/templates/project_tl_labels.html:177
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: annotation/templates/project_tl_labels.html:193
+
+msgid "Are you sure you want to delete the label"
+msgstr "Вы действительно хотите удалить метку?"
 
 #: server/settings.py:130
 msgid "Russian"
