@@ -16,15 +16,15 @@
   v-show="st_show">
   ${ st_value }
   </b-notification>
-  <h4 class="title is-spaced is-4">Аннотации</h4>
-  <h6 class="subtitle is-6">Имя файла: ${doc.file_name}</h6>
+  <h4 class="title is-spaced is-4">{% trans "Annotation" %}</h4>
+  <h6 class="subtitle is-6">{% trans "File name" %}: ${doc.file_name}</h6>
   <div class="field">
     <b-switch 
     type="is-success"
     v-model="is_approved"
     @input="onChangeApproved()">
-    <span v-if="is_approved">Проверен</span>
-    <span v-if="!is_approved">Не проверен</span>
+    <span v-if="is_approved">{% trans "Verified" %}</span>
+    <span v-if="!is_approved">{% trans "Not verified" %}</span>
     </b-switch>
   </div>
   <div class="card">
@@ -78,14 +78,14 @@
             <span class="icon">
               <i class="fas fa-chevron-left"></i>
             </span>
-            <span>Предыдущий</span>
+            <span>{% trans "Previous" %}</span>
           </button>
         </div>
       </div>
       <div class="level-right">
         <div class="level-item">
           <button class="button is-primary is-outlined" @click="onNext()" :disabled="!bt_next_enable">
-            <span>Следующий</span>  
+            <span>{% trans "Next" %}</span>  
             <span class="icon">
               <i class="fas fa-chevron-right"></i>
             </span>

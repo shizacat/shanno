@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-15 17:42+0000\n"
+"POT-Creation-Date: 2020-03-16 09:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,14 +98,17 @@ msgid "Filter by"
 msgstr "Отфильтровать"
 
 #: annotation/templates/project_page.html:50
+#: annotation/templates/project_tl_annotation.html:27
 msgid "Not verified"
 msgstr "Не проверен"
 
 #: annotation/templates/project_page.html:51
+#: annotation/templates/project_tl_annotation.html:26
 msgid "Verified"
 msgstr "Проверен"
 
 #: annotation/templates/project_page.html:68
+#: annotation/templates/project_tl_annotation.html:19
 msgid "Annotation"
 msgstr "Аннотация"
 
@@ -127,6 +130,18 @@ msgstr "Да"
 #: annotation/templates/project_tl_labels.html:200
 msgid "No"
 msgstr "Нет"
+
+#: annotation/templates/project_tl_annotation.html:20
+msgid "File name"
+msgstr "Имя файла"
+
+#: annotation/templates/project_tl_annotation.html:81
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: annotation/templates/project_tl_annotation.html:88
+msgid "Next"
+msgstr "Следующий"
 
 #: annotation/templates/project_tl_labels.html:23
 msgid "New label"
@@ -164,7 +179,6 @@ msgid "Save changes"
 msgstr "Сохранить изменения"
 
 #: annotation/templates/project_tl_labels.html:193
-
 msgid "Are you sure you want to delete the label"
 msgstr "Вы действительно хотите удалить метку?"
 
@@ -186,11 +200,11 @@ msgstr "Домой"
 
 #: templates/base.html:56
 msgid "Sign out"
-msgstr "Вход"
+msgstr "Выход"
 
 #: templates/base.html:62
 msgid "Sign in"
-msgstr "Выход"
+msgstr "Вход"
 
 #: templates/index.html:8
 msgid ""
