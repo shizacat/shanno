@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 09:38+0000\n"
+"POT-Creation-Date: 2020-03-16 13:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,6 +65,33 @@ msgstr "Создать"
 #: annotation/templates/project_tl_labels.html:182
 msgid "Cancel"
 msgstr "Отменить"
+
+#: annotation/templates/project_export.html:20
+msgid "Select the type of file for download"
+msgstr "Выберите тип файла для скачивания"
+
+#: annotation/templates/project_export.html:26
+msgid ""
+"He is an extenshion of format CoNLL-U. The one may to have any count the "
+"columns."
+msgstr "Является расширением формата CoNLL-U. Может иметь любое количество "
+"столбцов."
+
+#: annotation/templates/project_export.html:27
+msgid "Format."
+msgstr "Формат."
+
+#: annotation/templates/project_export.html:28
+msgid "He should be in the coding UTF8."
+msgstr "Должен быть в кодировке UTF-8."
+
+#: annotation/templates/project_export.html:31
+msgid "Other format"
+msgstr "Другой формат"
+
+#: annotation/templates/project_export.html:46
+msgid "Download"
+msgstr "Скачать"
 
 #: annotation/templates/project_page.html:17
 msgid "Info"

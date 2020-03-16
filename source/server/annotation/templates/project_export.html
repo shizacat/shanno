@@ -17,18 +17,18 @@
   ${ st_value }
   </b-notification>
   <div class="column">
-    <h5 class="title is-5">Выберите тип файла для загрузки</h5>
+    <h5 class="title is-5">{% trans "Select the type of file for download" %}</h5>
   </div>
   <div class="column">
     <b-tabs v-model="selected">
       <b-tab-item label="CoNLL-U Plus">
         <p>
-          Является расширением формата CoNLL-U. Может иметь любое количество столбцов.
-          <a href="https://universaldependencies.org/ext-format.html">Формат.</a>
-          Должен быть в кодировке UTF-8.
+          {% trans "He is an extenshion of format CoNLL-U. The one may to have any count the columns." %}
+          <a href="https://universaldependencies.org/ext-format.html">{% trans "Format." %}</a>
+          {% trans "He should be in the coding UTF8." %}
         </p>
       </b-tab-item>
-      <b-tab-item label="Другой формат">
+      <b-tab-item label='{% trans "Other format" %}'>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Harum nihil deleniti labore eos ratione, omnis nam fuga dignissimos
@@ -43,7 +43,7 @@
           class="button is-link"
           v-bind:class="{ 'is-loading': is_process }"
           @click="download({{project.id}})">
-          Скачать
+          {% trans "Download" %}
         </button>
     </div>
   </div>
