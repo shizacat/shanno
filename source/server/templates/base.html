@@ -52,11 +52,47 @@
         </p>
       </b-navbar-item>
       <b-navbar-item tag="div">
+        {% get_current_language as LANGUAGE_CODE %}
+        <form name="myForm" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+          <input name="next" type="hidden" value="{{ redirect_to }}">
+          <div class="select is-success">
+            <select name="language" onchange="this.form.submit()">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+              <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                  {{ language.name_local }} ({{ language.code }})
+              </option>
+             {% endfor %}
+            </select>
+          </div>
+        </form>
+      </b-navbar-item>
+      <b-navbar-item tag="div">
         <a class="button is-danger is-inverted is-outlined" href="{% url 'logout'%}?next={{request.path}}">
           {% trans "Sign out" %}
         </a>
       </b-navbar-item>
       {% else %}
+      <b-navbar-item tag="div">
+        {% get_current_language as LANGUAGE_CODE %}
+        <form name="myForm" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+          <input name="next" type="hidden" value="{{ redirect_to }}">
+          <div class="select is-success">
+            <select name="language" onchange="this.form.submit()">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+              <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                  {{ language.name_local }} ({{ language.code }})
+              </option>
+             {% endfor %}
+            </select>
+          </div>
+        </form>
+      </b-navbar-item>
       <b-navbar-item tag="div">
         <a class="button is-success" href="{% url 'login'%}?next={{request.path}}">
           {% trans "Sign in" %}
@@ -66,7 +102,7 @@
     </template>
   </b-navbar>
 
-  {% get_current_language as LANGUAGE_CODE %}
+<!--   {% get_current_language as LANGUAGE_CODE %}
   {{ LANGUAGE_CODE }}
   <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
     <input name="next" type="hidden" value="{{ redirect_to }}">
@@ -81,7 +117,7 @@
         {% endfor %}
     </select>
     <input type="submit" value="Go">
-  </form>
+  </form> -->
 
   {% block content %}
   {% endblock %}
