@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 09:13+0000\n"
+"POT-Creation-Date: 2020-03-16 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,8 @@ msgid "Create"
 msgstr "Создать"
 
 #: annotation/templates/project_create.html:37
+#: annotation/templates/project_settings.html:57
+#: annotation/templates/project_settings.html:134
 #: annotation/templates/project_tl_labels.html:81
 #: annotation/templates/project_tl_labels.html:182
 msgid "Cancel"
@@ -113,6 +115,8 @@ msgid "Annotation"
 msgstr "Аннотация"
 
 #: annotation/templates/project_page.html:69
+#: annotation/templates/project_settings.html:104
+#: annotation/templates/project_settings.html:164
 #: annotation/templates/project_tl_labels.html:127
 msgid "Delete"
 msgstr "Удалить"
@@ -122,14 +126,81 @@ msgid "Are you sure you want to delete the document?"
 msgstr "Вы действительно хотите удалить документ?"
 
 #: annotation/templates/project_page.html:78
+#: annotation/templates/project_settings.html:149
+#: annotation/templates/project_settings.html:172
 #: annotation/templates/project_tl_labels.html:197
 msgid "Yes"
 msgstr "Да"
 
 #: annotation/templates/project_page.html:81
+#: annotation/templates/project_settings.html:152
+#: annotation/templates/project_settings.html:175
 #: annotation/templates/project_tl_labels.html:200
 msgid "No"
 msgstr "Нет"
+
+#: annotation/templates/project_settings.html:22
+#: annotation/templates/project_settings.html:73
+msgid "Members of project"
+msgstr "Участники проекта"
+
+#: annotation/templates/project_settings.html:23
+msgid "Add member"
+msgstr "Добавить участника"
+
+#: annotation/templates/project_settings.html:29
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: annotation/templates/project_settings.html:36
+msgid "Role"
+msgstr "Роль"
+
+#: annotation/templates/project_settings.html:37
+msgid "Select role"
+msgstr "Выберите роль"
+
+#: annotation/templates/project_settings.html:38
+#: annotation/templates/project_settings.html:84
+#: annotation/templates/project_settings.html:115
+msgid "Viewing"
+msgstr "Просмотр"
+
+#: annotation/templates/project_settings.html:39
+#: annotation/templates/project_settings.html:83
+#: annotation/templates/project_settings.html:116
+msgid "Editing"
+msgstr "Редактирование"
+
+#: annotation/templates/project_settings.html:52
+msgid "Add"
+msgstr "Добавить"
+
+#: annotation/templates/project_settings.html:96
+#: annotation/templates/project_tl_labels.html:119
+msgid "Edit"
+msgstr "Редактировать"
+
+#: annotation/templates/project_settings.html:129
+#: annotation/templates/project_tl_labels.html:177
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: annotation/templates/project_settings.html:145
+msgid "Are you sure you want to delete the member?"
+msgstr "Вы действительно хотите удалить участника?"
+
+#: annotation/templates/project_settings.html:162
+msgid "Deleting project"
+msgstr "Удаление проект"
+
+#: annotation/templates/project_settings.html:163
+msgid "Delete project"
+msgstr "Удалить проект"
+
+#: annotation/templates/project_settings.html:168
+msgid "Are you sure you want to delete the project?"
+msgstr "Вы действительно хотите удалить проект?"
 
 #: annotation/templates/project_tl_annotation.html:20
 msgid "File name"
@@ -169,14 +240,6 @@ msgstr "Добавить метку"
 #: annotation/templates/project_tl_labels.html:97
 msgid "Labels in the project"
 msgstr "Метки в проекте"
-
-#: annotation/templates/project_tl_labels.html:119
-msgid "Edit"
-msgstr "Редактировать"
-
-#: annotation/templates/project_tl_labels.html:177
-msgid "Save changes"
-msgstr "Сохранить изменения"
 
 #: annotation/templates/project_tl_labels.html:193
 msgid "Are you sure you want to delete the label"

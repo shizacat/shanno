@@ -19,24 +19,24 @@
 
   <div class="columns is-multiline">
     <div class="column is-12">
-      <h3 class="title is-spaced is-3">Участники проекта</h3>
-      <button class="button is-primary" @click="addMember()">Добавить участника</button>
+      <h3 class="title is-spaced is-3">{% trans "Members of project" %}</h3>
+      <button class="button is-primary" @click="addMember()">{% trans "Add member" %}</button>
     </div>
     <div class="column" v-if="new_member">
       <div class="box">
         <div class="columns is-multiline is-vcentered">
           <div class="column is-3">
-            <b-field label="Имя пользователя">
+            <b-field label='{% trans "Username" %}'>
               <b-field>
                 <b-input v-model="new_member.username"></b-input>
               </b-field>
             </b-field>
           </div>
           <div class="column is-3">
-            <b-field label="Роль">
-              <b-select placeholder="Выберите роль" v-model="new_member.role" expanded>
-                <option value="view">Просмотр</option>
-                <option value="change">Редактирование</option>
+            <b-field label='{% trans "Role" %}'>
+              <b-select placeholder='{% trans "Select role" %}' v-model="new_member.role" expanded>
+                <option value="view">{% trans "Viewing" %}</option>
+                <option value="change">{% trans "Editing" %}</option>
               </b-select>
             </b-field>
           </div>
@@ -49,12 +49,12 @@
                     <span class="icon is-small">
                       <i class="fas fa-check"></i>
                     </span>
-                    <span>Добавить</span>
+                    <span>{% trans "Add" %}</span>
                   </button>
                 </div>
                 <div class="control">
                   <button class="button is-danger is-outlined" @click="cancelCreate()">
-                    <span>Отменить</span>
+                    <span>{% trans "Cancel" %}</span>
                     <span class="icon is-small">
                       <i class="fas fa-times"></i>
                     </span>
@@ -70,7 +70,7 @@
   <div class="card">
     <header class="card-header">
       <p class="card-header-title">
-        Участников в проекте - ${members.length}
+        {% trans "Members of project" %} (${members.length})
       </p>
     </header>
     <div class="card-content">
@@ -80,8 +80,8 @@
             <div class="level-item">
               <div class="tags has-addons are-medium">
                 <span class="tag has-addons">${member.username}</span>
-                <span v-if="member.role == 'change'" class="tag is-success has-addons">Редактирование</span>
-                <span v-else class="tag is-warning has-addons">Просмотр</span>
+                <span v-if="member.role == 'change'" class="tag is-success has-addons">{% trans "Editing" %}</span>
+                <span v-else class="tag is-warning has-addons">{% trans "Viewing" %}</span>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@
                     <span class="icon is-small">
                       <i class="fas fa-pen"></i>
                     </span>
-                    <span>Редактировать</span>
+                    <span>{% trans "Edit" %}</span>
                   </button>
                 </p>
                 <p class="control">
@@ -101,7 +101,7 @@
                     <span class="icon is-small">
                       <i class="fas fa-trash-alt"></i>
                     </span>
-                    <span>Удалить</span>
+                    <span>{% trans "Delete" %}</span>
                   </button>
                 </p>
               </b-field>
@@ -112,8 +112,8 @@
           <div class="column is-3">
             <b-field label="Роль">
               <b-select placeholder="Выберите роль" v-model="member.role" expanded>
-                <option value="view">Просмотр</option>
-                <option value="change">Редактирование</option>
+                <option value="view">{% trans "Viewing" %}</option>
+                <option value="change">{% trans "Editing" %}</option>
               </b-select>
             </b-field>
           </div>
@@ -126,12 +126,12 @@
                     <span class="icon is-small">
                       <i class="fas fa-save"></i>
                     </span>
-                    <span>Сохранить изменения</span>
+                    <span>{% trans "Save changes" %}</span>
                   </button>
                 </div>
                 <div class="control">
                   <button class="button is-danger is-outlined" @click="repealEdit(member)">
-                    <span>Отменить</span>
+                    <span>{% trans "Cancel" %}</span>
                     <span class="icon is-small">
                       <i class="fas fa-times"></i>
                     </span>
@@ -142,14 +142,14 @@
           </div>
         </div>
         <div class="notification is-info mb-1r" v-show="is_open_delete == index">
-          <p>Вы действительно хотите удалить участника?</p>
+          <p>{% trans "Are you sure you want to delete the member?" %}</p>
           <br>
           <div class="field is-grouped">
             <p class="control">
-              <button class="button is-success is-inverted is-outlined is-small" @click="deleteMember(member)">Да</button>
+              <button class="button is-success is-inverted is-outlined is-small" @click="deleteMember(member)">{% trans "Yes" %}</button>
             </p>
             <p class="control">
-              <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">Нет</button>
+              <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">{% trans "No" %}</button>
             </p>
           </div>
         </div>
@@ -159,20 +159,20 @@
   <hr>
   <div class="column">
     <div class="container">
-      <p class="title is-spaced is-4">Удаление проекта</p>
-      <p class="subtitle is-6">Удалить проект <strong>{{ project.name }}</strong>?</p>
-      <button class="button is-danger" @click="openProjectDelete()">Удалить</button>
+      <p class="title is-spaced is-4">{% trans "Deleting project" %}</p>
+      <p class="subtitle is-6">{% trans "Delete project" %} <strong>{{ project.name }}</strong>?</p>
+      <button class="button is-danger" @click="openProjectDelete()">{% trans "Delete" %}</button>
     </div>
   </div>
   <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_project_delete">
-    <p>Вы действительно хотите удалить проект?</p>
+    <p>{% trans "Are you sure you want to delete the project?" %}</p>
     <br>
     <div class="field is-grouped">
       <p class="control">
-        <button class="button is-success is-inverted is-outlined is-small" @click="deleteProject({{project.id}})">Да</button>
+        <button class="button is-success is-inverted is-outlined is-small" @click="deleteProject({{project.id}})">{% trans "Yes" %}</button>
       </p>
       <p class="control">
-        <button class="button is-danger is-inverted is-outlined is-small" @click="closeProjectDelete()">Нет</button>
+        <button class="button is-danger is-inverted is-outlined is-small" @click="closeProjectDelete()">{% trans "No" %}</button>
       </p>
     </div>
   </div>
