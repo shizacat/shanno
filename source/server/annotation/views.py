@@ -16,6 +16,7 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework import permissions
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, AnonymousUser
+from django.utils.translation import gettext_lazy as _
 
 from annotation import models
 from annotation.exceptions import FileParseException
@@ -160,7 +161,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
         exformat = request.query_params.get("exformat")
         if exformat not in self.file_format_list:
-            return Response("The format of file not support", status=400)
+            return Response(_("The format of file not support"), status=400)
 
         response = HttpResponse(
             self._export(exformat),
@@ -278,28 +279,28 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         if username is None:
             return Response(
-                "Не верно заполнено поле {}".format("username"),
+                _("The field '{}' is incorrectly filled").format("username"),
                 status=status.HTTP_400_BAD_REQUEST)
         if role is None:
             return Response(
-                "Не верно заполнено поле {}".format("role"),
+                _("The field '{}' is incorrectly filled").format("role"),
                 status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user_obj = User.objects.get(username=username)
         except User.DoesNotExist:
             return Response(
-                "Пользователь '{}' не найден".format(username),
+                _("The user '{}' is not found").format(username),
                 status=status.HTTP_400_BAD_REQUEST)
 
         if user_obj == self.get_object().owner:
             return Response(
-                "Указан владелец проекта",
+                _("The project owner selected"),
                 status=status.HTTP_400_BAD_REQUEST)
 
         if role not in [x[0] for x in models.PROJECT_ROLES]:
             return Response(
-                "Неизвестная роль", status=status.HTTP_400_BAD_REQUEST)
+                _("Unknown role"), status=status.HTTP_400_BAD_REQUEST)
 
         try:
             perm = models.ProjectsPermission.objects.get(
@@ -341,7 +342,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             user_obj = User.objects.get(username=username)
         except User.DoesNotExist:
             return Response(
-                "Пользователь '{}' не найден".format(username),
+                _("The user '{}' is not found").format(username),
                 status=status.HTTP_400_BAD_REQUEST)
 
         try:
@@ -395,7 +396,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         except conllu.parser.ParseException as e:
             raise FileParseException(str(e))
         except UnicodeDecodeError:
-            raise FileParseException("Файл не в кодировке UTF-8")
+            raise FileParseException(_("The file is not encoded in UTF-8"))
 
         doc = models.Documents.objects.create(
             project=self.get_object(),

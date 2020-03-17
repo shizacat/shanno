@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 13:44+0000\n"
+"POT-Creation-Date: 2020-03-16 21:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,6 +287,30 @@ msgstr "Метки в проекте"
 #: annotation/templates/project_tl_labels.html:193
 msgid "Are you sure you want to delete the label"
 msgstr "Вы действительно хотите удалить метку?"
+
+#: annotation/views.py:164
+msgid "The format of file not support"
+msgstr "Формат файла не поддерживается"
+
+#: annotation/views.py:282 annotation/views.py:286
+msgid "The field '{}' is incorrectly filled"
+msgstr "Неверно заполнено поле '{}'"
+
+#: annotation/views.py:293 annotation/views.py:345
+msgid "The user '{}' is not found"
+msgstr "Пользователь '{}' не найден"
+
+#: annotation/views.py:298
+msgid "The project owner selected"
+msgstr "Указан владелец проекта"
+
+#: annotation/views.py:303
+msgid "Unknown role"
+msgstr "Неизвестная роль"
+
+#: annotation/views.py:399
+msgid "The file is not encoded in UTF-8"
+msgstr "Файл не в кодировке UTF-8"
 
 #: server/settings.py:130
 msgid "Russian"
