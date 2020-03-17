@@ -38,7 +38,7 @@ class DocumentsSerializerSimple(serializers.ModelSerializer):
 
 
 class DocumentSeqSerializer(serializers.ModelSerializer):
-    """Полный документ для аннотации"""
+    """Full document for annotation"""
     sequences = serializers.SerializerMethodField()
 
     class Meta:

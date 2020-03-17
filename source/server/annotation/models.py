@@ -40,13 +40,13 @@ class ProjectsPermission(models.Model):
 
 
 class Documents(models.Model):
-    """Документ состоит из набора последовательностей"""
+    """A document consists from a set of sequences"""
     project = models.ForeignKey(
         Projects, related_name='documents', on_delete=models.CASCADE
     )
-    # Мета данные файла
+    # Metadata of file
     meta = models.TextField(default='{}')
-    # Имя файла, из которого был загружен документ
+    # File name, from which the document was loaded
     file_name = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -63,13 +63,13 @@ class Sequence(models.Model):
     )
     text = models.TextField()
     meta = models.TextField(default='{}')
-    # Порядок последовательностей в документе
+    # Sequence order in a document
     order = models.IntegerField(null=False, db_index=True, default=0)  # !!! delete default
 
 
 # text_label
 class TlLabels(models.Model):
-    """Содержит список меток"""
+    """Contains a list of labels"""
     PREFIX_KEYS = (
         ('ctrl', 'ctrl'),
         ('shift', 'shift'),
@@ -81,7 +81,7 @@ class TlLabels(models.Model):
     project = models.ForeignKey(
         Projects, related_name='labels', on_delete=models.CASCADE
     )
-    # Название метки
+    # Name of label
     name = models.CharField(max_length=100)
     color_background = models.CharField(max_length=7, default='#209cee')
     color_text = models.CharField(max_length=7, default='#ffffff')
@@ -116,7 +116,7 @@ class TlLabels(models.Model):
 
 
 class TlSeqLabel(models.Model):
-    """Содержит позицию метки в последовательности"""
+    """Contains label position in sequence"""
     sequence = models.ForeignKey(
         Sequence, related_name='seqlabel1', on_delete=models.CASCADE
     )

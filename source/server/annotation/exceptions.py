@@ -1,5 +1,5 @@
 class FileParseException(Exception):
-    """Возникает при ошибке разбора файла"""
+    """Occurs when parsing a file"""
     def __init__(self, msg="", line_num=-1):
         self.msg = msg
         self.line_num = line_num
