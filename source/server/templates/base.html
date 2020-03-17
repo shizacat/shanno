@@ -54,7 +54,7 @@
         </b-navbar-item>
       {% endif %}
       
-      <b-navbar-item tag="div">
+<!--       <b-navbar-item tag="div">
         {% get_current_language as LANGUAGE_CODE %}
         <form name="myForm" action="{% url 'set_language' %}" method="post">{% csrf_token %}
           <input name="next" type="hidden" value="{{ redirect_to }}">
@@ -71,6 +71,37 @@
             </select>
           </div>
         </form>
+      </b-navbar-item> -->
+      <b-navbar-item tag="div">
+        <b-dropdown v-model="language" aria-role="list">
+          {% if user.is_authenticated %}
+          <button class="button is-success is-inverted is-outlined" type="button" slot="trigger">
+          {% else %}
+          <button class="button is-success" type="button" slot="trigger">
+          {% endif %}
+              <template v-if="language === 'ru'">
+                  <span>ru</span>
+              </template>
+              <template v-else>
+                  <span>en</span>
+              </template>
+              <b-icon pack="fas" icon="angle-down"></b-icon>
+          </button>
+          <b-dropdown-item :value="'ru'" aria-role="listitem">
+              <div class="media">
+                  <div class="media-content">
+                      <h3>ru</h3>
+                  </div>
+              </div>
+          </b-dropdown-item>
+          <b-dropdown-item :value="'en'" aria-role="listitem">
+              <div class="media">
+                  <div class="media-content">
+                      <h3>en</h3>
+                  </div>
+              </div>
+          </b-dropdown-item>
+        </b-dropdown>
       </b-navbar-item>
 
       {% if user.is_authenticated %}
@@ -95,7 +126,12 @@
 
   <script type="text/javascript">
     new Vue({
-      el: '#menu'
+      el: '#menu',
+      data() {
+        return {
+          language: 'ru'
+          }
+        }
     })
   </script>
   {% block js-script %}
