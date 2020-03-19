@@ -73,30 +73,26 @@
         </form>
       </b-navbar-item> -->
       <b-navbar-item tag="div">
+        {% get_current_language as LANGUAGE_CODE %}
         <b-dropdown v-model="language" aria-role="list">
           <button class="button is-link is-inverted is-outlined" type="button" slot="trigger">
-              <template v-if="language === 'ru'">
-                  <span>ru</span>
-              </template>
-              <template v-else>
-                  <span>en</span>
+              <template>
+                  <span>{{LANGUAGE_CODE}}</span>
               </template>
               <b-icon pack="fas" icon="angle-down"></b-icon>
           </button>
-          <b-dropdown-item :value="'ru'" aria-role="listitem">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+          <b-dropdown-item :value="'{{ language.code }}'" aria-role="listitem">
               <div class="media">
                   <div class="media-content">
-                      <h3>ru</h3>
+                      <h3>{{ language.name_local }}</h3>
                   </div>
               </div>
           </b-dropdown-item>
-          <b-dropdown-item :value="'en'" aria-role="listitem">
-              <div class="media">
-                  <div class="media-content">
-                      <h3>en</h3>
-                  </div>
-              </div>
-          </b-dropdown-item>
+          {% endfor %}
         </b-dropdown>
       </b-navbar-item>
 
