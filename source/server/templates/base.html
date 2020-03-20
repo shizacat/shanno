@@ -72,27 +72,30 @@
           </div>
         </form>
       </b-navbar-item> -->
+
       <b-navbar-item tag="div">
         {% get_current_language as LANGUAGE_CODE %}
         {% get_available_languages as LANGUAGES %}
         {% get_language_info_list for LANGUAGES as languages %}
-        <b-dropdown v-model="language" aria-role="list">
-          <button class="button is-link is-inverted is-outlined" type="button" slot="trigger">
-              <template>
-                  <span>{{LANGUAGE_CODE}}</span>
-              </template>
-              <b-icon pack="fas" icon="angle-down"></b-icon>
-          </button>
-          {% for language in languages %}
-            <b-dropdown-item :value="'{{ language.code }}'" aria-role="listitem">
-              <div class="media">
-                  <div class="media-content">
-                      <h3>{{ language.name_local }}</h3>
-                  </div>
-              </div>
-            </b-dropdown-item>
-          {% endfor %}
-        </b-dropdown>
+        <form id="form-language" action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{{ redirect_to }}">
+          <input name="language" type="hidden" id="value-language" v-model="language">
+          
+          <b-dropdown value="{{ LANGUAGE_CODE }}" v-on:change="onChangeLanguage" aria-role="list">
+            <button class="button is-link is-inverted is-outlined" type="button" slot="trigger">
+                <template><span>{{ LANGUAGE_CODE }}</span></template>
+                <b-icon pack="fas" icon="angle-down"></b-icon>
+            </button>
+            {% for language in languages %}
+              <b-dropdown-item value="{{ language.code }}" aria-role="listitem">
+                <div class="media">
+                  <div class="media-content"><h3>{{ language.name_local }}</h3></div>
+                </div>
+              </b-dropdown-item>
+            {% endfor %}
+          </b-dropdown>
+        </form>
       </b-navbar-item>
 
       {% if user.is_authenticated %}
@@ -118,11 +121,33 @@
   <script type="text/javascript">
     new Vue({
       el: '#menu',
-      data() {
-        return {
-          language: 'ru'
-          }
+      delimiters: ['${', '}'],
+      data: {
+        language: ''
+      },
+      methods: {
+        onChangeLanguage: function(item){
+          document.getElementById("value-language").value = item;
+          // this.language = item;
+          document.getElementById('form-language').submit();
+          // fdata = new FormData();
+          // fdata.set('language', item);
+          // fdata.set('next', "{{ redirect_to }}");
+          // axios.post(
+          //   "{% url 'set_language' %}",
+          //   fdata,
+          //   {
+          //     headers: {
+          //       'Content-Type': 'multipart/form-data',
+          //       'X-CSRFToken': this.$cookies.get('csrftoken')
+          //     }
+          //   }
+          //   )
+          // .then(function (response) {
+          //   location.reload();
+          // });
         }
+      }
     })
   </script>
   {% block js-script %}
