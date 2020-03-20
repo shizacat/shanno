@@ -61,7 +61,7 @@
         <form id="form-language" action="{% url 'set_language' %}" method="post">
           {% csrf_token %}
           <input name="next" type="hidden" value="{{ redirect_to }}">
-          <input name="language" type="hidden" id="value-language" v-model="language">
+          <input name="language" type="hidden" id="value-language">
           
           <b-dropdown value="{{ LANGUAGE_CODE }}" v-on:change="onChangeLanguage" aria-role="list">
             <button class="button is-link is-inverted is-outlined" type="button" slot="trigger">
@@ -103,9 +103,6 @@
     new Vue({
       el: '#menu',
       delimiters: ['${', '}'],
-      data: {
-        language: ''
-      },
       methods: {
         onChangeLanguage: function(item){
           document.getElementById("value-language").value = item;
