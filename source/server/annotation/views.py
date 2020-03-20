@@ -76,25 +76,25 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """API endpoint for project
 
     Action:
-        ds_import - Импортирует файл датасета
+        ds_import - Imports a dataset file
         PUT multipart:
-        * files - файля для импорта
-        * format - строка с нужным форматом (conllup)
+        * files - file for import
+        * format - string with the necessary format (conllup)
 
-        documents_list - список документов в проекте
+        documents_list - list of documents in project
         GET json
-        Возвращает стриницами по 10ть (?page)
+        Returns pages by 10th (?page)
 
-        documents_list_simple - список документов в проекте
-            только идентификаторы
+        documents_list_simple - list of documents in project
+            identifiers only
 
-        tl_labels_list - TL, список меток для проекта
+        tl_labels_list - TL, list of labels for project
     """
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
     # pagination_class = None
 
-    # Поддерживаемые форматы
+    # Supported formats
     file_format_list = ["conllup"]
 
     def create(self, request, *args, **kwargs):
@@ -157,7 +157,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def ds_export(self, request, pk=None):
         """
         Query:
-            exformat - Формат экспортируемых файлов
+            exformat - The format exported files
         """
         exformat = request.query_params.get("exformat")
         if exformat not in self.file_format_list:
@@ -176,9 +176,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def documents_list(self, request, pk=None):
         """
         Query:
-            approved - Если указано отфильтровывать по полю approved
-                0 - только не проверенные
-                1 - только проверенные
+            approved - If specified then will filter by field 'approved'
+                0 - Not verifed only
+                1 - Verifed only
         """
         afilter = {
             "project": self.get_object()
@@ -201,9 +201,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def documents_list_simple(self, request, pk=None):
         """
         Query:
-            approved - Если указано отфильтровывать по полю approved
-                0 - только не проверенные
-                1 - только проверенные
+            approved - If specified then will filter by field 'approved'
+                0 - Not verifed only
+                1 - Verifed only
         """
         afilter = {
             "project": self.get_object()
@@ -219,7 +219,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def documents_all_is_approved(self, request, pk=None):
-        """Всего проверено"""
+        """Total verified"""
         docs_approved = models.Documents.objects.filter(
             project=self.get_object(), approved=True
         ).count()
@@ -243,7 +243,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get', 'post', 'put', 'delete'])
     def permission(self, request, pk=None):
-        """Маршрутизатор для работы с правами"""
+        """Router for work with rights"""
         # --- Auth
         if self.get_object().owner != request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -262,11 +262,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return resp
 
     def _permission_add(self, request, pk=None):
-        """Выдает/изменяет права пользователю
+        """Add/change rights for user
 
         Args:
-            username - логин пользователя
-            permission - строка ["view", "change"]
+            username - user login
+            permission - string from ["view", "change"]
         """
         # --- Auth
         # if self.get_object().owner != request.user:
@@ -326,10 +326,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def _permission_delete(self, request, pk=None):
-        """Забирает права у пользователя
+        """It takes the rights from user
 
         Args:
-            username - логин пользователя
+            username - login
         """
         # --- Auth
         # if self.get_object().owner != request.user:
@@ -357,7 +357,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def _permission_list(self, request, pk=None):
-        """Получить список прав"""
+        """Get the list of rights"""
         # --- Auth
         # if self.get_object().owner != request.user:
         #     return Response(status=status.HTTP_403_FORBIDDEN)
@@ -382,7 +382,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(perm)
 
     def _import_conllup(self, file, file_name):
-        """Импортирует файл формата CoNLLU Plus"""
+        """Imports the file of format CoNLLU Plus"""
         field_parsers = {
             "ne": lambda line, i: conllu.parser.parse_nullable_value(line[i]),
         }
@@ -455,14 +455,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 )
 
     def _is_zip(self, file) -> bool:
-        """Проверяет является ли файла zip"""
+        """Checks that the file is format zip"""
         name, ext = os.path.splitext(file._name)
         if ext == ".zip":
             return True
         return False
 
     def _import_zip_file(self, file, im_file):
-        """Импортирует zip файл"""
+        """Imports the file of zip"""
         with ZipFile(file) as zip:
             for item in zip.infolist():
                 if item.is_dir():
@@ -499,7 +499,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return zip_file.getvalue()
 
     def _export_to_conllup(self, doc_obj) -> bytes:
-        """Получаем файл нужного формата"""
+        """Getting the file in need format"""
         buf = io.StringIO()
 
         # Header
@@ -516,8 +516,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return buf.read().encode()
 
     def _export_one_doc(self, doc_obj) -> list:
-        """Получает готовый документ в виде
-        массива массива кортежей (слово, тэг)
+        """Get the end document as array of arrays tuples
+        (word, labels)
         """
         result = []
         seqs = models.Sequence.objects.filter(
@@ -539,7 +539,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return None
 
     def _eod_ch_cross(self, rword: tuple, rbase: tuple) -> bool:
-        """Пересекает ли слово базовый диапазон"""
+        """Does the word cross the base range"""
         start = 0
         end = 1
         if rword[end] > rbase[start] and rword[end] < rbase[end]:
@@ -552,11 +552,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def _eod_process_seq(self, text, seq_labels) -> list:
         """
-        Последний индекс не включается
+        Last index not included
         """
         result = []
-        lb_last_index = None  # Последний индекс обработанных меток
-        offsetStart = 0       # Смещение текущиего слова
+        lb_last_index = None  # Last index processed labels
+        offsetStart = 0       # Offset current word
         for word in text.split(" "):
             range_word = (offsetStart, offsetStart + len(word))
             lb_last_index = self._eod_set_lb_index(seq_labels, range_word)
@@ -584,7 +584,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return False
 
     def _check_permision(self, request) -> bool:
-        """Проверяет есть ли права на операцию"""
+        """Checks if there are rights to the operation"""
 
 
 class DocumentSeqViewSet(viewsets.ModelViewSet):
@@ -652,7 +652,7 @@ class TLSeqLabelViewSet(viewsets.ModelViewSet):
     serializer_class = anno_serializer.TLSeqLabelSerializer
 
     def create(self, request):
-        """Создает объекты меток и возвращает их массив"""
+        """Creates the object of labels and return their the array"""
         result = []
 
         offset_start = request.data["offset_start"]
