@@ -74,6 +74,8 @@
       </b-navbar-item> -->
       <b-navbar-item tag="div">
         {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
         <b-dropdown v-model="language" aria-role="list">
           <button class="button is-link is-inverted is-outlined" type="button" slot="trigger">
               <template>
@@ -81,17 +83,14 @@
               </template>
               <b-icon pack="fas" icon="angle-down"></b-icon>
           </button>
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% for language in languages %}
-          <b-dropdown-item :value="'{{ language.code }}'" aria-role="listitem">
+          {% for language in languages %}
+            <b-dropdown-item :value="'{{ language.code }}'" aria-role="listitem">
               <div class="media">
                   <div class="media-content">
                       <h3>{{ language.name_local }}</h3>
                   </div>
               </div>
-          </b-dropdown-item>
+            </b-dropdown-item>
           {% endfor %}
         </b-dropdown>
       </b-navbar-item>
