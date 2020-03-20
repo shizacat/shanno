@@ -53,25 +53,6 @@
           </p>
         </b-navbar-item>
       {% endif %}
-      
-<!--       <b-navbar-item tag="div">
-        {% get_current_language as LANGUAGE_CODE %}
-        <form name="myForm" action="{% url 'set_language' %}" method="post">{% csrf_token %}
-          <input name="next" type="hidden" value="{{ redirect_to }}">
-          <div class="select is-success">
-            <select name="language" onchange="this.form.submit()">
-              {% get_current_language as LANGUAGE_CODE %}
-              {% get_available_languages as LANGUAGES %}
-              {% get_language_info_list for LANGUAGES as languages %}
-              {% for language in languages %}
-                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                  {{ language.name_local }} ({{ language.code }})
-                </option>
-             {% endfor %}
-            </select>
-          </div>
-        </form>
-      </b-navbar-item> -->
 
       <b-navbar-item tag="div">
         {% get_current_language as LANGUAGE_CODE %}
@@ -130,22 +111,6 @@
           document.getElementById("value-language").value = item;
           // this.language = item;
           document.getElementById('form-language').submit();
-          // fdata = new FormData();
-          // fdata.set('language', item);
-          // fdata.set('next', "{{ redirect_to }}");
-          // axios.post(
-          //   "{% url 'set_language' %}",
-          //   fdata,
-          //   {
-          //     headers: {
-          //       'Content-Type': 'multipart/form-data',
-          //       'X-CSRFToken': this.$cookies.get('csrftoken')
-          //     }
-          //   }
-          //   )
-          // .then(function (response) {
-          //   location.reload();
-          // });
         }
       }
     })
