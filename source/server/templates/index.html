@@ -5,8 +5,8 @@
 
 {% block content %}
 
-  {% trans "Shanno - this is the project for preparation a text, the one will be use to work with neuron networks" as the_title_1 %}
-  {% trans "Allows you to make markup on entities (NER), import and export the results of the work in collnu plus format" as the_title_2 %}
+  {% trans "Shanno is a project dealing with text processing for it's futher use in neural networks" as the_title_1 %}
+  {% trans "Allows you to make markup on entities (NER), import and export the processed results in collnu plus format" as the_title_2 %}
 
   {% if user.is_authenticated %}
     <section class="hero is-main-color">
@@ -54,7 +54,7 @@
       </div>
     </section>
     <section class="section">
-      <p class="title is-3 has-text-centered">{% trans "Для управления проектами необходимо авторизоваться" %}</p>
+      <p class="title is-3 has-text-centered">{% trans "You need to authorized to manage projects" %}</p>
     </section>
   {% endif %}
 

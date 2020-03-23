@@ -17,17 +17,17 @@
   ${ st_value }
   </b-notification>
   <div class="container" style="padding: 2rem 0 2rem 0">
-    <p class="title is-2">{% trans "Project creation" %}</p>
+    <p class="title is-2">{% trans "Create a project" %}</p>
   </div>
   <div class="container">
     <b-field label='{% trans "Name" %}'>
-      <b-input v-model="name" placeholder='{% trans "You need to enter name of project" %}' required></b-input>
+      <b-input v-model="name" placeholder='{% trans "Enter the name of the project" %}' required></b-input>
     </b-field>
     <b-field label='{% trans "Description" %}'>
-      <b-input maxlength="200" type="textarea" v-model="description" placeholder='{% trans "You need to describe briefly purpuse of project" %}' required></b-input>
+      <b-input maxlength="200" type="textarea" v-model="description" placeholder='{% trans "Enter, briefly, a description of the project" %}' required></b-input>
     </b-field>
     <b-field label='{% trans "Type of project" %}'>
-      <b-select placeholder='{% trans "Choose project type" %}' v-model="type" expanded required>
+      <b-select placeholder='{% trans "Select the type of project" %}' v-model="type" expanded required>
         <option value="text_label">Text labeling</option>
       </b-select>
     </b-field>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 21:16+0000\n"
+"POT-Creation-Date: 2020-03-23 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgid "Projects"
 msgstr "Проекты"
 
 #: annotation/templates/project_create.html:20
-msgid "Project creation"
+msgid "Create a project"
 msgstr "Создание проекта"
 
 #: annotation/templates/project_create.html:23
@@ -34,7 +34,7 @@ msgid "Name"
 msgstr "Название"
 
 #: annotation/templates/project_create.html:24
-msgid "You need to enter name of project"
+msgid "Enter the name of the project"
 msgstr "Необходимо ввести название проекта"
 
 #: annotation/templates/project_create.html:26
@@ -43,7 +43,7 @@ msgid "Description"
 msgstr "Описание"
 
 #: annotation/templates/project_create.html:27
-msgid "You need to describe briefly purpuse of project"
+msgid "Enter, briefly, a description of the project"
 msgstr "Необходимо кратко описать назначение проекта"
 
 #: annotation/templates/project_create.html:29
@@ -51,7 +51,7 @@ msgid "Type of project"
 msgstr "Тип проекта"
 
 #: annotation/templates/project_create.html:30
-msgid "Choose project type"
+msgid "Select the type of project"
 msgstr "Выберите тип проекта"
 
 #: annotation/templates/project_create.html:36
@@ -73,8 +73,7 @@ msgstr "Выберите тип файла для скачивания"
 #: annotation/templates/project_export.html:26
 #: annotation/templates/project_import.html:26
 msgid ""
-"He is an extenshion of format CoNLL-U. The one may to have any count the "
-"columns."
+"It's an extension of CoNLL-U. File can have any non-zero number of columns."
 msgstr ""
 "Является расширением формата CoNLL-U. Может иметь любое количество столбцов."
 
@@ -84,8 +83,7 @@ msgid "Format."
 msgstr "Формат."
 
 #: annotation/templates/project_export.html:28
-#: annotation/templates/project_import.html:28
-msgid "He should be in the coding UTF8."
+msgid "Must be in coding UTF-8."
 msgstr "Должен быть в кодировке UTF-8."
 
 #: annotation/templates/project_export.html:31
@@ -100,6 +98,10 @@ msgstr "Скачать"
 #: annotation/templates/project_import.html:20
 msgid "Select the type of file for upload"
 msgstr "Выберите тип файла для загрузки"
+
+#: annotation/templates/project_import.html:28
+msgid "Must be in coding UTF-8"
+msgstr "Должен быть в кодировке UTF-8."
 
 #: annotation/templates/project_import.html:30
 msgid "Example:"
@@ -289,7 +291,7 @@ msgid "Are you sure you want to delete the label"
 msgstr "Вы действительно хотите удалить метку?"
 
 #: annotation/views.py:164
-msgid "The format of file not support"
+msgid "This file format is not supported"
 msgstr "Формат файла не поддерживается"
 
 #: annotation/views.py:282 annotation/views.py:286
@@ -297,7 +299,7 @@ msgid "The field '{}' is incorrectly filled"
 msgstr "Неверно заполнено поле '{}'"
 
 #: annotation/views.py:293 annotation/views.py:345
-msgid "The user '{}' is not found"
+msgid "'{}'. User not found"
 msgstr "Пользователь '{}' не найден"
 
 #: annotation/views.py:298
@@ -328,24 +330,24 @@ msgstr ""
 msgid "Home"
 msgstr "Домой"
 
-#: templates/base.html:56
+#: templates/base.html:85
 msgid "Sign out"
 msgstr "Выход"
 
-#: templates/base.html:62
+#: templates/base.html:91
 msgid "Sign in"
 msgstr "Вход"
 
 #: templates/index.html:8
 msgid ""
-"Shanno - this is the project for preparation a text, the one will be use to "
-"work with neuron networks"
+"Shanno is a project dealing with text processing for it's futher use in "
+"neural networks"
 msgstr "Shanno - проект подготовки текста для работы с нейронными сетями"
 
 #: templates/index.html:9
 msgid ""
-"Allows you to make markup on entities (NER), import and export the results "
-"of the work in collnu plus format"
+"Allows you to make markup on entities (NER), import and export the processed "
+"results in collnu plus format"
 msgstr ""
 "Позволяет сделать разметку на сущности (NER), импортировать и экспортировать "
 "результаты работы в формате collnu plus"
@@ -355,20 +357,20 @@ msgid "Create project"
 msgstr "Создать проект"
 
 #: templates/index.html:57
-msgid "Для управления проектами необходимо авторизоваться"
-msgstr ""
+msgid "You need to authorized to manage projects"
+msgstr "Для управления проектами необходимо авторизоваться"
 
 #: templates/registration/logged_out.html:7
-msgid "Выполнен выход"
-msgstr ""
+msgid "Signed"
+msgstr "Выполнен выход"
 
 #: templates/registration/logged_out.html:8
-msgid "Нажмите, чтобы авторизоваться"
-msgstr ""
+msgid "Click to authorization"
+msgstr "Нажмите, чтобы авторизоваться"
 
 #: templates/registration/login.html:16
-msgid "У вас нет доступа к этой странице"
-msgstr ""
+msgid "You don't have access to this page"
+msgstr "У вас нет доступа к этой странице"
 
 #: templates/registration/login.html:18
 msgid "Authorization"
@@ -379,5 +381,5 @@ msgid "Log in"
 msgstr "Войти"
 
 #: templates/registration/login.html:66
-msgid "Неверный логин или пароль"
-msgstr ""
+msgid "The user name or password is incorrect"
+msgstr "Неверный логин или пароль"

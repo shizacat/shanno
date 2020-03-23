@@ -13,7 +13,7 @@
           <div class="box">
 
             {% if user.is_authenticated %}
-              <p>{% trans "У вас нет доступа к этой странице" %}</p>
+              <p>{% trans "You don't have access to this page" %}</p>
             {% else %}
               <p class="title is-4 has-text-centered">{% trans "Authorization" %}</p>
 
@@ -63,7 +63,7 @@
 
             {% if form.errors %}
               <div class="notification is-danger">
-                {% trans "Неверный логин или пароль" %}
+                {% trans "The user name or password is incorrect" %}
               </div>
             {% endif %}
 

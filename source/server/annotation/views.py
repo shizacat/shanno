@@ -161,7 +161,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
         exformat = request.query_params.get("exformat")
         if exformat not in self.file_format_list:
-            return Response(_("The format of file not support"), status=400)
+            return Response(_("This file format is not supported"), status=400)
 
         response = HttpResponse(
             self._export(exformat),
@@ -290,7 +290,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             user_obj = User.objects.get(username=username)
         except User.DoesNotExist:
             return Response(
-                _("The user '{}' is not found").format(username),
+                _("'{}'. User not found").format(username),
                 status=status.HTTP_400_BAD_REQUEST)
 
         if user_obj == self.get_object().owner:
@@ -342,7 +342,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             user_obj = User.objects.get(username=username)
         except User.DoesNotExist:
             return Response(
-                _("The user '{}' is not found").format(username),
+                _("'{}'. User not found").format(username),
                 status=status.HTTP_400_BAD_REQUEST)
 
         try:
