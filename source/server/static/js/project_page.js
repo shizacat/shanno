@@ -31,6 +31,9 @@ new Vue({
       } else {
         return 1
       }
+    },
+    last_page: function(){
+      return Math.ceil(this.docs_total / this.docs_by_page)
     }
   },
   async created() {
@@ -90,7 +93,7 @@ new Vue({
       })
       .catch(this.addErrorApi);
     },
-    deleteDoc: function(doc_id) {
+    deleteDoc: function(doc_id, index) {
       self = this;
 
       axios.delete(
@@ -103,7 +106,8 @@ new Vue({
       )
       .then(function(response){
         self.is_open_delete = null
-        self.getAllDocumentPage(self.current_page)
+        self.docs_total -= 1
+        self.docs.splice(index,1)
       })
       .catch(this.addErrorApi);
     },
