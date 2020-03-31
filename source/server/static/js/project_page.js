@@ -31,9 +31,6 @@ new Vue({
       } else {
         return 1
       }
-    },
-    last_page: function(){
-      return Math.ceil(this.docs_total / this.docs_by_page)
     }
   },
   async created() {
