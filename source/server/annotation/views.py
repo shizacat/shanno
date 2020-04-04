@@ -608,6 +608,14 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
         doc.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=["post"])
+    def reset(self, request, pk=None):
+        """Delete the all labels in document"""
+        doc = self.get_object()
+        for sequence in models.Sequence.objects.filter(document=doc):
+            models.TlSeqLabel.objects.filter(sequence=sequence).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # Permissions
 # ==========

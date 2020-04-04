@@ -367,9 +367,14 @@ class TestDocuments(TestCase):
         )
         self.assertEqual(r.json()["approved"], False)
 
-
         # print(r.request)
         # print(r)
         # print(r.status_code)
         # print(r.content)
         # print(r.json())
+
+    def test_reset(self):
+        r = self.client.post(
+            "/api/document/{}/approved/".format(self.document.id),
+        )
+        self.assertEqual(r.status_code, 204)
