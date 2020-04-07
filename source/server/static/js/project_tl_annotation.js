@@ -150,6 +150,22 @@ new Vue({
         .catch(this.addErrorApi);
       }
     },
+    resetLabels: function(){
+      self = this;
+      axios.post(
+        "/api/document/" + this.doc.id + "/reset/",
+        "",
+        {
+          headers: {
+            "X-CSRFToken": this.$cookies.get("csrftoken")
+          }
+        }
+      )
+      .then(function(response){
+        self.getDocSequence(self.doc.id)
+      })
+      .catch(this.addErrorApi);
+    },
     getDocSequence: function(doc_id) {
       self = this;
       axios.get("/api/document/" + doc_id + "/")
