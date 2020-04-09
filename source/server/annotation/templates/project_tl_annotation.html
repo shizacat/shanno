@@ -18,20 +18,24 @@
   </b-notification>
   <h4 class="title is-spaced is-4">{% trans "Annotation" %}</h4>
   <h6 class="subtitle is-6">{% trans "File name" %}: ${doc.file_name}</h6>
-  <div class="columns is-vcentered">
-    <div class="column is-2">
-      <div class="field">
-        <b-switch 
-        type="is-success"
-        v-model="is_approved"
-        @input="onChangeApproved()">
-          <span v-if="is_approved">{% trans "Verified" %}</span>
-          <span v-if="!is_approved">{% trans "Not verified" %}</span>
-        </b-switch>
+  <div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <div class="field">
+          <b-switch 
+          type="is-success"
+          v-model="is_approved"
+          @input="onChangeApproved()">
+            <span v-if="is_approved">{% trans "Verified" %}</span>
+            <span v-if="!is_approved">{% trans "Not verified" %}</span>
+          </b-switch>
+        </div>
       </div>
     </div>
-    <div class="column is-2 is-offset-8">
-      <b-button class="is-pulled-right" type="is-danger" outlined @click="resetLabels()">{% trans "Reset labels" %}</b-button>
+    <div class="level-right">
+      <div class="level-item">
+        <b-button class="is-pulled-right is-relative" type="is-danger" outlined @click="resetLabels()">{% trans "Reset labels" %}</b-button>
+      </div>
     </div>
   </div>
   <div class="card">
