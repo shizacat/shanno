@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-23 15:00+0000\n"
+"POT-Creation-Date: 2020-04-10 06:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,12 +145,12 @@ msgid "Filter by"
 msgstr "Отфильтровать"
 
 #: annotation/templates/project_page.html:50
-#: annotation/templates/project_tl_annotation.html:27
+#: annotation/templates/project_tl_annotation.html:30
 msgid "Not verified"
 msgstr "Не проверен"
 
 #: annotation/templates/project_page.html:51
-#: annotation/templates/project_tl_annotation.html:26
+#: annotation/templates/project_tl_annotation.html:29
 msgid "Verified"
 msgstr "Проверен"
 
@@ -251,11 +251,15 @@ msgstr "Вы действительно хотите удалить проект
 msgid "File name"
 msgstr "Имя файла"
 
-#: annotation/templates/project_tl_annotation.html:81
+#: annotation/templates/project_tl_annotation.html:37
+msgid "Reset labels"
+msgstr "Сброс разметки"
+
+#: annotation/templates/project_tl_annotation.html:92
 msgid "Previous"
 msgstr "Предыдущий"
 
-#: annotation/templates/project_tl_annotation.html:88
+#: annotation/templates/project_tl_annotation.html:99
 msgid "Next"
 msgstr "Следующий"
 
