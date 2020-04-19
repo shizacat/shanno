@@ -70,18 +70,7 @@
           </div>
         </div>
       </div>
-      <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete == index">
-        <p>{% trans "Are you sure you want to delete the document?" %}</p>
-        <br>
-        <div class="field is-grouped">
-          <p class="control">
-            <button class="button is-success is-inverted is-outlined is-small" @click="deleteDoc(doc.id, index)">{% trans "Yes" %}</button>
-          </p>
-          <p class="control">
-            <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">{% trans "No" %}</button>
-          </p>
-        </div>
-      </div>
+      <confirm-doc-del :doc.id="doc.id" :index="index"></confirm-doc-del>
     </div>
     <b-pagination
     :total="docs_total"

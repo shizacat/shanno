@@ -1,3 +1,5 @@
+const del_cmp = () => import('./components/confirm-doc-del.js');
+
 var router = new VueRouter({
     mode: 'history',
     routes: []
@@ -6,6 +8,9 @@ var router = new VueRouter({
 new Vue({
   router,
   el: "#project-page",
+  components: {
+    'confirm-doc-del': del_cmp
+  },
   delimiters: ['${', '}'],
   data: {
     docs_total: 0,
@@ -90,24 +95,6 @@ new Vue({
       })
       .catch(this.addErrorApi);
     },
-    deleteDoc: function(doc_id, index) {
-      self = this;
-
-      axios.delete(
-        "/api/document/" + doc_id + "/",
-        {
-          headers: {
-            'X-CSRFToken': this.$cookies.get('csrftoken')
-          }
-        }
-      )
-      .then(function(response){
-        self.is_open_delete = null
-        self.docs_total -= 1
-        self.docs.splice(index,1)
-      })
-      .catch(this.addErrorApi);
-    },
     gotoAnnotation: function(doc_id){
       let q = Object.assign({}, this.filter);
       q.doc = doc_id;
@@ -151,10 +138,7 @@ new Vue({
     },
     openDelete: function(index) {
       this.is_open_delete = index;
-    },
-    closeDelete: function() {
-      this.is_open_delete = null
-    },
+    }
   },
   filters: { 
     truncate: function(string, value) {
