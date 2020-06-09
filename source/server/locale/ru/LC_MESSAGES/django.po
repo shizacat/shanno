@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 06:18+0000\n"
+"POT-Creation-Date: 2020-06-09 19:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,6 +162,7 @@ msgstr "Аннотация"
 #: annotation/templates/project_page.html:69
 #: annotation/templates/project_settings.html:104
 #: annotation/templates/project_settings.html:164
+#: annotation/templates/project_tl_annotation.html:41
 #: annotation/templates/project_tl_labels.html:127
 msgid "Delete"
 msgstr "Удалить"
@@ -173,6 +174,7 @@ msgstr "Вы действительно хотите удалить докуме
 #: annotation/templates/project_page.html:78
 #: annotation/templates/project_settings.html:149
 #: annotation/templates/project_settings.html:172
+#: annotation/templates/project_tl_annotation.html:59
 #: annotation/templates/project_tl_labels.html:197
 msgid "Yes"
 msgstr "Да"
@@ -180,6 +182,7 @@ msgstr "Да"
 #: annotation/templates/project_page.html:81
 #: annotation/templates/project_settings.html:152
 #: annotation/templates/project_settings.html:175
+#: annotation/templates/project_tl_annotation.html:62
 #: annotation/templates/project_tl_labels.html:200
 msgid "No"
 msgstr "Нет"
@@ -251,15 +254,19 @@ msgstr "Вы действительно хотите удалить проект
 msgid "File name"
 msgstr "Имя файла"
 
-#: annotation/templates/project_tl_annotation.html:37
+#: annotation/templates/project_tl_annotation.html:46
 msgid "Reset labels"
 msgstr "Сброс разметки"
 
-#: annotation/templates/project_tl_annotation.html:92
+#: annotation/templates/project_tl_annotation.html:55
+msgid "Are you sure do you want to delete the document?"
+msgstr "Вы действительно хотите удалить документ?"
+
+#: annotation/templates/project_tl_annotation.html:118
 msgid "Previous"
 msgstr "Предыдущий"
 
-#: annotation/templates/project_tl_annotation.html:99
+#: annotation/templates/project_tl_annotation.html:125
 msgid "Next"
 msgstr "Следующий"
 
