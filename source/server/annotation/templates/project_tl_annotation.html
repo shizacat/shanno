@@ -32,12 +32,38 @@
         </div>
       </div>
     </div>
+
     <div class="level-right">
       <div class="level-item">
-        <b-button class="is-pulled-right is-relative" type="is-danger" outlined @click="resetLabels()">{% trans "Reset labels" %}</b-button>
+        <div class="field is-grouped">
+          <p class="control">
+            <b-button class="is-relative" type="is-danger" outlined @click="openDelete()">
+              {% trans "Delete" %}
+            </b-button>
+          </p>
+          <p class="control">
+            <b-button class="is-pulled-right is-relative" type="is-danger" outlined @click="resetLabels()">
+              {% trans "Reset labels" %}
+            </b-button>
+          </p>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete">
+    <p>{% trans "Are you sure do you want to delete the document?" %}</p>
+    <br>
+    <div class="field is-grouped">
+      <p class="control">
+        <button class="button is-success is-inverted is-outlined is-small" @click="deleteDoc()">{% trans "Yes" %}</button>
+      </p>
+      <p class="control">
+        <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">{% trans "No" %}</button>
+      </p>
+    </div>
+  </div>
+
   <div class="card">
     <header class="card-header">
       <div class="column">

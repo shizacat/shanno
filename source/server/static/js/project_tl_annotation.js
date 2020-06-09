@@ -23,6 +23,7 @@ new Vue({
     bt_next_enable: false,
     is_approved: false,    // Зуб даю верный
     filter: {},
+    is_open_delete: false,
     st_show: false,
     st_variant: "is-danger",
     st_value: "",
@@ -118,6 +119,37 @@ new Vue({
         }
       )
       .then(function(response){
+      })
+      .catch(this.addErrorApi);
+    },
+    openDelete: function() {
+      this.is_open_delete = true;
+    },
+    closeDelete: function() {
+      this.is_open_delete = false;
+    },
+    deleteDoc: function() {
+      self = this;
+
+      axios.delete(
+        "/api/document/" + self.doc.id + "/",
+        {
+          headers: {
+            'X-CSRFToken': this.$cookies.get('csrftoken')
+          }
+        }
+      )
+      .then(function(response){
+        self.is_open_delete = false
+        if (self.bt_next_enable == true) {
+          self.onNext();
+          self.getDocsListbyProject();
+        } else if (self.bt_prev_enable == true) {
+          self.onPrev();
+          self.getDocsListbyProject();
+        } else {
+          location.href = '/projects/' + self.project_id;
+        }
       })
       .catch(this.addErrorApi);
     },
