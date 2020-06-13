@@ -1,0 +1,18 @@
+version: "3"
+services:
+  web:
+    build:
+      context: ../../
+      dockerfile: contribute/docker/Dockerfile
+    working_dir: /opt/shanno
+    ports:
+      - "8000:8000"
+    environment:
+      SH_DEBUG: "True"
+      SH_DATABASE_URL: sqlite:////data/db.sqlite
+    # entrypoint: /usr/local/bin/gunicorn server.wsgi:application -w 2 -b :8000
+    entrypoint: python3 manage.py 
+    command: runserver 0:8000
+    volumes:
+      - ../../source/server/:/opt/shanno/
+      - ./data:/data

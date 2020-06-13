@@ -6,3 +6,4 @@ source/server/staticfiles/*
 contribute/vagrant/.vagrant
 node_modules/*
 semantic/*
+contribute/compose-dev/data/*
