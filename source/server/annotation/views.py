@@ -144,7 +144,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
             with transaction.atomic():
                 if file_format == "conllup":
                     if self._is_zip(file_obj):
-                        print("Zip")
                         self._import_zip_file(file_obj, self._import_conllup)
                     else:
                         self._import_conllup(file_obj, file_obj._name)
