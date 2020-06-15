@@ -1,4 +1,6 @@
+import random
 import string
+import logging
 from enum import Enum
 
 from django.db import models
@@ -106,6 +108,11 @@ class TlLabels(models.Model):
                 self.suffix_key = keys.pop()
         # if not self.prefix_key:
         #     self.prefix_key = "ctrl"
+        # Setup color
+        if self.color_background == "#209cee":
+            self.color_background = self._get_new_color_bg()
+            self.color_text = self._get_new_color_text(self.color_background)
+
         super().save(*args, **kwargs)
 
     class Meta:
@@ -113,6 +120,23 @@ class TlLabels(models.Model):
             ('project', 'name'),
             ('project', 'prefix_key', 'suffix_key'),
         )
+    
+    def _get_new_color_bg(self) -> str:
+        """New color for background"""
+        color = "#{:06x}".format(round(random.random() * 0xFFFFFF)).upper()
+        return color
+    
+    def _get_new_color_text(self, color_bg: str) -> str:
+        """New color for text on background color"""
+        red = int(color_bg[1:3], 16)
+        green = int(color_bg[3:5], 16)
+        blue = int(color_bg[5:7], 16)
+        
+        if (((red * 299) + (green * 587) + (blue * 114)) / 1000) < 128:
+            color = "#ffffff"
+        else:
+            color = "#000000"
+        return color
 
 
 class TlSeqLabel(models.Model):
