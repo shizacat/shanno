@@ -3,11 +3,11 @@
 ## Environments
 
 * TZ - setup timezone, default Etc/UTC
-* SH_PORT - порт на котором будет работать
-* SH_WORKERS - количество воркеров gunicorn
-* SH_DEBUG - (True/False) режим запуска django
-* SH_SECRET_KEY - секретный ключ django
-* SH_DATABASE_URL - URL для базы данных. (sqlite:////var; postgresql://u:p@host:p/dn)
+* SH_PORT - the port will bind
+* SH_WORKERS - the count of workers gunicorn
+* SH_DEBUG - (True/False) mode have runing django
+* SH_SECRET_KEY - secret key django
+* SH_DATABASE_URL - URL for database. (sqlite:////var; postgresql://u:p@host:p/dn)
 * SH_ADMIN_USERNAME; SH_ADMIN_PASSWORD; SH_ADMIN_EMAIL - Create super admin user.
 
 ## BUILD

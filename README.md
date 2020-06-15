@@ -1,11 +1,11 @@
 # Development
 
 Django application structure folder:
-- annotation - основное приложение для анотирования.
-- server - настройки проекта
-- templates - базовые шаблоны проекта
+- annotation - main application for annotation
+- server - settings project
+- templates - the base templates project
 
-Набор используемых инструментов и библиотек:
+A set of used tools and library:
 - Django
 - Buefy (Bulma for Vue) v0.8.8
 - Vue 2.6.10
