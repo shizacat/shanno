@@ -60,8 +60,16 @@
       v-for="(doc, index) in docs">
       <div class="columns">
         <div class="column">
-          <p class="header">${doc.file_name}</p>
-          <p class="subtitle is-6">${doc.sequence_preview }</p>
+          <p class="header">
+            <!-- Attributes -->
+            <span v-if="doc.approved" class="has-text-success"><b>[V] </b></span>
+            <span v-else class="has-text-danger"><b>[_] </b></span>
+            <!-- Title -->
+            ${doc.file_name}
+          </p>
+          <p class="subtitle is-6">
+            ${doc.sequence_preview }
+          </p>
         </div>
         <div class="column is-one-quarter">
           <div class="right-block">

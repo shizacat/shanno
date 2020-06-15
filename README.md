@@ -1,4 +1,4 @@
-# Разработка
+# Development
 
 Django application structure folder:
 - annotation - основное приложение для анотирования.
@@ -33,7 +33,7 @@ git clone https://github.com/shizacat/shanno.git
 
 Branches:
 - master - this current stable version;
-- dev - development branch. He contants current new future.
+- dev - development branch. It contains current new future.
 
 Then from root directory you create docker image and run him.
 
@@ -45,4 +45,3 @@ docker-compose -f contribute/compose-dev/docker-compose.yml run web \
 docker-compose -f contribute/compose-dev/docker-compose.yml up -d
 sudo docker-compose -f contribute/compose-dev/docker-compose.yml ps
 ```
-
