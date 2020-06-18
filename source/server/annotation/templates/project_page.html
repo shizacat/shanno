@@ -29,10 +29,24 @@
     {% block project-content %}
 
     <div id="project-page">
-      <div class="column">
-        <h4 class="subtitle is-5">
-          <span class="tag is-link">{{ project.type }}</span>
-        {% trans "Description" %}: {{ project.description }}</h4>
+      <nav class="level pl-3" style="margin-bottom: 0rem;">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="title is-3">
+              {{ project.name }}
+            </p>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <span class="tag is-link is-medium">{{ project.type }}</span>
+          </div>
+        </div>
+      </nav>
+      <div class="column py-0">
+        <p class="subtitle is-4">
+          {{ project.description }}
+        </p>
       </div>
       <div class="column is-one-third">
         <div class="progress-wrapper">
@@ -40,7 +54,25 @@
           <p class="progress-value has-text-black">{% trans "Processed" %}: <strong>${ stat_docs_approved } / ${ stat_docs_total }</strong></p>
         </div>
       </div>
-      <div class="column">
+      <nav class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="title is-5">{% trans "List of documents" %}:</p>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <b-field horizontal label='{% trans "Filters" %}'>
+              <b-select v-model="filter_approved" @input="changeFilterApproved()">
+                <option value="">---</option>
+                <option value="0">{% trans "Not verified" %}</option>
+                <option value="1">{% trans "Verified" %}</option>
+              </b-select>
+            </b-field>
+          </div>
+        </div>
+      </nav>
+<!--       <div class="column">
         <p class="title is-5">{% trans "List of documents" %}:</p>
       </div>
       <div class="column">
@@ -51,7 +83,7 @@
             <option value="1">{% trans "Verified" %}</option>
           </b-select>
         </b-field>
-      </div>
+      </div> -->
       <div 
       class="column box"
       id="docs-table"

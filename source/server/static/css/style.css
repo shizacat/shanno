@@ -1005,3 +1005,31 @@ a.box-link:hover {
   transition: opacity 86ms ease-out, visibility 86ms ease-out;
 }
 
+.pt-0 {
+  padding-top: 0rem;
+}
+
+.pr-3 {
+  padding-right: .75rem;
+}
+
+.pb-0 {
+  padding-bottom: 0rem;
+}
+
+.pl-3 {
+  padding-left: .75rem;
+}
+
+.py-0 {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+
+.mt-0 {
+  margin-top: 0rem;
+}
+
+.mb-0 {
+  margin-bottom: 0rem;
+}
