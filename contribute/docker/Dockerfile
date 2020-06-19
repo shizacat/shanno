@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-LABEL maintainer="a.matveev"
+LABEL maintainer="a.matveev, d.bogdanov"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
