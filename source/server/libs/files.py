@@ -213,22 +213,6 @@ class ConllupNER(FilesBase):
             result.append((index, " ".join(words), labels))
         
         yield result, meta, filename, None
-    
-    # def _import_zip_file(self):
-    #     """Imports the file of zip"""
-    #     with ZipFile(self.file_obj) as zip:
-    #         for item in zip.infolist():
-    #             if item.is_dir():
-    #                 continue
-    #             # Fix, service folder MAC OS X
-    #             if item.filename.startswith("__MACOSX/"):
-    #                 continue
-    #             filename = os.path.split(item.filename)[1]
-    #             content = io.BytesIO(zip.read(item.filename))
-    #             content._name = filename
-    #             tmp_obj = ConllupNER(content)
-    #             for item in tmp_obj.import_ds():
-    #                 yield item
 
 
 class PlainText(FilesBase):
@@ -258,6 +242,8 @@ class PlainText(FilesBase):
         result = []
         for idx, line in enumerate(text.split("\n")):
             line = line.strip()
+            if not line:
+                continue
             result.append((idx, line, []))
         yield result, {}, filename, []
     
