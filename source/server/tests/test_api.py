@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.files.base import ContentFile
 
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
@@ -111,7 +112,7 @@ class TestProject(TestCase):
         # Models
         self.user = User.objects.create_user(username='test', password='12345')
         self.project = models.Projects.objects.create(
-            name="lion", description="", type=models.PROJECT_TYPE[0],
+            name="lion", description="", type=models.PROJECT_TYPE[0][0],
             owner=self.user
         )
         self.document = models.Documents.objects.create(
@@ -135,7 +136,11 @@ class TestProject(TestCase):
             sequence=self.seq1, label=self.label1,
             offset_start=0, offset_stop=4
         )
-        #
+        # dc
+        self.project_dc = models.Projects.objects.create(
+            name="lion", description="", type=models.PROJECT_TYPE[1][0],
+            owner=self.user
+        )
         self.client = APIClient()
 
     def test_export(self):
@@ -157,6 +162,40 @@ class TestProject(TestCase):
                 "exformat": "conllup"
             }
         )
+    
+    def test_import(self):
+        with open("tests/data/1.conllup", "br") as f:
+            body = f.read()
+
+        with self.subTest("1"):
+            r = self.client.put(
+                "/api/project/{}/ds_import/".format(self.project.id),
+                data={
+                    "format": "conllup",
+                    'files': [
+                        ContentFile(content=body, name='file_1.conllup')
+                    ]
+                },
+                format="multipart"
+            )
+            self.assertEqual(r.status_code, 204)
+        
+        with open("tests/data/3.zip", "br") as f:
+            body = f.read()
+
+        with self.subTest("2"):
+            r = self.client.put(
+                "/api/project/{}/ds_import/".format(self.project.id),
+                data={
+                    "format": "conllup",
+                    'files': [
+                        ContentFile(content=body, name='3.zip')
+                    ]
+                },
+                format="multipart"
+            )
+            # print(r.content)
+            self.assertEqual(r.status_code, 204)
 
     def test_list(self):
         """Список проектов пользователя"""

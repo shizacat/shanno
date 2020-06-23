@@ -9,48 +9,42 @@
 
 <div id="project-import">
   <b-notification
-  :type="st_variant"
-  aria-close-label="Close notification"
-  role="alert"
-  :active.sync="st_show"
-  v-show="st_show">
-  ${ st_value }
+    :type="st_variant"
+    aria-close-label="Close notification"
+    role="alert"
+    :active.sync="st_show"
+    v-show="st_show">
+    ${ st_value }
   </b-notification>
+
   <div class="column">
     <h5 class="title is-5">{% trans "Select the type of file for upload" %}</h5>
   </div>
+
   <div class="column">
     <b-tabs v-model="selected">
-      <b-tab-item label="CoNLL-U Plus">
-        <p>
-          {% trans "It's an extension of CoNLL-U. File can have any non-zero number of columns." %}
-          <a href="https://universaldependencies.org/ext-format.html">{% trans "Format." %}</a>
-          {% trans "Must be in coding UTF-8" %}
-        </p>
-        <p>{% trans "Example:" %}</p>
-        <pre class="has-background-dark has-text-white">  
-# global.columns = FORM NE
-
-This  _
-is  VERB
-only  _
-example _ 
-        </pre>
-      </b-tab-item>
-      <b-tab-item label='{% trans "Other format" %}'>
+      {% for format, format_label, description, example in format_docs %}
+        <b-tab-item label="{{ format_label }}" value="{{ format }}">
+          <p>{{ description |safe }}</p>
+          <p>{% trans "Example:" %}</p>
+          <pre class="has-background-dark has-text-white">{{ example }}</pre>
+        </b-tab-item>
+      {% endfor %}
+      <!-- <b-tab-item label='{% trans "Other format" %}'>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Harum nihil deleniti labore eos ratione, omnis nam fuga dignissimos
           architecto eum temporibus voluptate molestiae iusto ipsam,
           quisquam rem hic mollitia earum.
         </p>
-      </b-tab-item>
+      </b-tab-item> -->
     </b-tabs>
   </div>
-    <div class="column">
-      <b-field grouped>
-        <p class="control">
-          <b-button 
+    
+  <div class="column">
+    <b-field grouped>
+      <p class="control">
+        <b-button 
           class="button is-link"
           @click="uploadFiles({{project.id}})"
           :disabled="files === null"
@@ -58,11 +52,10 @@ example _
           {% trans "Upload" %}
         </b-button>
       </p>
-      <b-upload v-model="files">
-      </b-upload>
+      <b-upload v-model="files"></b-upload>
     </b-field>
-    </div>
   </div>
+
 </div>
 
 {% endblock %}

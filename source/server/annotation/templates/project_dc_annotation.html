@@ -1,0 +1,16 @@
+{% extends "project_page.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}<title> Shanno - {{ project.name }} [Annotation] </title>{% endblock %}
+
+{% block project-content %}
+
+    dc annotation
+
+{% endblock %}
+
+{% block js-script %}
+  <script src="{% static 'js/project_dc_annotation.js' %}"></script>
+{% endblock %}

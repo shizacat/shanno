@@ -9,6 +9,7 @@ from django.conf import settings
 
 PROJECT_TYPE = (
     ("text_label", "Text Labeling"),
+    ("document_classificaton", "Document classification")
 )
 
 PROJECT_ROLES = (
@@ -26,7 +27,7 @@ class Projects(models.Model):
     description = models.TextField(default="", blank=True)
     type = models.CharField(
         choices=(PROJECT_TYPE),
-        max_length=20
+        max_length=50
     )
 
 
@@ -70,6 +71,7 @@ class Sequence(models.Model):
 
 
 # text_label
+# Object label and for document_classificaton
 class TlLabels(models.Model):
     """Contains a list of labels"""
     PREFIX_KEYS = (
@@ -149,3 +151,19 @@ class TlSeqLabel(models.Model):
     )
     offset_start = models.IntegerField(null=False, db_index=True)
     offset_stop = models.IntegerField(null=False)
+
+
+# document_classificaton
+class DCDocLabel(models.Model):
+    """Contains label of documents"""
+    document = models.ForeignKey(
+        Documents, related_name='dl_doc', on_delete=models.CASCADE
+    )
+    label = models.ForeignKey(
+        TlLabels, related_name='dl_label', on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = (
+            ('document', 'label'),
+        )

@@ -8,13 +8,13 @@
 {% block content %}
 
 <section id="app-projects" class="section">
-  <b-notification
-  type="is-danger"
-  aria-close-label="Close notification"
-  role="alert"
-  :active.sync="st_show"
-  v-show="st_show">
-  ${ st_value }
+  <b-notification 
+    type="is-danger"
+    aria-close-label="Close notification"
+    role="alert"
+    :active.sync="st_show"
+    v-show="st_show">
+      ${ st_value }
   </b-notification>
   <div class="container" style="padding: 2rem 0 2rem 0">
     <p class="title is-2">{% trans "Create a project" %}</p>
@@ -24,18 +24,24 @@
       <b-input v-model="name" placeholder='{% trans "Enter the name of the project" %}' required></b-input>
     </b-field>
     <b-field label='{% trans "Description" %}'>
-      <b-input maxlength="200" type="textarea" v-model="description" placeholder='{% trans "Enter, briefly, a description of the project" %}' required></b-input>
+      <b-input maxlength="200" type="textarea" v-model="description"
+        placeholder='{% trans "Enter, briefly, a description of the project" %}' required></b-input>
     </b-field>
     <b-field label='{% trans "Type of project" %}'>
       <b-select placeholder='{% trans "Select the type of project" %}' v-model="type" expanded required>
         <option value="text_label">Text labeling</option>
+        <option value="document_classificaton">Document classification</option>
       </b-select>
     </b-field>
     <b-field>
       <p class="control">
-        <b-button class="button is-success" @click="onSubmit()">{% trans "Create" %}</b-button>
-        <b-button class="button is-danger" @click="$router.go(-1)">{% trans "Cancel" %}</b-button>
-      </p>  
+        <b-button class="button is-success" @click="onSubmit()">
+          {% trans "Create" %}
+        </b-button>
+        <b-button class="button is-danger" @click="$router.go(-1)">
+          {% trans "Cancel" %}
+        </b-button>
+      </p>
     </b-field>
   </div>
 </section>
@@ -44,5 +50,5 @@
 {% endblock %}
 
 {% block js-script %}
-  <script src="{% static 'js/project_create.js' %}"></script>
+<script src="{% static 'js/project_create.js' %}"></script>
 {% endblock %}

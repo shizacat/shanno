@@ -14,13 +14,37 @@
         {{ project.name }}
       </p>
       <ul class="menu-list">
-        <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">{% trans "Info" %}</a></li>
-        <li><a href="import" class="{% if request.resolver_match.kwargs.action == 'import' %}is-active{% endif %} has-text-white">{% trans "Import" %}</a></li>
-        <li><a href="export" class="{% if request.resolver_match.kwargs.action == 'export' %}is-active{% endif %} has-text-white">{% trans "Export" %}</a></li>
+        <!-- <li><a href="/projects/{{project.id}}/" class="{% if request.resolver_match.kwargs.action is None %}is-active{% endif %} has-text-white">{% trans "Info" %}</a></li> -->
+
+        {% for action, map in actions_map.items %}
+          {% if map.level == 1 %}
+            <li>
+              <a href="{{ map.url }}" class="{% if request.resolver_match.kwargs.action == action %}is-active{% endif %} has-text-white">
+                {{ map.name }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
         <hr>
-        <li><a href="tl-labels" class="{% if request.resolver_match.kwargs.action == 'tl-labels' %}is-active{% endif %} has-text-white">{% trans "Labels" %}</a></li>
+        {% for action, map in actions_map.items %}
+          {% if map.level == 2 %}
+            <li>
+              <a href="{{ map.url }}" class="{% if request.resolver_match.kwargs.action == action %}is-active{% endif %} has-text-white">
+                {{ map.name }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
         <hr>
-        <li><a href="settings" class="{% if request.resolver_match.kwargs.action == 'settings' %}is-active{% endif %} has-text-white">{% trans "Settings" %}</a></li>
+        {% for action, map in actions_map.items %}
+          {% if map.level == 3 %}
+            <li>
+              <a href="{{ map.url }}" class="{% if request.resolver_match.kwargs.action == action %}is-active{% endif %} has-text-white">
+                {{ map.name }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
       </ul>
     </div>
   </aside>

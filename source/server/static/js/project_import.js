@@ -3,27 +3,28 @@ new Vue({
   delimiters: ['${', '}'],
   data: {
     files: null,
-    selected: 0,
+    selected: 100,
     format: "conllup",
     is_loading: false,
     st_variant: "is-info", //success, danger
     st_value: "---",
     st_show: false,
-  },
-  watch: {
-    selected(index) {
-      if (index === 0) this.format = "conllup";
-      if (index === 1) this.format = "some";
-    }
+    tab_value: null,
   },
   methods: {
     uploadFiles: function(project_id) {
       self = this;
-      this.is_loading = true
-      
+      if (this.selected == 100){
+        self.addError(
+          "Не выбран формат", "is-danger"
+        );
+        return;
+      }
+
+      this.is_loading = true;
       let fileData = new FormData;
       fileData.append("files", this.files);
-      fileData.append("format", this.format);
+      fileData.append("format", this.selected);
       axios.put(
         "/api/project/" + project_id + "/ds_import/",
         fileData,
