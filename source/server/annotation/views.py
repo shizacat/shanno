@@ -713,6 +713,84 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
         for sequence in models.Sequence.objects.filter(document=doc):
             models.TlSeqLabel.objects.filter(sequence=sequence).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    @action(detail=True, methods=['post'])
+    def label_set(self, request, pk=None):
+        """
+        {
+            "label_id": int,
+            "value": 0/1,
+        }
+        """
+        doc = self.get_object()
+        
+        label_id = request.data.get("label_id", None)
+        if label_id is None:
+            return Response(
+                _("Label not found"), status=status.HTTP_400_BAD_REQUEST)
+        label = models.TlLabels.objects.get(pk=label_id)
+
+        try:
+            value = int(request.data.get("value", None))
+            if value not in [0, 1]:
+                raise ValueError(_("Value label not 0/1"))
+        except ValueError as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+        except TypeError:
+            msg = _("Value not convert to int")
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+
+        obj = None
+        try:
+            obj = models.DCDocLabel.objects.get(label=label, document=doc)
+        except models.DCDocLabel.DoesNotExist:
+            pass
+
+        if value == 1:
+            # set
+            if obj is None:
+                models.DCDocLabel.objects.create(label=label, document=doc)
+        if value == 0:
+            if obj is not None:
+                obj.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    @action(detail=True, methods=['get'])
+    def labels(self, request, pk=None):
+        """List labels for documents
+        
+        Return:
+            [
+                {
+                    "id": int,
+                    "name": "",
+                    "value: 0/1,
+                }
+            ]
+        """
+        result = []
+        doc = self.get_object()
+
+        labels_all = models.TlLabels.objects.filter(
+            project=doc.project
+        )
+        for label in labels_all:
+            obj = None
+            try:
+                obj = models.DCDocLabel.objects.get(label=label, document=doc)
+            except models.DCDocLabel.DoesNotExist:
+                pass
+            value = 0
+            if obj is not None:
+                value = 1
+            r = {
+                "id": label.id,
+                "name": label.name,
+                "value": value
+            }
+            result.append(r)
+        return Response(result, status=200)
 
 
 # Permissions

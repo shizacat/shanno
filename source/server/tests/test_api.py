@@ -210,7 +210,7 @@ class TestProject(TestCase):
             r = self.client.get(
                 "/api/project/"
             )
-            self.assertEqual(len(r.json()), 1)
+            self.assertEqual(len(r.json()), 2)
 
         self.client.login(username='user1', password='12345')
         r = self.client.post(
@@ -386,6 +386,17 @@ class TestDocuments(TestCase):
         self.document = models.Documents.objects.create(
             project=self.project, file_name="0001"
         )
+        # dc
+        self.project_dc = models.Projects.objects.create(
+            name="lion", description="", type=models.PROJECT_TYPE[1][0],
+            owner=self.user
+        )
+        self.document_dc = models.Documents.objects.create(
+            project=self.project_dc, file_name="0002"
+        )
+        self.tl_label = models.TlLabels.objects.create(
+            project=self.project_dc, name="tltest"
+        )
 
     def test_approved(self):
         r = self.client.post(
@@ -417,3 +428,60 @@ class TestDocuments(TestCase):
             "/api/document/{}/approved/".format(self.document.id),
         )
         self.assertEqual(r.status_code, 204)
+    
+    def test_label_set(self):
+        r = self.client.post(
+            "/api/document/{}/label_set/".format(self.document_dc.id),
+            data={
+                "label_id": self.tl_label.id,
+                "value": 1
+            },
+        )
+        self.assertEqual(r.status_code, 204)
+        # check
+        r = models.DCDocLabel.objects.get(
+            label=self.tl_label, document=self.document_dc
+        )
+    
+    def test_labels(self):
+        with self.subTest("0"):
+            r = self.client.get(
+                "/api/document/{}/labels/".format(self.document_dc.id),
+            )
+            r = r.json()
+            # [{'id': 1, 'name': 'tltest', 'value': 0}]
+            # print(r)
+            self.assertEqual(type(r), list)
+            self.assertEqual(len(r), 1)
+            self.assertEqual(r[0]["value"], 0)
+        
+        with self.subTest("1"):
+            r = self.client.post(
+                "/api/document/{}/label_set/".format(self.document_dc.id),
+                data={
+                    "label_id": self.tl_label.id,
+                    "value": 1
+                },
+            )
+            r = self.client.get(
+                "/api/document/{}/labels/".format(self.document_dc.id),
+            )
+            r = r.json()
+            self.assertEqual(type(r), list)
+            self.assertEqual(len(r), 1)
+            self.assertEqual(r[0]["value"], 1)
+        
+        with self.subTest("unset"):
+            r = self.client.post(
+                "/api/document/{}/label_set/".format(self.document_dc.id),
+                data={
+                    "label_id": self.tl_label.id,
+                    "value": 0
+                },
+            )
+            r = self.client.get(
+                "/api/document/{}/labels/".format(self.document_dc.id),
+            )
+            r = r.json()
+            self.assertEqual(r[0]["value"], 0)
+        
