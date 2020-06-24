@@ -7,7 +7,128 @@
 
 {% block project-content %}
 
-    dc annotation
+<div id="project-dc-annotaion">
+  <b-notification
+  :type="st_variant"
+  aria-close-label="Close notification"
+  role="alert"
+  :active.sync="st_show"
+  v-show="st_show">
+  ${ st_value }
+  </b-notification>
+  <h4 class="title is-spaced is-4">{% trans "Annotation" %}</h4>
+  <h6 class="subtitle is-6">{% trans "File name" %}: ${doc.file_name}</h6>
+  <div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <div class="field">
+          <b-switch 
+          type="is-success"
+          v-model="is_approved"
+          @input="onChangeApproved()">
+            <span v-if="is_approved">{% trans "Verified" %}</span>
+            <span v-if="!is_approved">{% trans "Not verified" %}</span>
+          </b-switch>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-right">
+      <div class="level-item">
+        <div class="field is-grouped">
+          <p class="control">
+            <b-button class="is-relative" type="is-danger" outlined @click="openDelete()">
+              {% trans "Delete" %}
+            </b-button>
+          </p>
+          <p class="control">
+            <b-button class="is-pulled-right is-relative" type="is-danger" outlined @click="resetLabels()">
+              {% trans "Reset labels" %}
+            </b-button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification is-info" style="margin-bottom: 1rem" v-show="is_open_delete">
+    <p>{% trans "Are you sure do you want to delete the document?" %}</p>
+    <br>
+    <div class="field is-grouped">
+      <p class="control">
+        <button class="button is-success is-inverted is-outlined is-small" @click="deleteDoc()">{% trans "Yes" %}</button>
+      </p>
+      <p class="control">
+        <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">{% trans "No" %}</button>
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <header class="card-header">
+      <div class="column">
+        <div class="field is-grouped is-grouped-multiline">
+          <div 
+          class="control"
+          v-for="label in labels">
+            <div class="tags has-addons">
+              <a 
+              class="tag"
+              :style="{'background-color': label.color_background, color: label.color_text}"
+              @click="createLabel(label.id)">
+              ${label.name}
+              </a>
+              <span class="tag is-dark">${ label.prefix_key } : ${ label.suffix_key }</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="card-content">
+      <div class="field is-grouped is-grouped-multiline">
+        <div class="control" v-for="act_lbl in active_labels">
+          <div class="tags">
+            <span class="tag"
+            :style="{'background-color': act_lbl.color_background, color: act_lbl.color_text}">
+              ${act_lbl.name}
+              <button class="delete is-small" 
+              @click="onDeleteLabel(act_lbl.id)">
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="tl_anno_row" v-for="data in doc_data">
+          ${data.text}
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <button class="button is-primary is-outlined" @click="onPrev()" :disabled="!bt_prev_enable">
+            <span class="icon">
+              <i class="fas fa-chevron-left"></i>
+            </span>
+            <span>{% trans "Previous" %}</span>
+          </button>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <button class="button is-primary is-outlined" @click="onNext()" :disabled="!bt_next_enable">
+            <span>{% trans "Next" %}</span>  
+            <span class="icon">
+              <i class="fas fa-chevron-right"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
 
