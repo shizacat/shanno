@@ -84,12 +84,14 @@ new Vue({
       this.getDocSequence(this.docs[this.docs_cindex].id);
       this.setupButton();
       this.setupUrlDocByIndex(this.docs_cindex);
+      this.getActiveLabels();
     },
     onPrev: function() {
       this.docs_cindex--;
       this.getDocSequence(this.docs[this.docs_cindex].id);
       this.setupButton();
       this.setupUrlDocByIndex(this.docs_cindex);
+      this.getActiveLabels();
     },
     onDeleteLabel: function(label_id){
       axios.post(
