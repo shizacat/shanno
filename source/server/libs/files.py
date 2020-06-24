@@ -95,7 +95,14 @@ class FilesBase:
         """
         pass
     
-    def export_ds(self):
+    def export_ds(self, handler) -> bytes:
+        """
+        Args:
+            handler - iteration handler for get data
+
+        Return
+            Full file with documents in zip
+        """
         pass
     
     def _is_zip(self) -> bool:
@@ -112,6 +119,10 @@ class FilesBase:
                 if item.is_dir():
                     continue
                 # Fix, service folder MAC OS X
+                ZIP_FILENAME_UTF8_FLAG = 0x800
+                logging.warning("Flag %s", item.flag_bits)
+                logging.warning("Is %s", item.flag_bits & ZIP_FILENAME_UTF8_FLAG)
+
                 if item.filename.startswith("__MACOSX/"):
                     continue
                 filename = os.path.split(item.filename)[1]
@@ -160,8 +171,10 @@ class ConllupNER(FilesBase):
     This  _
     is  VERB
     only  _
-    example _ 
+    example _
     """
+
+    file_ext = "conllup"
 
     def import_ds(self):
         if self._is_zip():
@@ -169,8 +182,15 @@ class ConllupNER(FilesBase):
         else:
             return self._import_conllup()
     
-    def export_ds(self):
-        pass
+    def export_ds(self, handler):
+        zip_file = io.BytesIO()
+        zip_obj = ZipFile(zip_file, mode="w", compression=ZIP_DEFLATED)
+
+        for data, meta, file_name, lables_on_doc in handler():
+            content = self._export_to_conllup(data)
+            zip_obj.writestr("{}.{}".format(file_name, self.file_ext), content)
+        zip_obj.close()
+        return zip_file.getvalue()
     
     def _import_conllup(self):
         """Imports the file of format CoNLLU Plus"""
@@ -213,6 +233,79 @@ class ConllupNER(FilesBase):
             result.append((index, " ".join(words), labels))
         
         yield result, meta, filename, None
+    
+    def _export_to_conllup(self, data) -> bytes:
+        """Getting the file in need format"""
+        buf = io.StringIO()
+
+        # Header
+        buf.write("# global.columns = FORM NE\n")
+
+        for seq in self._export_one_doc(data):
+            buf.write("\n")
+            for word, label in seq:
+                if label is None:
+                    label = "_"
+                buf.write("{}\t{}\n".format(word, label))
+        buf.seek(0)
+        return buf.read().encode()
+    
+    def _export_one_doc(self, data) -> list:
+        """Get the end document as array of arrays tuples
+        (word, labels)
+        """
+        result = []
+        for idx, text, labels in data:
+            seq_res = self._eod_process_seq(text, labels)
+            result.append(seq_res)
+        return result
+    
+    def _eod_process_seq(self, text, labels: list) -> list:
+        """Last index not included
+
+        Args:
+            labels - [(tag, value)]
+        """
+        result = []
+        lb_last_index = None  # Last index processed labels
+        offsetStart = 0       # Offset current word
+        for word in text.split(" "):
+            range_word = (offsetStart, offsetStart + len(word))
+            lb_last_index = self._eod_set_lb_index(labels, range_word)
+            if lb_last_index is not None:
+                rbase = (
+                    labels[lb_last_index][1],  # offset_start
+                    labels[lb_last_index][2]   # offset_stop
+                )
+                if self._eod_ch_cross(range_word, rbase):
+                    result.append((word, labels[lb_last_index][0]))  # name
+                else:
+                    result.append((word, None))
+            else:
+                result.append((word, None))
+
+            offsetStart = range_word[1] + 1
+
+        return result
+    
+    def _eod_set_lb_index(self, labels, range_word):
+        for index, item in enumerate(labels):
+            _, _, offset_stop = item
+            if range_word[0] < offset_stop:
+                return index
+        return None
+    
+    def _eod_ch_cross(self, rword: tuple, rbase: tuple) -> bool:
+        """Does the word cross the base range"""
+        start = 0
+        end = 1
+        if rword[end] > rbase[start] and rword[end] < rbase[end]:
+            return True
+        if rword[start] >= rbase[start] and rword[end] < rbase[end]:
+            return True
+        if rword[start] >= rbase[start] and rword[start] < rbase[end]:
+            return True
+        return False
 
 
 class PlainText(FilesBase):
@@ -231,9 +324,6 @@ class PlainText(FilesBase):
             return self._import_zip_file(PlainText)
         else:
             return self._import()
-    
-    def export_ds(self):
-        pass
     
     def _import(self):
         buf = self._file_obj_to_strio()
@@ -260,14 +350,39 @@ class CSVLabel(FilesBase):
     id;meta;text;label1;label2;...
     """
 
+    file_ext = "csv"
+
     def import_ds(self):
         if self._is_zip():
             return self._import_zip_file(CSVLabel)
         else:
             return self._import()
 
-    def export_ds(self):
-        pass
+    def export_ds(self, handler):
+        zip_file = io.BytesIO()
+        zip_obj = ZipFile(zip_file, mode="w", compression=ZIP_DEFLATED)
+
+        buf = io.StringIO()
+        writer = csv.writer(buf, delimiter=';', quotechar='"')
+        header = ["id", "meta", "text"]
+        
+        for idx, item in enumerate(handler()):
+            data, meta, file_name, lables_on_doc = item
+            if idx == 0:
+                header_lb = [x[0] for x in lables_on_doc]
+                writer.writerow(header + header_lb)
+                continue
+            text = "\n".join([x[1] for x in data])
+            writer.writerow(
+                [file_name, self._dict_to_meta(meta), text] + 
+                [x[1] for x in lables_on_doc]
+            )
+        
+        buf.seek(0)
+        content = buf.read().encode()
+        zip_obj.writestr("{}.{}".format("export", self.file_ext), content)
+        zip_obj.close()
+        return zip_file.getvalue()
     
     def _import(self):
         buf = self._file_obj_to_strio()
@@ -289,7 +404,7 @@ class CSVLabel(FilesBase):
 
             yield row_text, row_meta, file_name, row_label
       
-    def _meta_to_dict(self, meta: str):
+    def _meta_to_dict(self, meta: str) -> dict:
         """Convert meta key = value to dictionary"""
         result = {}
         for line in meta.split("\n"):
@@ -297,6 +412,12 @@ class CSVLabel(FilesBase):
             if r != 2:
                 continue
             result[r[0].strip()] = r[1].strip()
+        return result
+    
+    def _dict_to_meta(self, meta: dict) -> str:
+        result = ""
+        for k, v in meta.items():
+            result += "{} = {}\n".format(k, v)
         return result
     
     def _split_text_to_seq(self, text: str) -> list:
@@ -317,3 +438,4 @@ class CSVLabel(FilesBase):
         except (ValueError, TypeError):
             raise FileParseException(_("Label value not int"))
         return result
+    

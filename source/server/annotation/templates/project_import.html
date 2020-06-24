@@ -26,18 +26,12 @@
       {% for format, format_label, description, example in format_docs %}
         <b-tab-item label="{{ format_label }}" value="{{ format }}">
           <p>{{ description |safe }}</p>
-          <p>{% trans "Example:" %}</p>
-          <pre class="has-background-dark has-text-white">{{ example }}</pre>
+          {% if example %}
+            <p>{% trans "Example:" %}</p>
+            <pre class="has-background-dark has-text-white">{{ example }}</pre>
+          {% endif %}
         </b-tab-item>
       {% endfor %}
-      <!-- <b-tab-item label='{% trans "Other format" %}'>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Harum nihil deleniti labore eos ratione, omnis nam fuga dignissimos
-          architecto eum temporibus voluptate molestiae iusto ipsam,
-          quisquam rem hic mollitia earum.
-        </p>
-      </b-tab-item> -->
     </b-tabs>
   </div>
     

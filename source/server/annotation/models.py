@@ -59,6 +59,40 @@ class Documents(models.Model):
     # def __str__(self):
     #     return self.text[:50]
 
+    def get_labels(self) -> list:
+        """Get all labels for the whole doc
+
+        Return:
+            [
+                {
+                    "id": int,
+                    "name": "",
+                    "value: 0/1,
+                }
+            ]
+        """
+        result = []
+
+        labels_all = TlLabels.objects.filter(
+            project=self.project
+        ).order_by('name')
+        for label in labels_all:
+            obj = None
+            try:
+                obj = DCDocLabel.objects.get(label=label, document=self)
+            except DCDocLabel.DoesNotExist:
+                pass
+            value = 0
+            if obj is not None:
+                value = 1
+            r = {
+                "id": label.id,
+                "name": label.name,
+                "value": value
+            }
+            result.append(r)
+        return result
+
 
 class Sequence(models.Model):
     document = models.ForeignKey(

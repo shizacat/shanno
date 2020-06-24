@@ -2,18 +2,11 @@ new Vue({
   el: "#project-export",
   delimiters: ['${', '}'],
   data: {
-    format: "conllup",
-    selected: 0,
+    selected: 100,
     is_process: false,
     st_variant: "is-info", //success, danger
     st_value: "---",
     st_show: false,
-  },
-  watch: {
-    selected(index) {
-      if (index === 0) this.format = "conllup";
-      if (index === 1) this.format = "some";
-    }
   },
   methods: {
     download: function(project_id){
@@ -24,7 +17,7 @@ new Vue({
         method: "get",
         url: "/api/project/" + project_id + "/ds_export/",
         params: {
-          "exformat": this.format
+          "exformat": this.selected
         },
         responseType: "arraybuffer",
         headers: {

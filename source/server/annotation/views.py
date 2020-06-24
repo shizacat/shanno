@@ -164,13 +164,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectsSerializer
     # pagination_class = None
 
-    # Supported formats
-    file_format_list = ["conllup"]
-    # file_format_list = {
-    #     "text_label": ["conllup"],
-    #     "document_classificaton": ["csv"]
-    # }
-
     def create(self, request, *args, **kwargs):
         project = models.Projects.objects.create(
             name=request.data["name"],
@@ -239,10 +232,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
                         seq = models.Sequence.objects.create(
                             document=doc, text=text, order=index
                         )
+                        # Create labels for seq
+                        label_handler(labels, seq)
                     # Create label for doc
                     label_doc_handler(lb_doc, doc)
-                    # Create labels for seq
-                    label_handler(labels, seq)
         except FileParseException as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
         except AnnotationBaseExcept as e:
@@ -256,12 +249,16 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Query:
             exformat - The format exported files
         """
-        exformat = request.query_params.get("exformat")
-        if exformat not in self.file_format_list:
-            return Response(_("This file format is not supported"), status=400)
+        exformat = request.query_params.get("exformat")        
+        project_type = self.get_object().type
+
+        file_handler = FilesBase.factory(exformat, project_type, "export", None)
+        if file_handler is None:
+            return Response(
+                _("Format not exists"), status=status.HTTP_400_BAD_REQUEST)
 
         response = HttpResponse(
-            self._export(exformat),
+            file_handler.export_ds(self._export_handler),
             content_type='application/zip'
         )
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(
@@ -571,109 +568,38 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
 
     # ==/ End Block
-    
-    def _export(self, export_format="conllup") -> bytes:
-        map_ext_format = {
-            "conllup": "conllup"
-        }
+
+    def _export_handler(self):
+        """Iteration documents for export process"""
         docs = models.Documents.objects.filter(
             project=self.get_object()).order_by("file_name")
-        zip_file = io.BytesIO()
-        zip_obj = ZipFile(zip_file, mode="w", compression=ZIP_DEFLATED)
+        project_type = self.get_object().type
+
         for doc in docs:
-            if export_format == "conllup":
-                data = self._export_to_conllup(doc)
-            else:
-                raise ValueError("")
-            zip_obj.writestr(
-                "{}.{}".format(
-                    doc.file_name,
-                    map_ext_format.get(export_format)
-                ),
-                data
-            )
-        zip_obj.close()
+            data = []
+            labels_on_doc = []
 
-        return zip_file.getvalue()
+            if project_type == "document_classificaton":
+                for x in doc.get_labels():
+                    labels_on_doc.append((x["name"], x["value"]))
 
-    def _export_to_conllup(self, doc_obj) -> bytes:
-        """Getting the file in need format"""
-        buf = io.StringIO()
+            seqs = models.Sequence.objects.filter(
+                document=doc).order_by("order")
+            for idx, seq in enumerate(seqs):
+                labels = []
+                if project_type == "text_label":
+                    labels_obj = models.TlSeqLabel.objects.filter(
+                        sequence=seq).order_by("offset_start")
+                    for lb_seq in labels_obj:
+                        labels.append((
+                            lb_seq.label.name,
+                            lb_seq.offset_start,
+                            lb_seq.offset_stop
+                        ))
+                data.append((idx, seq.text, labels))
 
-        # Header
-        buf.write("# global.columns = FORM NE\n")
-
-        for seq in self._export_one_doc(doc_obj):
-            buf.write("\n")
-            for word, label in seq:
-                if label is None:
-                    label = "_"
-                buf.write("{}\t{}\n".format(word, label))
-
-        buf.seek(0)
-        return buf.read().encode()
-
-    def _export_one_doc(self, doc_obj) -> list:
-        """Get the end document as array of arrays tuples
-        (word, labels)
-        """
-        result = []
-        seqs = models.Sequence.objects.filter(
-            document=doc_obj).order_by("order")
-        for seq in seqs:
-            seq_res = self._eod_process_seq(
-                seq.text,
-                models.TlSeqLabel.objects.filter(
-                    sequence=seq).order_by("offset_start")
-            )
-            result.append(seq_res)
-
-        return result
-
-    def _eod_set_lb_index(self, labels, range_word):
-        for index, item in enumerate(labels):
-            if range_word[0] < item.offset_stop:
-                return index
-        return None
-
-    def _eod_ch_cross(self, rword: tuple, rbase: tuple) -> bool:
-        """Does the word cross the base range"""
-        start = 0
-        end = 1
-        if rword[end] > rbase[start] and rword[end] < rbase[end]:
-            return True
-        if rword[start] >= rbase[start] and rword[end] < rbase[end]:
-            return True
-        if rword[start] >= rbase[start] and rword[start] < rbase[end]:
-            return True
-        return False
-
-    def _eod_process_seq(self, text, seq_labels) -> list:
-        """
-        Last index not included
-        """
-        result = []
-        lb_last_index = None  # Last index processed labels
-        offsetStart = 0       # Offset current word
-        for word in text.split(" "):
-            range_word = (offsetStart, offsetStart + len(word))
-            lb_last_index = self._eod_set_lb_index(seq_labels, range_word)
-            if lb_last_index is not None:
-                rbase = (
-                    seq_labels[lb_last_index].offset_start,
-                    seq_labels[lb_last_index].offset_stop
-                )
-                if self._eod_ch_cross(range_word, rbase):
-                    result.append((word, seq_labels[lb_last_index].label.name))
-                else:
-                    result.append((word, None))
-            else:
-                result.append((word, None))
-
-            offsetStart = range_word[1] + 1
-
-        return result
-
+            yield data, json.loads(doc.meta), doc.file_name, labels_on_doc
+    
     def is_int(self, s) -> bool:
         try:
             int(s)
@@ -769,28 +695,7 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
                 }
             ]
         """
-        result = []
-        doc = self.get_object()
-
-        labels_all = models.TlLabels.objects.filter(
-            project=doc.project
-        )
-        for label in labels_all:
-            obj = None
-            try:
-                obj = models.DCDocLabel.objects.get(label=label, document=doc)
-            except models.DCDocLabel.DoesNotExist:
-                pass
-            value = 0
-            if obj is not None:
-                value = 1
-            r = {
-                "id": label.id,
-                "name": label.name,
-                "value": value
-            }
-            result.append(r)
-        return Response(result, status=200)
+        return Response(self.get_object().get_labels(), status=200)
 
 
 # Permissions
