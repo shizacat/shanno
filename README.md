@@ -7,7 +7,8 @@ Django application structure folder:
 
 A set of used tools and library:
 - Django
-- Buefy (Bulma for Vue) v0.8.8
+- Buefy (Bulma for Vue) v0.8.20 (only js and custom scheme)
+  - For CSS used scheme: (flatly)[https://unpkg.com/bulmaswatch@0.8.1/flatly/bulmaswatch.min.css]
 - Vue 2.6.10
 - Vue Router 3.1.3
 - axios 0.19.0
