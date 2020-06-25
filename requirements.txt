@@ -6,3 +6,4 @@ psycopg2
 environs
 dj-database-url
 gunicorn
+chardet==3.0.4

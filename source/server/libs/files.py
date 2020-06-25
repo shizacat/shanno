@@ -3,14 +3,18 @@
 import io
 import os
 import csv
+import logging
 from zipfile import ZipFile, ZIP_DEFLATED
 
 import conllu
+import chardet
 
 from django.core.files.base import ContentFile
 from django.utils.translation import gettext_lazy as _
 
 from annotation.exceptions import FileParseException
+
+ZIP_FILENAME_UTF8_FLAG = 0x800
 
 
 class FilesBase:
@@ -118,14 +122,17 @@ class FilesBase:
             for item in zip.infolist():
                 if item.is_dir():
                     continue
-                # Fix, service folder MAC OS X
-                ZIP_FILENAME_UTF8_FLAG = 0x800
-                logging.warning("Flag %s", item.flag_bits)
-                logging.warning("Is %s", item.flag_bits & ZIP_FILENAME_UTF8_FLAG)
-
                 if item.filename.startswith("__MACOSX/"):
                     continue
+                # Get filename and fix encoding
+                # https://stackoverflow.com/questions/37723505/namelist-from-zipfile-returns-strings-with-an-invalid-encoding
                 filename = os.path.split(item.filename)[1]
+                if not item.flag_bits & ZIP_FILENAME_UTF8_FLAG:
+                    fn_bytes = filename.encode('437')
+                    guessed_encoding = chardet.detect(fn_bytes)
+                    guessed_encoding = guessed_encoding.get("encoding", "utf-8")
+                    filename = fn_bytes.decode(guessed_encoding, "replace")
+
                 content = io.BytesIO(zip.read(item.filename))
                 content._name = filename
                 tmp_obj = cls(content)
