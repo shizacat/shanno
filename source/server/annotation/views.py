@@ -484,7 +484,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         }
         label_handler = map.get(project_type)
         if label_handler is None:
-            raise AnnotationBaseExcept(_("Do not find handler for labels"))
+            raise AnnotationBaseExcept(_("Did not find handler for labels"))
         return label_handler
     
     def _label_doc_get_handler(self, project_type):
@@ -494,7 +494,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         }
         label_handler = map.get(project_type)
         if label_handler is None:
-            raise AnnotationBaseExcept(_("Do not find handler for labels doc"))
+            raise AnnotationBaseExcept(_("Did not find handler for labels doc"))
         return label_handler
     
     def _process_labels_tl(self, labels, seq):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-09 19:11+0000\n"
+"POT-Creation-Date: 2020-06-25 12:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,27 +38,26 @@ msgid "Enter the name of the project"
 msgstr "Необходимо ввести название проекта"
 
 #: annotation/templates/project_create.html:26
-#: annotation/templates/project_page.html:35
 msgid "Description"
 msgstr "Описание"
 
-#: annotation/templates/project_create.html:27
+#: annotation/templates/project_create.html:28
 msgid "Enter, briefly, a description of the project"
 msgstr "Необходимо кратко описать назначение проекта"
 
-#: annotation/templates/project_create.html:29
+#: annotation/templates/project_create.html:30
 msgid "Type of project"
 msgstr "Тип проекта"
 
-#: annotation/templates/project_create.html:30
+#: annotation/templates/project_create.html:31
 msgid "Select the type of project"
 msgstr "Выберите тип проекта"
 
-#: annotation/templates/project_create.html:36
+#: annotation/templates/project_create.html:39
 msgid "Create"
 msgstr "Создать"
 
-#: annotation/templates/project_create.html:37
+#: annotation/templates/project_create.html:42
 #: annotation/templates/project_settings.html:57
 #: annotation/templates/project_settings.html:134
 #: annotation/templates/project_tl_labels.html:81
@@ -66,100 +65,32 @@ msgstr "Создать"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: annotation/templates/project_export.html:20
-msgid "Select the type of file for download"
-msgstr "Выберите тип файла для скачивания"
+#: annotation/templates/project_dc_annotation.html:19
+#: annotation/templates/project_page.html:120
+#: annotation/templates/project_tl_annotation.html:19 annotation/views.py:85
+#: annotation/views.py:102
+msgid "Annotation"
+msgstr "Аннотация"
 
-#: annotation/templates/project_export.html:26
-#: annotation/templates/project_import.html:26
-msgid ""
-"It's an extension of CoNLL-U. File can have any non-zero number of columns."
-msgstr ""
-"Является расширением формата CoNLL-U. Может иметь любое количество столбцов."
+#: annotation/templates/project_dc_annotation.html:20
+#: annotation/templates/project_tl_annotation.html:20
+msgid "File name"
+msgstr "Имя файла"
 
-#: annotation/templates/project_export.html:27
-#: annotation/templates/project_import.html:27
-msgid "Format."
-msgstr "Формат."
-
-#: annotation/templates/project_export.html:28
-msgid "Must be in coding UTF-8."
-msgstr "Должен быть в кодировке UTF-8."
-
-#: annotation/templates/project_export.html:31
-#: annotation/templates/project_import.html:40
-msgid "Other format"
-msgstr "Другой формат"
-
-#: annotation/templates/project_export.html:46
-msgid "Download"
-msgstr "Скачать"
-
-#: annotation/templates/project_import.html:20
-msgid "Select the type of file for upload"
-msgstr "Выберите тип файла для загрузки"
-
-#: annotation/templates/project_import.html:28
-msgid "Must be in coding UTF-8"
-msgstr "Должен быть в кодировке UTF-8."
-
-#: annotation/templates/project_import.html:30
-msgid "Example:"
-msgstr "Пример:"
-
-#: annotation/templates/project_import.html:58
-msgid "Upload"
-msgstr "Загрузить"
-
-#: annotation/templates/project_page.html:17
-msgid "Info"
-msgstr "Инфо"
-
-#: annotation/templates/project_page.html:18
-msgid "Import"
-msgstr "Импорт"
-
-#: annotation/templates/project_page.html:19
-msgid "Export"
-msgstr "Экспорт"
-
-#: annotation/templates/project_page.html:21
-msgid "Labels"
-msgstr "Метки"
-
-#: annotation/templates/project_page.html:23
-msgid "Settings"
-msgstr "Настройки"
-
-#: annotation/templates/project_page.html:39
-#: annotation/templates/project_page.html:40
-msgid "Processed"
-msgstr "Обработано"
-
-#: annotation/templates/project_page.html:44
-msgid "List of documents"
-msgstr "Список документов"
-
-#: annotation/templates/project_page.html:47
-msgid "Filter by"
-msgstr "Отфильтровать"
-
-#: annotation/templates/project_page.html:50
-#: annotation/templates/project_tl_annotation.html:30
-msgid "Not verified"
-msgstr "Не проверен"
-
-#: annotation/templates/project_page.html:51
+#: annotation/templates/project_dc_annotation.html:29
+#: annotation/templates/project_page.html:93
 #: annotation/templates/project_tl_annotation.html:29
 msgid "Verified"
 msgstr "Проверен"
 
-#: annotation/templates/project_page.html:68
-#: annotation/templates/project_tl_annotation.html:19
-msgid "Annotation"
-msgstr "Аннотация"
+#: annotation/templates/project_dc_annotation.html:30
+#: annotation/templates/project_page.html:92
+#: annotation/templates/project_tl_annotation.html:30
+msgid "Not verified"
+msgstr "Не проверен"
 
-#: annotation/templates/project_page.html:69
+#: annotation/templates/project_dc_annotation.html:41
+#: annotation/templates/project_page.html:121
 #: annotation/templates/project_settings.html:104
 #: annotation/templates/project_settings.html:164
 #: annotation/templates/project_tl_annotation.html:41
@@ -167,11 +98,18 @@ msgstr "Аннотация"
 msgid "Delete"
 msgstr "Удалить"
 
-#: annotation/templates/project_page.html:74
-msgid "Are you sure you want to delete the document?"
+#: annotation/templates/project_dc_annotation.html:46
+#: annotation/templates/project_tl_annotation.html:46
+msgid "Reset labels"
+msgstr "Сброс разметки"
+
+#: annotation/templates/project_dc_annotation.html:55
+#: annotation/templates/project_tl_annotation.html:55
+msgid "Are you sure do you want to delete the document?"
 msgstr "Вы действительно хотите удалить документ?"
 
-#: annotation/templates/project_page.html:78
+#: annotation/templates/project_dc_annotation.html:59
+#: annotation/templates/project_page.html:130
 #: annotation/templates/project_settings.html:149
 #: annotation/templates/project_settings.html:172
 #: annotation/templates/project_tl_annotation.html:59
@@ -179,13 +117,74 @@ msgstr "Вы действительно хотите удалить докуме
 msgid "Yes"
 msgstr "Да"
 
-#: annotation/templates/project_page.html:81
+#: annotation/templates/project_dc_annotation.html:62
+#: annotation/templates/project_page.html:133
 #: annotation/templates/project_settings.html:152
 #: annotation/templates/project_settings.html:175
 #: annotation/templates/project_tl_annotation.html:62
 #: annotation/templates/project_tl_labels.html:200
 msgid "No"
 msgstr "Нет"
+
+#: annotation/templates/project_dc_annotation.html:115
+#: annotation/templates/project_tl_annotation.html:118
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: annotation/templates/project_dc_annotation.html:122
+#: annotation/templates/project_tl_annotation.html:125
+msgid "Next"
+msgstr "Следующий"
+
+#: annotation/templates/project_export.html:21
+msgid "Select the type of file for download"
+msgstr "Выберите тип файла для скачивания"
+
+#: annotation/templates/project_export.html:30
+#: annotation/templates/project_import.html:30
+msgid "Example:"
+msgstr "Пример:"
+
+#: annotation/templates/project_export.html:39
+msgid "Will downloaded as zip archive, what contained file in selected format."
+msgstr "Выгружает как zip архив, содержащий файлы в выбранном фомате."
+
+#: annotation/templates/project_export.html:47
+msgid "Download"
+msgstr "Скачать"
+
+#: annotation/templates/project_import.html:21
+msgid "Select the type of file for upload"
+msgstr "Выберите тип файла для загрузки"
+
+#: annotation/templates/project_import.html:39
+msgid "Supported to upload file as archivs: zip."
+msgstr "Поддерживает загрузку файлов как архивы: zip."
+
+#: annotation/templates/project_import.html:50
+msgid "Upload"
+msgstr "Загрузить"
+
+#: annotation/templates/project_page.html:17 annotation/views.py:54
+msgid "Info"
+msgstr "Инфо"
+
+#: annotation/templates/project_page.html:77
+#: annotation/templates/project_page.html:78
+msgid "Processed"
+msgstr "Обработано"
+
+#: annotation/templates/project_page.html:84
+msgid "List of documents"
+msgstr "Список документов"
+
+#: annotation/templates/project_page.html:89
+msgid "Filters"
+msgstr "Фильры"
+
+#: annotation/templates/project_page.html:126
+msgid "Are you sure you want to delete the document?"
+msgstr "Вы действительно хотите удалить документ?"
 
 #: annotation/templates/project_settings.html:22
 #: annotation/templates/project_settings.html:73
@@ -250,26 +249,6 @@ msgstr "Удалить проект"
 msgid "Are you sure you want to delete the project?"
 msgstr "Вы действительно хотите удалить проект?"
 
-#: annotation/templates/project_tl_annotation.html:20
-msgid "File name"
-msgstr "Имя файла"
-
-#: annotation/templates/project_tl_annotation.html:46
-msgid "Reset labels"
-msgstr "Сброс разметки"
-
-#: annotation/templates/project_tl_annotation.html:55
-msgid "Are you sure do you want to delete the document?"
-msgstr "Вы действительно хотите удалить документ?"
-
-#: annotation/templates/project_tl_annotation.html:118
-msgid "Previous"
-msgstr "Предыдущий"
-
-#: annotation/templates/project_tl_annotation.html:125
-msgid "Next"
-msgstr "Следующий"
-
 #: annotation/templates/project_tl_labels.html:23
 msgid "New label"
 msgstr "Новая метка"
@@ -301,29 +280,108 @@ msgstr "Метки в проекте"
 msgid "Are you sure you want to delete the label"
 msgstr "Вы действительно хотите удалить метку?"
 
-#: annotation/views.py:164
-msgid "This file format is not supported"
-msgstr "Формат файла не поддерживается"
+#: annotation/views.py:61
+msgid "Import"
+msgstr "Импорт"
 
-#: annotation/views.py:282 annotation/views.py:286
+#: annotation/views.py:68
+msgid "Export"
+msgstr "Экспорт"
+
+#: annotation/views.py:75
+msgid "Settings"
+msgstr "Настройки"
+
+#: annotation/views.py:92 annotation/views.py:109
+msgid "Labels"
+msgstr "Метки"
+
+#: annotation/views.py:208
+msgid "File not found"
+msgstr "Файл не найден"
+
+#: annotation/views.py:215 annotation/views.py:258
+msgid "Format not exists"
+msgstr "Не известный формат"
+
+#: annotation/views.py:376 annotation/views.py:380
 msgid "The field '{}' is incorrectly filled"
 msgstr "Неверно заполнено поле '{}'"
 
-#: annotation/views.py:293 annotation/views.py:345
+#: annotation/views.py:387 annotation/views.py:439
 msgid "'{}'. User not found"
 msgstr "Пользователь '{}' не найден"
 
-#: annotation/views.py:298
+#: annotation/views.py:392
 msgid "The project owner selected"
 msgstr "Указан владелец проекта"
 
-#: annotation/views.py:303
+#: annotation/views.py:397
 msgid "Unknown role"
 msgstr "Неизвестная роль"
 
-#: annotation/views.py:399
+#: annotation/views.py:487
+msgid "Did not find handler for labels"
+msgstr "Не найден обработчик метки"
+
+#: annotation/views.py:497
+msgid "Did not find handler for labels doc"
+msgstr "Не найден обработчик метки документа"
+
+#: annotation/views.py:656
+msgid "Label not found"
+msgstr "Метка не найден"
+
+#: annotation/views.py:662
+msgid "Value label not 0/1"
+msgstr "Значение метки не 0/1"
+
+#: annotation/views.py:666
+msgid "Value not convert to int"
+msgstr "Значение не преобразуется в int"
+
+#: libs/files.py:171
+msgid ""
+"It's an extension of CoNLL-U. File can have any non-zero number of columns."
+msgstr ""
+"Является расширением формата CoNLL-U. Может иметь любое количество столбцов."
+
+#: libs/files.py:172
+msgid "Format."
+msgstr "Формат."
+
+#: libs/files.py:173
+msgid "Must be in coding UTF-8"
+msgstr "Должен быть в кодировке UTF-8."
+
+#: libs/files.py:218
 msgid "The file is not encoded in UTF-8"
 msgstr "Файл не в кодировке UTF-8"
+
+#: libs/files.py:324
+msgid "Plain text."
+msgstr "Обычный текст."
+
+#: libs/files.py:355
+msgid ""
+"Simple csv. Description format: delimiter=';'; quotechar='\"'. One row one "
+"file. Meta format: key = value in one string. Label value may be: 0/1"
+msgstr ""
+"Простой csv. Описание формата: разделитель=';'; символ экранирования='\"'. "
+"Одна строка один файл. Формат мета информации: ключ = значение в одну "
+"строку. Значение метки может быть: 0/1"
+
+#: libs/files.py:402
+msgid "Length of header is short"
+msgstr "Короткая длинна заголовка"
+
+#: libs/files.py:443
+msgid "Label value not valid"
+msgstr "Не верное значение метки"
+
+#: libs/files.py:446
+msgid "Label value not int"
+msgstr "Значение метки не int"
 
 #: server/settings.py:130
 msgid "Russian"
@@ -394,3 +452,12 @@ msgstr "Войти"
 #: templates/registration/login.html:66
 msgid "The user name or password is incorrect"
 msgstr "Неверный логин или пароль"
+
+#~ msgid "Must be in coding UTF-8."
+#~ msgstr "Должен быть в кодировке UTF-8."
+
+#~ msgid "Other format"
+#~ msgstr "Другой формат"
+
+#~ msgid "This file format is not supported"
+#~ msgstr "Формат файла не поддерживается"

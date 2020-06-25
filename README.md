@@ -17,6 +17,9 @@ A set of used tools and library:
 
 ## Translation
 
+Dependens:
+- Package: gettext
+
 ```bash
 # create po file
 python3 manage.py makemessages -l ru

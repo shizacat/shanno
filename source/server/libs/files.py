@@ -10,6 +10,7 @@ import conllu
 import chardet
 
 from django.core.files.base import ContentFile
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from annotation.exceptions import FileParseException
@@ -167,10 +168,12 @@ class ConllupNER(FilesBase):
     ds_type_export = ["text_label"]
 
     tp_format_name = "CoNLL-U Plus"
-    tp_description = "{} <a href=\"https://universaldependencies.org/ext-format.html\">{}</a> {}".format(
-        _("It's an extension of CoNLL-U. File can have any non-zero number of columns."),
-        _("Format."),
-        _("Must be in coding UTF-8")
+    tp_description = format_lazy(
+        "{first} <a href=\"https://universaldependencies.org/ext-format.html\">{two}</a> {three}",
+    # "{first} <a href=\"https://universaldependencies.org/ext-format.html\">{two}</a> {three}".format(
+        first=_("It's an extension of CoNLL-U. File can have any non-zero number of columns."),
+        two=_("Format."),
+        three=_("Must be in coding UTF-8")
     )
     tp_example_import = """
     # global.columns = FORM NE
@@ -321,7 +324,7 @@ class PlainText(FilesBase):
     ds_type_import = ["text_label", "document_classificaton"]
 
     tp_format_name = "Plain text"
-    tp_description = "Plain text."
+    tp_description = _("Plain text.")
     tp_example = """
     Any text. Multiline.
     """
@@ -352,7 +355,7 @@ class CSVLabel(FilesBase):
     ds_type_export = ["document_classificaton"]
 
     tp_format_name = "CSV Label"
-    tp_description = _("Simple csv. Description: delimiter=';', quotechar='\"'. One row one file. Meta format: key = value in one string. Label value may be: 0/1")
+    tp_description = _("Simple csv. Description format: delimiter=';'; quotechar='\"'. One row one file. Meta format: key = value in one string. Label value may be: 0/1")
     tp_example_import = """
     id;meta;text;label1;label2;...
     """
