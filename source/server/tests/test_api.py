@@ -226,7 +226,7 @@ class TestProject(TestCase):
             r = self.client.get(
                 "/api/project/"
             )
-            print(r.content)
+            # print(r.content)
 
     def test_documents_all_is_approved(self):
         r = self.client.get(
@@ -485,3 +485,14 @@ class TestDocuments(TestCase):
             r = r.json()
             self.assertEqual(r[0]["value"], 0)
         
+        with self.subTest("delete"):
+            r = self.client.delete(
+                "/api/document/{}/labels/".format(self.document_dc.id),
+            )
+            self.assertEqual(r.status_code, 204)
+        
+        with self.subTest("unsupport method"):
+            r = self.client.post(
+                "/api/document/{}/labels/".format(self.document_dc.id),
+            )
+            self.assertEqual(r.status_code, 405)

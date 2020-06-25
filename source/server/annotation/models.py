@@ -92,6 +92,13 @@ class Documents(models.Model):
             }
             result.append(r)
         return result
+    
+    def labels_del(self):
+        """Delete all labels"""
+        try:
+            DCDocLabel.objects.get(document=self).delete()
+        except DCDocLabel.DoesNotExist:
+            pass
 
 
 class Sequence(models.Model):

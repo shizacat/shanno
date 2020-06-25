@@ -682,20 +682,23 @@ class DocumentSeqViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['get', 'delete'])
     def labels(self, request, pk=None):
-        """List labels for documents
-        
+        """Control labels
+            Get - return all list for documents. Format see in models.
+            Delete - delete all label for documents.
+
         Return:
-            [
-                {
-                    "id": int,
-                    "name": "",
-                    "value: 0/1,
-                }
-            ]
+            Depended from method
         """
-        return Response(self.get_object().get_labels(), status=200)
+        if request.method == 'GET':
+            resp = Response(self.get_object().get_labels(), status=200)
+        elif request.method == 'DELETE':
+            self.get_object().labels_del()
+            resp = Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            resp = Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return resp
 
 
 # Permissions
