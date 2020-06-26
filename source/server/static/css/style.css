@@ -1033,3 +1033,8 @@ a.box-link:hover {
 .mb-0 {
   margin-bottom: 0rem;
 }
+
+.my-3 {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}

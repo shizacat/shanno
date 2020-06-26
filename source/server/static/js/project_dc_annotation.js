@@ -14,6 +14,7 @@ new Vue({
     doc: {},              // Сам документ
     labels: [],           // Массив меток
     active_labels: [],
+    label_ids: [],
     bt_prev_enable: false,
     bt_next_enable: false,
     is_approved: false,    // Зуб даю верный
@@ -174,9 +175,8 @@ new Vue({
     },
     resetLabels: function(){
       self = this;
-      axios.post(
-        "/api/document/" + this.doc.id + "/reset/",
-        "",
+      axios.delete(
+        "/api/document/" + this.doc.id + "/labels/",
         {
           headers: {
             "X-CSRFToken": this.$cookies.get("csrftoken")
@@ -184,7 +184,7 @@ new Vue({
         }
       )
       .then(function(response){
-        self.getDocSequence(self.doc.id)
+        self.getActiveLabels()
       })
       .catch(this.addErrorApi);
     },
@@ -227,29 +227,28 @@ new Vue({
       self = this;
       axios.get("/api/document/" + this.doc_id + "/labels/")
       .then(function(response){
-        console.log(response.data)
-        let label_ids = response.data.filter(x => {
+        self.label_ids = response.data.filter(x => {
           if (x.value === 1) {
             return false;
           }
           return true;
         }).map(x => x.id);
-        console.log(label_ids);
         self.active_labels = self.labels.filter(item => {
-          return label_ids.indexOf(item.id) == -1;
-        });
-        console.log(self.active_labels);
+          return self.label_ids.indexOf(item.id) == -1;
+        });    
       })
       .catch(this.addErrorApi);
     },
     createLabel: function(label_id){
       var self = this;
 
+      var value = (self.label_ids.includes(label_id)) ? 1 : 0
+
       axios.post(
         "/api/document/" + this.doc.id + "/label_set/",
         JSON.stringify({
             "label_id": label_id,
-            "value": 1
+            "value": value
         }),
         {
           headers: {
