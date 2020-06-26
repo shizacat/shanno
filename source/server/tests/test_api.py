@@ -397,6 +397,9 @@ class TestDocuments(TestCase):
         self.tl_label = models.TlLabels.objects.create(
             project=self.project_dc, name="tltest"
         )
+        self.tl_label2 = models.TlLabels.objects.create(
+            project=self.project_dc, name="test2"
+        )
 
     def test_approved(self):
         r = self.client.post(
@@ -452,7 +455,7 @@ class TestDocuments(TestCase):
             # [{'id': 1, 'name': 'tltest', 'value': 0}]
             # print(r)
             self.assertEqual(type(r), list)
-            self.assertEqual(len(r), 1)
+            self.assertEqual(len(r), 2)
             self.assertEqual(r[0]["value"], 0)
         
         with self.subTest("1"):
@@ -468,8 +471,12 @@ class TestDocuments(TestCase):
             )
             r = r.json()
             self.assertEqual(type(r), list)
-            self.assertEqual(len(r), 1)
-            self.assertEqual(r[0]["value"], 1)
+            self.assertEqual(len(r), 2)
+            value = None
+            for x in r:
+                if x["id"] == self.tl_label.id:
+                    value = x["value"]
+            self.assertEqual(value, 1)
         
         with self.subTest("unset"):
             r = self.client.post(
@@ -486,6 +493,21 @@ class TestDocuments(TestCase):
             self.assertEqual(r[0]["value"], 0)
         
         with self.subTest("delete"):
+            # add second labels
+            self.client.post(
+                "/api/document/{}/label_set/".format(self.document_dc.id),
+                data={
+                    "label_id": self.tl_label.id,
+                    "value": 1
+                },
+            )
+            self.client.post(
+                "/api/document/{}/label_set/".format(self.document_dc.id),
+                data={
+                    "label_id": self.tl_label2.id,
+                    "value": 1
+                },
+            )
             r = self.client.delete(
                 "/api/document/{}/labels/".format(self.document_dc.id),
             )

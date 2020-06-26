@@ -96,7 +96,7 @@ class Documents(models.Model):
     def labels_del(self):
         """Delete all labels"""
         try:
-            DCDocLabel.objects.get(document=self).delete()
+            DCDocLabel.objects.filter(document=self).delete()
         except DCDocLabel.DoesNotExist:
             pass
 
