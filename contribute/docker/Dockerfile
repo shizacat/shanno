@@ -12,7 +12,8 @@ RUN apt-get	update && \
 		python3 python3-pip python3-idna python3-six python3-setuptools \
 		python3-dev build-essential \
 		locales git \
-		libpq-dev && \
+		libpq-dev \
+		libldap2-dev libsasl2-dev ldap-utils && \
 	pip3 install --no-cache-dir -r requirements.txt && \
 	apt-get remove -y python3-dev build-essential && \
 	apt-get -y autoremove && \
