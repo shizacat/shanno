@@ -355,7 +355,7 @@ class CSVLabel(FilesBase):
     ds_type_export = ["document_classificaton"]
 
     tp_format_name = "CSV Label"
-    tp_description = _("Simple csv. Description format: delimiter=';'; quotechar='\"'. One row one file. Meta format: key = value in one string. Label value may be: 0/1")
+    tp_description = _("Simple csv. Description format: delimiter=';'; quotechar='\"'. One row one file. Meta format: key = value is one string. Label value may be: 0/1")
     tp_example_import = """
     id;meta;text;label1;label2;...
     """

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 12:42+0000\n"
+"POT-Creation-Date: 2020-06-26 10:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,8 +146,8 @@ msgid "Example:"
 msgstr "Пример:"
 
 #: annotation/templates/project_export.html:39
-msgid "Will downloaded as zip archive, what contained file in selected format."
-msgstr "Выгружает как zip архив, содержащий файлы в выбранном фомате."
+msgid "Download zip archive, which contains files in select format."
+msgstr "Скачиват как zip архив, содержащий файлы в выбранном фомате."
 
 #: annotation/templates/project_export.html:47
 msgid "Download"
@@ -158,7 +158,7 @@ msgid "Select the type of file for upload"
 msgstr "Выберите тип файла для загрузки"
 
 #: annotation/templates/project_import.html:39
-msgid "Supported to upload file as archivs: zip."
+msgid "Supports to upload file as archivs: zip."
 msgstr "Поддерживает загрузку файлов как архивы: zip."
 
 #: annotation/templates/project_import.html:50
@@ -340,46 +340,46 @@ msgstr "Значение метки не 0/1"
 msgid "Value not convert to int"
 msgstr "Значение не преобразуется в int"
 
-#: libs/files.py:171
+#: libs/files.py:174
 msgid ""
 "It's an extension of CoNLL-U. File can have any non-zero number of columns."
 msgstr ""
 "Является расширением формата CoNLL-U. Может иметь любое количество столбцов."
 
-#: libs/files.py:172
+#: libs/files.py:175
 msgid "Format."
 msgstr "Формат."
 
-#: libs/files.py:173
+#: libs/files.py:176
 msgid "Must be in coding UTF-8"
 msgstr "Должен быть в кодировке UTF-8."
 
-#: libs/files.py:218
+#: libs/files.py:221
 msgid "The file is not encoded in UTF-8"
 msgstr "Файл не в кодировке UTF-8"
 
-#: libs/files.py:324
+#: libs/files.py:327
 msgid "Plain text."
 msgstr "Обычный текст."
 
-#: libs/files.py:355
+#: libs/files.py:358
 msgid ""
 "Simple csv. Description format: delimiter=';'; quotechar='\"'. One row one "
-"file. Meta format: key = value in one string. Label value may be: 0/1"
+"file. Meta format: key = value is one string. Label value may be: 0/1"
 msgstr ""
 "Простой csv. Описание формата: разделитель=';'; символ экранирования='\"'. "
 "Одна строка один файл. Формат мета информации: ключ = значение в одну "
 "строку. Значение метки может быть: 0/1"
 
-#: libs/files.py:402
+#: libs/files.py:405
 msgid "Length of header is short"
 msgstr "Короткая длинна заголовка"
 
-#: libs/files.py:443
+#: libs/files.py:446
 msgid "Label value not valid"
 msgstr "Не верное значение метки"
 
-#: libs/files.py:446
+#: libs/files.py:449
 msgid "Label value not int"
 msgstr "Значение метки не int"
 
