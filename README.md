@@ -1,51 +1,33 @@
-# Development
+# Description
 
-Django application structure folder:
-- annotation - main application for annotation
-- server - settings project
-- templates - the base templates project
+Shanno is a project dealing with text processing for it's futher use in neural networks.
 
-A set of used tools and library:
-- Django
-- Buefy (Bulma for Vue) v0.8.20 (only js and custom scheme)
-  - For CSS used scheme: (flatly)[https://unpkg.com/bulmaswatch@0.8.1/flatly/bulmaswatch.min.css]
-- Vue 2.6.10
-- Vue Router 3.1.3
-- axios 0.19.0
-- Font Awesome 5.10.2
+Types annotations:
 
+- make markup on entities (NER);
+- classification documents (labels).
 
-## Translation
+Futures:
 
-Dependens:
-- Package: gettext
+- Support import/export other formats: collnu plus, csv,  plain text;
+- Link on documents;
+- Multi user work;
+- Upload files as archive zip;
 
-```bash
-# create po file
-python3 manage.py makemessages -l ru
-# create mo file
-python3 manage.py compilemessages
-```
+Supports languages: Russian, English.
 
-## Run dev container
+The documents is set of paragraphs text.
 
-First, you need to download git repository.
+# Run
 
-```bash
-git clone https://github.com/shizacat/shanno.git
-```
+The most convenient way is to run through [docker image](https://hub.docker.com/r/shizacat/shanno).
 
-Branches:
-- master - this current stable version;
-- dev - development branch. It contains current new future.
+[How works with image](docs/docker.md).
 
-Then from root directory you create docker image and run him.
+# Contribution
 
-```bash
-docker-compose -f contribute/compose-dev/docker-compose.yml build
-docker-compose -f contribute/compose-dev/docker-compose.yml run web migrate
-docker-compose -f contribute/compose-dev/docker-compose.yml run web \
-  ensure_adminuser --username admin --password admin --email admin@admin
-docker-compose -f contribute/compose-dev/docker-compose.yml up -d
-sudo docker-compose -f contribute/compose-dev/docker-compose.yml ps
-```
+Please see the [contributing guidelines](docs/development.md)
+
+# License
+
+Code released under [MIT](LICENSE) license.
