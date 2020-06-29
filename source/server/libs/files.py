@@ -274,7 +274,7 @@ class ConllupNER(FilesBase):
         """Last index not included
 
         Args:
-            labels - [(tag, value)]
+            labels - [(tag, char_fist, char_last)]
         """
         result = []
         lb_last_index = None  # Last index processed labels
