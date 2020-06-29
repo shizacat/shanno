@@ -19,6 +19,7 @@ new Vue({
     sel_offset_start: -1, // Начало/конец выделенного участка
     sel_offset_end: -1,
     sel_seq_id: -1,
+    meta: false,
     bt_prev_enable: false,
     bt_next_enable: false,
     is_approved: false,    // Зуб даю верный
@@ -27,6 +28,17 @@ new Vue({
     st_show: false,
     st_variant: "is-danger",
     st_value: "",
+    meta_data: [],
+    columns: [
+      {
+        field: 'key',
+        label: 'key',
+      },
+      {
+        field: 'value',
+        label: 'value',
+      }
+    ]
   },
   computed: {
     doc_id: function(){
@@ -41,6 +53,9 @@ new Vue({
 
     if ("approved" in this.$route.query){
       this.filter.approved = parseInt(this.$route.query.approved);
+    }
+    if ("meta" in this.$route.query){
+      this.meta = !!parseInt(this.$route.query.meta);
     }
 
     this.getDocsListbyProject()
@@ -153,6 +168,13 @@ new Vue({
       })
       .catch(this.addErrorApi);
     },
+    showMeta: function(){
+      q = Object.assign({}, self.$route.query);
+      q.meta = (this.meta) ? 1 : 0
+      
+      // Update URL
+      self.$router.push({query: q});
+    },
     onChangeApproved: function(){
       if (this.is_approved){
         axios.post(
@@ -200,10 +222,15 @@ new Vue({
     },
     getDocSequence: function(doc_id) {
       self = this;
+      self.meta_data = new Array();
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
         self.doc_data = response.data.sequences;
         self.doc = response.data;
+        Object.entries(response.data.meta).forEach(function(entry){
+          let key = entry[0], value = entry[1];
+          self.meta_data.push({key:`${key}`, value:`${value}`});
+        });
         self.is_approved = self.doc.approved;
         self.render();
       })

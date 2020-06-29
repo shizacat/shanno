@@ -21,7 +21,7 @@
   <div class="level">
     <div class="level-left">
       <div class="level-item">
-        <div class="field">
+        <b-field grouped>
           <b-switch 
           type="is-success"
           v-model="is_approved"
@@ -29,10 +29,15 @@
             <span v-if="is_approved">{% trans "Verified" %}</span>
             <span v-if="!is_approved">{% trans "Not verified" %}</span>
           </b-switch>
-        </div>
+          <b-switch 
+          type="is-success" 
+          v-model="meta" 
+          @input="showMeta()">
+            Meta
+          </b-switch>
+        </b-field>
       </div>
     </div>
-
     <div class="level-right">
       <div class="level-item">
         <div class="field is-grouped">
@@ -62,6 +67,11 @@
         <button class="button is-danger is-inverted is-outlined is-small" @click="closeDelete()">{% trans "No" %}</button>
       </p>
     </div>
+  </div>
+
+  <div class="column" v-if="meta">
+    <p class="title is-4">Meta-information</p>
+    <b-table :data="meta_data" :columns="columns"></b-table>
   </div>
 
   <div class="card">

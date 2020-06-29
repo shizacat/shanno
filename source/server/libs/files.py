@@ -419,7 +419,7 @@ class CSVLabel(FilesBase):
         result = {}
         for line in meta.split("\n"):
             r = line.split("=")
-            if r != 2:
+            if len(r) != 2:
                 continue
             result[r[0].strip()] = r[1].strip()
         return result

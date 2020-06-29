@@ -13,16 +13,28 @@ new Vue({
     doc_data: [],         // Массив seq документа
     doc: {},              // Сам документ
     labels: [],           // Массив меток
-    active_labels: [],
-    label_ids: [],
+    active_labels: [],    // List objects labels - set
+    label_ids: [],        // List ids docLabel object
     bt_prev_enable: false,
     bt_next_enable: false,
     is_approved: false,    // Зуб даю верный
     filter: {},
+    meta: false,
     is_open_delete: false,
     st_show: false,
     st_variant: "is-danger",
     st_value: "",
+    meta_data: [],
+    columns: [
+      {
+        field: 'key',
+        label: 'key',
+      },
+      {
+        field: 'value',
+        label: 'value',
+      }
+    ]
   },
   computed: {
     doc_id: function(){
@@ -37,6 +49,9 @@ new Vue({
 
     if ("approved" in this.$route.query){
       this.filter.approved = parseInt(this.$route.query.approved);
+    }
+    if ("meta" in this.$route.query){
+      this.meta = !!parseInt(this.$route.query.meta);
     }
 
     this.getDocsListbyProject()
@@ -190,10 +205,15 @@ new Vue({
     },
     getDocSequence: function(doc_id) {
       self = this;
+      self.meta_data = new Array();
       axios.get("/api/document/" + doc_id + "/")
       .then(function(response){
         self.doc_data = response.data.sequences;
         self.doc = response.data;
+        Object.entries(response.data.meta).forEach(function(entry){
+          let key = entry[0], value = entry[1];
+          self.meta_data.push({key:`${key}`, value:`${value}`});
+        });
         self.is_approved = self.doc.approved;
       })
       .catch(this.addErrorApi);
@@ -227,28 +247,24 @@ new Vue({
       self = this;
       axios.get("/api/document/" + this.doc_id + "/labels/")
       .then(function(response){
-        self.label_ids = response.data.filter(x => {
-          if (x.value === 1) {
-            return false;
-          }
-          return true;
-        }).map(x => x.id);
-        self.active_labels = self.labels.filter(item => {
+        self.label_ids = response.data.filter(function(x){
+          return !Boolean(x.value);
+        }).map(function(x){
+          return x.id;
+        });
+        self.active_labels = self.labels.filter(function(item){
           return self.label_ids.indexOf(item.id) == -1;
-        });    
+        });
       })
       .catch(this.addErrorApi);
     },
     createLabel: function(label_id){
       var self = this;
-
-      var value = (self.label_ids.includes(label_id)) ? 1 : 0
-
       axios.post(
         "/api/document/" + this.doc.id + "/label_set/",
         JSON.stringify({
             "label_id": label_id,
-            "value": value
+            "value": (self.label_ids.includes(label_id)) ? 1 : 0
         }),
         {
           headers: {
@@ -265,6 +281,13 @@ new Vue({
     setupUrlDocByIndex: function(doc_index){
       q = Object.assign({}, self.$route.query);
       q.doc = this.docs[doc_index].id;
+      self.$router.push({query: q});
+    },
+    showMeta: function(){
+      q = Object.assign({}, self.$route.query);
+      q.meta = (this.meta) ? 1 : 0
+      
+      // Update URL
       self.$router.push({query: q});
     },
     toStringPreffixKey: function(e){

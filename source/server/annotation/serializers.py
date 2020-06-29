@@ -1,3 +1,6 @@
+import json
+import logging
+
 from django.forms.models import model_to_dict
 from rest_framework import serializers
 
@@ -40,10 +43,16 @@ class DocumentsSerializerSimple(serializers.ModelSerializer):
 class DocumentSeqSerializer(serializers.ModelSerializer):
     """Full document for annotation"""
     sequences = serializers.SerializerMethodField()
+    meta = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Documents
         exclude = ["project"]
+    
+    def get_meta(self, obj):
+        if obj.meta is None:
+            return {}
+        return json.loads(obj.meta)
 
     def get_sequences(self, obj):
         result = []
