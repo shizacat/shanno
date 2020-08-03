@@ -239,14 +239,14 @@ class TestProject(TestCase):
             )
             # print(r.content)
 
-    def test_documents_all_is_approved(self):
+    def test_info(self):
         r = self.client.get(
-            "/api/project/{}/documents_all_is_approved/".format(
+            "/api/project/{}/info/".format(
                 self.project.id
             )
         )
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.json()["count"], 1)
+        self.assertEqual(r.json()["docs_approve_count"], 1)
 
     def test_permission_add(self):
         user = User.objects.create_user(username='user1', password='12345')
@@ -447,7 +447,7 @@ class TestDocuments(TestCase):
     
     def test_label_set(self):
         r = self.client.post(
-            "/api/document/{}/label_set/".format(self.document_dc.id),
+            "/api/document/{}/labels/".format(self.document_dc.id),
             data={
                 "label_id": self.tl_label.id,
                 "value": 1
@@ -473,7 +473,7 @@ class TestDocuments(TestCase):
         
         with self.subTest("1"):
             r = self.client.post(
-                "/api/document/{}/label_set/".format(self.document_dc.id),
+                "/api/document/{}/labels/".format(self.document_dc.id),
                 data={
                     "label_id": self.tl_label.id,
                     "value": 1
@@ -493,7 +493,7 @@ class TestDocuments(TestCase):
         
         with self.subTest("unset"):
             r = self.client.post(
-                "/api/document/{}/label_set/".format(self.document_dc.id),
+                "/api/document/{}/labels/".format(self.document_dc.id),
                 data={
                     "label_id": self.tl_label.id,
                     "value": 0
@@ -508,14 +508,14 @@ class TestDocuments(TestCase):
         with self.subTest("delete"):
             # add second labels
             self.client.post(
-                "/api/document/{}/label_set/".format(self.document_dc.id),
+                "/api/document/{}/labels/".format(self.document_dc.id),
                 data={
                     "label_id": self.tl_label.id,
                     "value": 1
                 },
             )
             self.client.post(
-                "/api/document/{}/label_set/".format(self.document_dc.id),
+                "/api/document/{}/labels/".format(self.document_dc.id),
                 data={
                     "label_id": self.tl_label2.id,
                     "value": 1
@@ -527,7 +527,7 @@ class TestDocuments(TestCase):
             self.assertEqual(r.status_code, 204)
         
         with self.subTest("unsupport method"):
-            r = self.client.post(
+            r = self.client.put(
                 "/api/document/{}/labels/".format(self.document_dc.id),
             )
             self.assertEqual(r.status_code, 405)
