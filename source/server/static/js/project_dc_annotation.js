@@ -111,7 +111,7 @@ new Vue({
     },
     onDeleteLabel: function(label_id){
       axios.post(
-        "/api/document/" + this.doc.id + "/label_set/",
+        "/api/document/" + this.doc.id + "/labels/",
         JSON.stringify({
             "label_id": label_id,
             "value": 0
@@ -261,7 +261,7 @@ new Vue({
     createLabel: function(label_id){
       var self = this;
       axios.post(
-        "/api/document/" + this.doc.id + "/label_set/",
+        "/api/document/" + this.doc.id + "/labels/",
         JSON.stringify({
             "label_id": label_id,
             "value": (self.label_ids.includes(label_id)) ? 1 : 0

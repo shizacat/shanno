@@ -83,10 +83,10 @@ new Vue({
     getAllDocumentApproved: function(){
       self = this;
 
-      axios.get("/api/project/" + this.project_id + "/documents_all_is_approved/")
+      axios.get("/api/project/" + this.project_id + "/info/")
       .then(function(response) {
-        self.stat_docs_approved = response.data.count;
-        self.stat_docs_total = response.data.total;
+        self.stat_docs_approved = response.data.docs_approve_count;
+        self.stat_docs_total = response.data.docs_total;
       })
       .catch(this.addErrorApi);
     },

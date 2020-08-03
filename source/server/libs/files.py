@@ -448,4 +448,3 @@ class CSVLabel(FilesBase):
         except (ValueError, TypeError):
             raise FileParseException(_("Label value not int"))
         return result
-    

@@ -2,9 +2,14 @@ from django.test import TestCase
 from django.core.files.base import ContentFile
 
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.test import APIClient
 
 from annotation import models
+
+
+username = "test"
+password = "12345"
 
 
 class test_tl_label(TestCase):
@@ -12,7 +17,9 @@ class test_tl_label(TestCase):
 
     def setUp(self):
         # Model
-        self.user = User.objects.create_user(username='test', password='12345')
+        self.user = User.objects.create_user(
+            username=username, password=password
+        )
         self.project = models.Projects.objects.create(
             name="lion", description="", type=models.PROJECT_TYPE[0],
             owner=self.user
@@ -22,6 +29,7 @@ class test_tl_label(TestCase):
         )
 
         self.client = APIClient()
+        self.client.login(username=username, password=password)
 
     def test_create_post(self):
         r = self.client.post(
@@ -30,7 +38,7 @@ class test_tl_label(TestCase):
                 "name": "test",
                 "project": self.project.id,
                 "color_background": "#209cee",
-                "color_text": "#ffffff",
+                "color_text": "#FFffff",
                 "prefix_key": "",
                 "suffix_key": "",
             }
@@ -106,11 +114,13 @@ class test_tl_label(TestCase):
 
 
 class TestProject(TestCase):
-    """end point: /project/N/ds_export"""
+    """End point: /project/N/ds_export"""
 
     def setUp(self):
         # Models
-        self.user = User.objects.create_user(username='test', password='12345')
+        self.user = User.objects.create_user(
+            username=username, password=password
+        )
         self.project = models.Projects.objects.create(
             name="lion", description="", type=models.PROJECT_TYPE[0][0],
             owner=self.user
@@ -142,6 +152,7 @@ class TestProject(TestCase):
             owner=self.user
         )
         self.client = APIClient()
+        self.client.login(username=username, password=password)
 
     def test_export(self):
 
@@ -292,7 +303,7 @@ class TestProject(TestCase):
                     "role": "view"
                 }
             )
-            self.assertEqual(r.status_code, 204)
+            self.assertEqual(r.status_code, 201)
 
             a = models.ProjectsPermission.objects.get(user=user)
             self.assertEqual(a.role, "view")
@@ -305,7 +316,7 @@ class TestProject(TestCase):
                     "role": "change"
                 }
             )
-            self.assertEqual(r.status_code, 204)
+            self.assertEqual(r.status_code, 200)
 
             a = models.ProjectsPermission.objects.get(user=user)
             self.assertEqual(a.role, "change")
@@ -318,7 +329,7 @@ class TestProject(TestCase):
                     "role": "view"
                 }
             )
-            self.assertEqual(r.status_code, 204)
+            self.assertEqual(r.status_code, 200)
 
             a = models.ProjectsPermission.objects.get(user=user)
             self.assertEqual(a.role, "view")
@@ -400,6 +411,8 @@ class TestDocuments(TestCase):
         self.tl_label2 = models.TlLabels.objects.create(
             project=self.project_dc, name="test2"
         )
+
+        self.client.login(username=username, password=password)
 
     def test_approved(self):
         r = self.client.post(

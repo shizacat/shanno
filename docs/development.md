@@ -16,6 +16,13 @@ A set of used tools and library:
 - axios 0.19.0
 - Font Awesome 5.10.2
 
+## API
+
+The documentation by API may view in:
+
+- http://<site>/swagger/
+- http://<site>/redoc/
+
 ## Translation
 
 Dependens: package **gettext**

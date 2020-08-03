@@ -18,6 +18,8 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from server.urls_yasg import urlpatterns as urls_doc
+
 urlpatterns = [
     path('', include('annotation.urls')),
     path('admin/', admin.site.urls),
@@ -32,6 +34,9 @@ urlpatterns += [
 urlpatterns += [
     path('i18n/', include('django.conf.urls.i18n')),
 ]
+
+# yasg
+urlpatterns += urls_doc
 
 if settings.DEBUG:
     urlpatterns.extend(

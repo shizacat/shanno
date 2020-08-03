@@ -5,6 +5,7 @@ from enum import Enum
 
 from django.db import models
 from django.conf import settings
+from django.core.validators import RegexValidator
 
 
 PROJECT_TYPE = (
@@ -22,12 +23,17 @@ class Projects(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        help_text="Project owner"
     )
-    name = models.CharField(max_length=100)
-    description = models.TextField(default="", blank=True)
+    name = models.CharField("Project name", max_length=100)
+    description = models.TextField(
+        "Project description", default="", blank=True
+    )
     type = models.CharField(
+        "Project type",
         choices=(PROJECT_TYPE),
-        max_length=50
+        max_length=50,
+        # help_text="Project type"
     )
 
 
@@ -128,14 +134,27 @@ class TlLabels(models.Model):
     )
     # Name of label
     name = models.CharField(max_length=100)
-    color_background = models.CharField(max_length=7, default='#209cee')
-    color_text = models.CharField(max_length=7, default='#ffffff')
+    color_background = models.CharField(
+        max_length=7,
+        default='#209cee',
+        validators=[
+            RegexValidator(r'^#[0-9a-fA-F]{6}$')
+        ]
+    )
+    color_text = models.CharField(
+        max_length=7,
+        default='#ffffff',
+        validators=[
+            RegexValidator(r'^#[0-9a-fA-F]{6}$')
+        ]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     prefix_key = models.CharField(
         max_length=10, blank=True, choices=PREFIX_KEYS
     )
     suffix_key = models.CharField(
+        "Short key. If not specified than will be take free later.",
         max_length=1, blank=True, choices=SUFFIX_KEYS
     )
 

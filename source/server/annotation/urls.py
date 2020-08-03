@@ -3,12 +3,7 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 
 from . import views
-
-router = routers.DefaultRouter()
-router.register(r'project', views.ProjectViewSet)
-router.register(r'document', views.DocumentSeqViewSet)
-router.register(r'tl_label', views.TLLabelsViewSet)
-router.register(r'tl_seq_label', views.TLSeqLabelViewSet)
+from . import views_api
 
 urlpatterns = [
     path('health', views.health),
@@ -27,8 +22,34 @@ urlpatterns = [
         views.project_action,
         name='projects_action'
     ),
+]
+
+# API
+router = routers.DefaultRouter()
+router.register(r'project', views_api.ProjectViewSet)
+router.register(r'document', views_api.DocumentSeqViewSet)
+router.register(r'tl_label', views_api.TLLabelsViewSet)
+router.register(r'tl_seq_label', views_api.TLSeqLabelViewSet)
+
+urlpatterns += [
     path('api/', include(router.urls)),
-    # path(
-    #     'api-auth/',
-    #     include('rest_framework.urls', namespace='rest_framework'))
+    # extra
+    path('api/project/<int:pk>/ds_import/', views_api.ProjectDSImport.as_view()),
+    path('api/project/<int:pk>/ds_export/', views_api.ProjectDSExport.as_view()),
+    path(
+        "api/project/<int:pk>/documents_list/",
+        views_api.ProjectActionDocumentList.as_view()
+    ),
+    path(
+        "api/project/<int:pk>/tl_labels_list/",
+        views_api.ProjectActionTLLabelList.as_view()
+    ),
+    path(
+        "api/project/<int:pk>/permission/",
+        views_api.ProjectPermission.as_view()
+    ),
+    path(
+        "api/document/<int:pk>/labels/",
+        views_api.DocumentSeqDcLabel.as_view()
+    ),
 ]
