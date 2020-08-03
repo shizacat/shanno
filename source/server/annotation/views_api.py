@@ -83,9 +83,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """Create the project"""
         if request.data["type"] not in [x[0] for x in models.PROJECT_TYPE]:
             raise rest_except.ParseError(_("Type not found"))
+        description = request.data.get("description")
+        if description is None:
+            description = ""
+
         project = models.Projects.objects.create(
             name=request.data["name"],
-            description=request.data.get("description", ""),
+            description=description,
             type=request.data["type"],
             owner=request.user,
         )
