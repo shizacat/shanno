@@ -573,6 +573,8 @@ class ProjectHelps:
 
         # Add label for doc
         for tag, value in labels:
+            if value == 0:
+                continue
             models.DCDocLabel.objects.create(
                 document=doc,
                 label=models.TlLabels.objects.get(
