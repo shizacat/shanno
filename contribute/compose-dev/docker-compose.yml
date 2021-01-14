@@ -10,6 +10,7 @@ services:
     environment:
       SH_DEBUG: "True"
       SH_DATABASE_URL: sqlite:////data/db.sqlite
+    network_mode: bridge
     # entrypoint: /usr/local/bin/gunicorn server.wsgi:application -w 2 -b :8000
     entrypoint: python3 manage.py 
     command: runserver 0:8000
