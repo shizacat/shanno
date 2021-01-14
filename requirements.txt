@@ -9,4 +9,4 @@ gunicorn
 chardet==3.0.4
 python-ldap==3.3.0
 django-auth-ldap==2.2.0
-drf_yasg==1.17.0
+drf_yasg==1.20.0
