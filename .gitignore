@@ -8,3 +8,4 @@ node_modules/*
 semantic/*
 contribute/compose-dev/data/*
 tmp/*
+.DS_Store
