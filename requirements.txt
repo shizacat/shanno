@@ -1,5 +1,5 @@
 wheel
-Django==3.0.7
+Django==3.1.12
 djangorestframework
 conllu>=1.3.2
 psycopg2
@@ -8,5 +8,5 @@ dj-database-url
 gunicorn
 chardet==3.0.4
 python-ldap==3.3.0
-django-auth-ldap==2.2.0
+django-auth-ldap==2.4.0
 drf_yasg==1.20.0
