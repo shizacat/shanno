@@ -1,0 +1,105 @@
+replicaCount: 1
+
+image:
+  repository: shizacat/shanno
+  pullPolicy: IfNotPresent
+  tag: "1.0.2"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  hosts:
+    core: shanno.domain
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/proxy-body-size: "32m"
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    # ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    # Enable the tls or not.
+    # Delete the "ssl-redirect" annotations in "ingress.annotations" when TLS is disabled
+    enabled: false
+    secret:
+      secretName: ""
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# The persistence is enabled by default and a default StorageClass
+# is needed in the k8s cluster to provision volumes dynamicly.
+# Specify another StorageClass in the "storageClass" or set "existingClaim"
+# if you have already existing persistent volumes to use
+persistence:
+  enabled: false
+  resourcePolicy: "keep"
+  persistentVolumeClaim:
+    # If external database is used, the following settings for database will
+    # be ignored
+    database:
+      existingClaim: ""
+      storageClass: ""
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 1Gi
+
+# The database configuration
+database:
+  # internal, external. The type internal uses sqlite database.
+  type: internal
+  external:
+    # postgresql://shanno:123456@postgresql.test.local/shanno
+    url: ""
+
+# Config shanno
+shanno:
+  admin_username: "admin"
+  admin_password: "change-me"
+  admin_email: "admin@admin.com"
+  is_debug: "False"  # False/True
+  workers: "2"

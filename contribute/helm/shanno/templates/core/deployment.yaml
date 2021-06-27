@@ -1,0 +1,122 @@
+{{- $database := .Values.persistence.persistentVolumeClaim.database -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "shanno.fullname" . }}
+  labels:
+    {{- include "shanno.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "shanno.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "shanno.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "shanno.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: static-data
+          emptyDir: {}
+        - name: shanno-nginx-conf
+          configMap:
+            name: {{ include "shanno.fullname" . }}-nginx-conf
+            items:
+              - key: default.conf
+                path: default.conf
+      {{- if not .Values.persistence.enabled }}
+        - name: "database-data"
+          emptyDir: {}
+      {{- else if $database.existingClaim }}
+        - name: "database-data"
+          persistentVolumeClaim:
+            claimName: {{ $database.existingClaim }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "cp"
+                  - "-r"
+                  - "/opt/shanno/staticfiles/."
+                  - "/data"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: SH_PORT
+              value: "8000"
+            - name: SH_WORKERS
+              value: "{{ .Values.shanno.workers }}"
+            - name: SH_DEBUG
+              value: "{{ .Values.shanno.is_debug }}"
+            - name: SH_ADMIN_USERNAME
+              value: {{ .Values.shanno.admin_username }}
+            - name: SH_ADMIN_PASSWORD
+              value: {{ .Values.shanno.admin_password }}
+            - name: SH_ADMIN_EMAIL
+              value: {{ .Values.shanno.admin_email }}
+            {{- if eq .Values.database.type "internal" }}
+            - name: SH_DATABASE_URL
+              value: "sqlite:////var/db/db.sqlite"
+            {{- else }}
+            - name: SH_DATABASE_URL
+              value: {{ .Values.database.external.url }}
+            {{- end }}
+          volumeMounts:
+            - name: static-data
+              mountPath: /data
+            {{- if eq .Values.database.type "internal" }}
+            - name: database-data
+              mountPath: /var/db/
+            {{- end }}
+
+        - name: nginx
+          image: nginx:1.21.0
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: static-data
+              mountPath: /var/www/html
+            - name: shanno-nginx-conf
+              mountPath: /etc/nginx/conf.d/
+              readOnly: true
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
