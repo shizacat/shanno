@@ -7,6 +7,6 @@ environs
 dj-database-url
 gunicorn
 chardet==3.0.4
-python-ldap==3.3.0
+python-ldap==3.4.0
 django-auth-ldap==2.4.0
 drf_yasg==1.20.0
